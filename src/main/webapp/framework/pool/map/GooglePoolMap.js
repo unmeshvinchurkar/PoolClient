@@ -15,7 +15,7 @@ PROJECT.namespace("PROJECT.pool.map");
 
 		var SegmentLoader = PROJECT.pool.util.SegmentLoader;
 		var PoolConstants = PROJECT.pool.PoolConstants;
-		var _container = $("#" + PoolConstants.GLOBAL_CONTAINER_DIV);
+		var _container = null;
 
 		/* Public Properties */
 		objRef.render = render;
@@ -27,14 +27,14 @@ PROJECT.namespace("PROJECT.pool.map");
 		var _searchBox = null;
 
 		function render() {
-			_init();
+			SegmentLoader.getInstance().getSegment("createPoolSeg.xml", null,
+					_init);
 		}
 
-		function _init() {
+		function _init(data) {
 
 			_container = $('#' + PoolConstants.GLOBAL_CONTAINER_DIV);
-			_container.html(SegmentLoader.getInstance().getSegment(
-					"createPoolSeg.xml"));
+			_container.html(data);
 
 			var rendererOptions = {
 				draggable : true
@@ -99,7 +99,7 @@ PROJECT.namespace("PROJECT.pool.map");
 
 				// Create a marker for each place.
 				var marker = new google.maps.Marker({
-					map : map,
+					map : _map,
 					icon : image,
 					title : place.name,
 					position : place.geometry.location

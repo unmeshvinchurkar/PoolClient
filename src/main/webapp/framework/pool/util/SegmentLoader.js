@@ -24,6 +24,8 @@ PROJECT.namespace("PROJECT.pool.util");
 		/* private properties */
 		var _segmentData = '';
 		var _segmentCacheInst = null;
+		var _callback = null;
+		var _containerDivId = null;
 		var MODULE_PATH = "framework/pool/segments/";
 
 		/* public properties */
@@ -39,10 +41,12 @@ PROJECT.namespace("PROJECT.pool.util");
 		 *            modulePath - module path
 		 * @returns segment
 		 */
-		function getSegment(segmentName, modulePath) {
+		function getSegment(segmentName, modulePath, callBack) {
+
 			if (!modulePath) {
 				modulePath = MODULE_PATH;
 			}
+			_callback = callBack;
 
 			var location = modulePath + segmentName;
 			_segmentData = _getSegmentCache().get(location);
@@ -57,15 +61,19 @@ PROJECT.namespace("PROJECT.pool.util");
 					dataType : 'text',
 					success : _loadSegment
 				});
+
+				_getSegmentCache().put(location, _segmentData);
+
+			} else {
+				_callback(_segmentData);
 			}
 
-			_getSegmentCache().put(location, _segmentData);
-
-			return _segmentData;
+			_callback = null;
 		}
 
 		function _loadSegment(responseData, status) {
 			_segmentData = responseData;
+			_callback(_segmentData);
 		}
 
 		function _getSegmentCache() {
