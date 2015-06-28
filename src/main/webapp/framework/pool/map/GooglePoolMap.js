@@ -24,7 +24,11 @@ PROJECT.namespace("PROJECT.pool.map");
 		var _directionsService;
 		var _directionsDisplay;
 		var _markers = [];
-		var _searchBox = null;
+
+		var _autocomplete = null;
+		var _srcMarker = null;
+		var _destMarker = null;
+		var _infowindow = null;
 
 		function render() {
 			SegmentLoader.getInstance().getSegment("createPoolSeg.xml", null,
@@ -35,6 +39,11 @@ PROJECT.namespace("PROJECT.pool.map");
 
 			_container = $('#' + PoolConstants.GLOBAL_CONTAINER_DIV);
 			_container.html(data);
+
+			_directionsService = new google.maps.DirectionsService();
+			_directionsDisplay = new google.maps.DirectionsRenderer({
+				suppressMarkers : true
+			});
 
 			var rendererOptions = {
 				draggable : true
@@ -48,6 +57,7 @@ PROJECT.namespace("PROJECT.pool.map");
 			};
 			_map = new google.maps.Map(document.getElementById('map-canvas'),
 					mapOptions);
+			_directionsDisplay.setMap(_map);
 
 			var defaultBounds = new google.maps.LatLngBounds(
 					new google.maps.LatLng(-33.8902, 151.1759),
@@ -58,59 +68,102 @@ PROJECT.namespace("PROJECT.pool.map");
 			var input = (document.getElementById('pac-input'));
 			_map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
-			_searchBox = new google.maps.places.SearchBox(input);
+			_autocomplete = new google.maps.places.Autocomplete(input);
+			_autocomplete.bindTo('bounds', _map);
 
-			google.maps.event.addListener(_searchBox, 'places_changed',
-					_drawMarkers);
+			_infowindow = new google.maps.InfoWindow();
 
-			// Bias the SearchBox results towards places that are within the
-			// bounds of the
-			// current map's viewport.
-			google.maps.event.addListener(_map, 'bounds_changed', function() {
-				var bounds = _map.getBounds();
-				_searchBox.setBounds(bounds);
+			google.maps.event.addListener(_map, 'click', function(event) {
+				_placeMarker(event.latLng);
 			});
 
-			// calcRoute();
-
+			google.maps.event.addListener(_autocomplete, 'place_changed',
+					_navToPlace);
 		}
 
-		function _drawMarkers() {
-			var places = _searchBox.getPlaces();
+		function _placeMarker(location) {
 
-			if (places.length == 0) {
+			var marker = new google.maps.Marker({
+				position : location,
+				map : _map
+			});
+
+			if (!_srcMarker) {
+				_srcMarker = marker;
+			} else if (!_destMarker) {
+				_destMarker = marker;
+				_calcRoute(_srcMarker.getPosition(), _destMarker.getPosition());
+			} else if (_srcMarker && _destMarker) {
+				_srcMarker.setMap(null);
+				_destMarker.setMap(null);
+
+				// Remove existing route(polyline) on the map
+				_directionsDisplay.set('directions', null);
+
+				_srcMarker = marker;
+				_destMarker = null;
+			}
+		}
+
+		function _calcRoute(startPos, destpos) {
+			var request = {
+				origin : startPos,
+				destination : destpos,
+				travelMode : google.maps.TravelMode.DRIVING
+			};
+
+			_directionsService.route(request, function(response, status) {
+				if (status == google.maps.DirectionsStatus.OK) {
+
+					// Place new markers on the MAP
+					var route = response.routes[0];
+					var legs = route.legs;
+					var startLeg = legs[0];
+					var endLeg = legs[legs.length - 1];
+
+					var startStep = startLeg.steps[0];
+					var endStep = endLeg.steps[endLeg.steps.length - 1];
+
+					var startLoc = startStep["start_location"];
+					var endLoc = endStep["end_location"];
+
+					// Recreate src and dest markers
+					_srcMarker.setMap(null);
+					_destMarker.setMap(null);
+
+					_srcMarker = new google.maps.Marker({
+						position : startLoc,
+						map : _map
+					});
+
+					_destMarker = new google.maps.Marker({
+						position : endLoc,
+						map : _map
+					});
+
+					_directionsDisplay.setDirections(response);
+				}
+			});
+		}
+
+		function _navToPlace() {
+
+			var place = _autocomplete.getPlace();
+			if (!place.geometry) {
+				window
+						.alert("Autocomplete's returned place contains no geometry");
 				return;
 			}
-			for (var i = 0, marker; marker = _markers[i]; i++) {
-				marker.setMap(null);
+
+			// If the place has a geometry, then present it
+			// on a map.
+			if (place.geometry.viewport) {
+				_map.fitBounds(place.geometry.viewport);
+			} else {
+				_map.setCenter(place.geometry.location);
+				_map.setZoom(17); // Why 17? Because it
+				// looks good.
 			}
-
-			// For each place, get the icon, place name, and location.
-			markers = [];
-			var bounds = new google.maps.LatLngBounds();
-			for (var i = 0, place; place = places[i]; i++) {
-				var image = {
-					url : place.icon,
-					size : new google.maps.Size(71, 71),
-					origin : new google.maps.Point(0, 0),
-					anchor : new google.maps.Point(17, 34),
-					scaledSize : new google.maps.Size(25, 25)
-				};
-
-				// Create a marker for each place.
-				var marker = new google.maps.Marker({
-					map : _map,
-					icon : image,
-					title : place.name,
-					position : place.geometry.location
-				});
-
-				_markers.push(marker);
-
-				bounds.extend(place.geometry.location);
-			}
-
-			_map.fitBounds(bounds);
 		}
 
 		function calcRoute() {
