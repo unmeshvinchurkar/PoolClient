@@ -37,6 +37,16 @@ PROJECT.namespace("PROJECT.pool.map");
 
 		function _init(data) {
 
+			$("#fromDate").datepicker({
+				showOtherMonths : true,
+				selectOtherMonths : true
+			});
+
+			$("#toDate").datepicker({
+				showOtherMonths : true,
+				selectOtherMonths : true
+			});
+
 			_container = $('#' + PoolConstants.GLOBAL_CONTAINER_DIV);
 			_container.html(data);
 

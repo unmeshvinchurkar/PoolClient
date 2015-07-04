@@ -7,64 +7,32 @@
 <title>Car Pool</title>
 
 <style>
-html, body, #map-canvas {
+html, body {
 	height: 100%;
 	margin: 0px;
 	padding: 0px
 }
 
+body {
+	font-family: "Trebuchet MS", "Helvetica", "Arial", "Verdana",
+		"sans-serif";
+	font-size: 62.5%;
+}
+
 #target {
 	width: 345px;
 }
-
-.controls {
-	margin-top: 16px;
-	border: 1px solid transparent;
-	border-radius: 2px 0 0 2px;
-	box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	height: 32px;
-	outline: none;
-	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-}
-
-#pac-input {
-	background-color: #fff;
-	font-family: Roboto;
-	font-size: 15px;
-	font-weight: 300;
-	margin-left: 12px;
-	padding: 0 11px 0 13px;
-	text-overflow: ellipsis;
-	width: 400px;
-}
-
-#pac-input:focus {
-	border-color: #4d90fe;
-}
-
-.pac-container {
-	font-family: Roboto;
-}
-
-#type-selector {
-	color: #fff;
-	background-color: #4d90fe;
-	padding: 5px 11px 0px 11px;
-}
-
-#type-selector label {
-	font-family: Roboto;
-	font-size: 13px;
-	font-weight: 300;
-}
 </style>
 
-<script type="text/javascript" src="vendorlib/jquery-1.11.3.js"></script>
+<link rel="stylesheet" href="vendorlib/jquery/jquery-ui.css">
+<script type="text/javascript" src="vendorlib/jquery/jquery-1.11.3.js"></script>
+<script type="text/javascript" src="vendorlib/jquery/jquery-ui.min.js"></script>
 <script type="text/javascript" src="vendorlib/knockout-3.3.0.js"></script>
 
 <link rel="stylesheet" type="text/css"
-	href="framework/pool/style/createPoolStyle.css" />
+	href="framework/pool/map/style/createPoolStyle.css" />
+<link rel="stylesheet" type="text/css"
+	href="framework/pool/map/style/map.css" />
 
 <script type="text/javascript" src="framework/pool/PROJECT.js"></script>
 <script type="text/javascript" src="framework/pool/PoolConstants.js"></script>
@@ -86,12 +54,12 @@ html, body, #map-canvas {
 	$(document).ready(initialize);
 
 	function initialize() {
-		
+
 		var login = new PROJECT.pool.login.LoginScreen();
 		login.render();
 
-	//	var gMap = new PROJECT.pool.map.GooglePoolMap();
-	//	gMap.render();
+		//	var gMap = new PROJECT.pool.map.GooglePoolMap();
+		//	gMap.render();
 	}
 </script>
 </head>

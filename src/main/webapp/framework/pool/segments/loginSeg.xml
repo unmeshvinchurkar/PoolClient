@@ -1,0 +1,11 @@
+<div align="center">
+	<form>
+		UserName:
+		<input type="text" id="usernameId" name="username" />
+		<br />
+		Password:
+		<input type="password" id="passwordId" name="password" />
+		<br />
+		<input type="button" id="loginId" value="LogOn" />
+	</form>
+</div>
