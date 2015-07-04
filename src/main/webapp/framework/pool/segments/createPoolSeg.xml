@@ -8,9 +8,13 @@
 					<span>From Date: </span>
 					<input id="fromDate" type="text" />
 				</span>
-				<span>
+				<span style="margin-right:5px;"> 
 					<span>To Date: </span>
 					<input id="toDate" type="text" />
+				</span>
+				<span>
+					<span>Start Time: </span>
+					<input id="startTime" type="text"/>
 				</span>
 				<span id="savePool">
 					<input id="savePool" type="button" value="Save" />

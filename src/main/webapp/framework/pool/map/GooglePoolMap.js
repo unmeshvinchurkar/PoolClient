@@ -49,6 +49,8 @@ PROJECT.namespace("PROJECT.pool.map");
 				showOtherMonths : true,
 				selectOtherMonths : true
 			});
+			
+			$('#startTime').timepicker();
 
 			_directionsService = new google.maps.DirectionsService();
 			_directionsDisplay = new google.maps.DirectionsRenderer({
