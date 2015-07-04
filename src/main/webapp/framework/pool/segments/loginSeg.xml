@@ -1,11 +1,17 @@
-<div align="center">
-	<form>
-		UserName:
-		<input type="text" id="usernameId" name="username" />
-		<br />
-		Password:
-		<input type="password" id="passwordId" name="password" />
-		<br />
+<div style="background-color:#FF9999;height:100%">
+	<form class="loginForm">
+		<div>
+			<span>UserName:</span>
+			<input type="text" id="usernameId" name="username" />
+		</div>
+		<br/>
+		<div>
+			<span>Password:</span>
+			<input type="password" id="passwordId" name="password" />
+		</div>
+		<br/>
+		<div>
 		<input type="button" id="loginId" value="LogOn" />
+		</div>
 	</form>
 </div>
