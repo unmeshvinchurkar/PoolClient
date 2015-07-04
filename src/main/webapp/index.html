@@ -76,7 +76,7 @@ html, body, #map-canvas {
 	src="framework/pool/util/SegmentLoader.js"></script>
 
 <script type="text/javascript" src="framework/pool/map/GooglePoolMap.js"></script>
-
+<script type="text/javascript" src="framework/pool/login/LoginScreen.js"></script>
 
 <script
 	src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places"></script>
@@ -86,10 +86,12 @@ html, body, #map-canvas {
 	$(document).ready(initialize);
 
 	function initialize() {
-		var GooglePoolMap = PROJECT.pool.map.GooglePoolMap;
+		
+		var login = new PROJECT.pool.login.LoginScreen();
+		login.render();
 
-		var gMap = new GooglePoolMap();
-		gMap.render();
+	//	var gMap = new PROJECT.pool.map.GooglePoolMap();
+	//	gMap.render();
 	}
 </script>
 </head>

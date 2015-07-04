@@ -93,15 +93,17 @@ PROJECT.namespace("PROJECT.pool.map");
 			} else if (!_destMarker) {
 				_destMarker = marker;
 				_calcRoute(_srcMarker.getPosition(), _destMarker.getPosition());
+			} else if (!_srcMarker && !_destMarker) {
+				_srcMarker = marker;
+				_destMarker = null;
 			} else if (_srcMarker && _destMarker) {
 				_srcMarker.setMap(null);
 				_destMarker.setMap(null);
-
+				_srcMarker = null;
+				_destMarker = null;
+				marker.setMap(null);
 				// Remove existing route(polyline) on the map
 				_directionsDisplay.set('directions', null);
-
-				_srcMarker = marker;
-				_destMarker = null;
 			}
 		}
 
@@ -127,7 +129,7 @@ PROJECT.namespace("PROJECT.pool.map");
 					var startLoc = startStep["start_location"];
 					var endLoc = endStep["end_location"];
 
-					// Recreate src and dest markers
+					// Re-create src and dest markers
 					_srcMarker.setMap(null);
 					_destMarker.setMap(null);
 

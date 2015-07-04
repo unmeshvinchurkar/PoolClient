@@ -39,7 +39,7 @@
 							<goal>copy-resources</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>C:\apache\apache-tomcat-7.0.62\webapps\PoolClient</outputDirectory>
+							<outputDirectory>C:\apache\apache-tomcat-8.0.23\webapps\PoolClient</outputDirectory>
 							<resources>
 								<resource>
 									<directory>./src/main/webapp</directory>
