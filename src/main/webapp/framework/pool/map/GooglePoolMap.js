@@ -37,6 +37,9 @@ PROJECT.namespace("PROJECT.pool.map");
 
 		function _init(data) {
 
+			_container = $('#' + PoolConstants.GLOBAL_CONTAINER_DIV);
+			_container.html(data);
+
 			$("#fromDate").datepicker({
 				showOtherMonths : true,
 				selectOtherMonths : true
@@ -46,9 +49,6 @@ PROJECT.namespace("PROJECT.pool.map");
 				showOtherMonths : true,
 				selectOtherMonths : true
 			});
-
-			_container = $('#' + PoolConstants.GLOBAL_CONTAINER_DIV);
-			_container.html(data);
 
 			_directionsService = new google.maps.DirectionsService();
 			_directionsDisplay = new google.maps.DirectionsRenderer({
