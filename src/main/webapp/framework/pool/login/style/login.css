@@ -1,0 +1,17 @@
+.loginForm {
+	height: 30%;
+	wigth: 40%;
+	float: right;
+	background-color: white;
+	border-style: solid;
+	border-width: 1px;
+	margin-right:5px;
+	margin-top:3px;
+	padding-top:20px;
+	text-align: center;
+	padding:5px;
+}
+
+.loginForm input{
+	size:40%;
+}
