@@ -9,11 +9,17 @@ PROJECT.namespace("PROJECT.pool");
 	 */
 	function PoolCommands() {
 
+		if (PoolCommands.caller != PoolCommands.getInstance) {
+			throw new Error(
+					"There is no public constructor for PoolCommands. Use PoolCommands.getInstance().");
+		}
+
 		var objRef = this;
 
 		/* imports */
 		// var RmaAction = FICO.base.http.RmaAction;
 		// var _componentId;
+		
 		objRef.execute = execute;
 
 		function execute(commandId, arguments) {
@@ -29,4 +35,18 @@ PROJECT.namespace("PROJECT.pool");
 		}
 
 	}
+
+	/**
+	 * This method creates the singleton object of PoolCommands.
+	 * 
+	 * @function {public PoolCommands} getInstance
+	 * @return Returns object of PoolCommands class
+	 */
+	PoolCommands.getInstance = function() {
+		if (!PoolCommands.instance) {
+			PoolCommands.instance = new PoolCommands();
+		}
+		return PoolCommands.instance;
+	};
+
 })();
