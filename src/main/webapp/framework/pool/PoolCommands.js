@@ -15,23 +15,45 @@ PROJECT.namespace("PROJECT.pool");
 		}
 
 		var objRef = this;
+		var _URL_PREFIX = "http://localhost:8080/PoolServer/rest/carpool/";
 
 		/* imports */
-		// var RmaAction = FICO.base.http.RmaAction;
+
+		var PoolConstants = PROJECT.pool.PoolConstants;
+
 		// var _componentId;
-		
 		objRef.execute = execute;
+		objRef.fireCommand = fireCommand;
 
 		function execute(commandId, arguments) {
-			if (commandId == NdRmaRuleFlowConstants.COMMAND_COPY_FLOW_ELEMENT) {
-				if (_canExecuteCommand()) {
-					objRef.copyVO.apply(objRef, arguments);
-				}
-			} else if (commandId == NdRmaRuleFlowConstants.COMMAND_DELETE_FLOW_ELEMENT) {
-				if (_canExecuteCommand()) {
-					objRef.deleteVO.apply(objRef, arguments);
-				}
+			if (commandId == PoolConstants.LOGIN_COMMAND) {
+				_login.apply(objRef, arguments);
 			}
+		}
+
+		function _login(params, successFun, errorFunc) {
+			fireCommand(PoolConstants.LOGIN_COMMAND, _buildParamStr(params),
+					successFun, errorFunc);
+		}
+
+		function _buildParamStr(params) {
+			var paramStr = "";
+			for ( var propt in params) {
+				paramStr = paramStr + propt + "=" + params[propt] + "&";
+			}
+			paramStr = paramStr.substring(0, paramStr.length - 1);
+			return paramStr;
+		}
+
+		function fireCommand(commandName, params, successFun, errorFun) {
+			$.ajax({
+				type : "POST",
+				url : _URL_PREFIX + commandName,
+				async : true,
+				data : params,
+				success : successFun,
+				error : errorFun
+			});
 		}
 
 	}

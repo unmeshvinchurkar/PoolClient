@@ -35,5 +35,8 @@ PROJECT.pool.PoolConstants = (function() {
 	// Delay time for showing slide up messages
 	objRef.MESSAGE_DELAY_TIME = 4000;
 
+	// Pool Commands Constants
+	objRef.LOGIN_COMMAND = "login";
+
 	return objRef;
 })();

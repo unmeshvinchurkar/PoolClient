@@ -13,6 +13,8 @@ PROJECT.namespace("PROJECT.pool.login");
 
 		var SegmentLoader = PROJECT.pool.util.SegmentLoader;
 		var PoolConstants = PROJECT.pool.PoolConstants;
+		var PoolCommands = PROJECT.pool.PoolCommands;
+		var PoolConstants = PROJECT.pool.PoolConstants;
 		var _container = null;
 
 		/* Public Properties */
@@ -31,21 +33,15 @@ PROJECT.namespace("PROJECT.pool.login");
 		function _handleClick(e) {
 			var username = $("#usernameId").val();
 			var passwd = $("#passwordId").val();
+			var params = {};
+			params["username"] = username;
+			params["password"] = passwd;
 
-			var params = "username=" + username + "&password=" + passwd;
-
-			$.ajax({
-				type : "POST",
-				url : "http://localhost:8080/PoolServer/rest/carpool/login",
-				async : true,
-				data : params,
-				success : _login,
-				error : _loginFailed
-			});
+			PoolCommands.getInstance().execute(PoolConstants.LOGIN_COMMAND, [
+					params, _login, _loginFailed ]);
 		}
 
 		function _login() {
-			// alert("login successful");
 			var gMap = new PROJECT.pool.map.GooglePoolMap();
 			gMap.render();
 		}
