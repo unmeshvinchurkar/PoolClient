@@ -17,8 +17,12 @@ PROJECT.namespace("PROJECT.pool.login");
 		var PoolConstants = PROJECT.pool.PoolConstants;
 		var _container = null;
 
+		objRef.userName = ko.observable("");
+		objRef.password = ko.observable("");
+
 		/* Public Properties */
 		objRef.render = render;
+		objRef.handleClick = handleClick;
 
 		function render() {
 			SegmentLoader.getInstance().getSegment("loginSeg.xml", null, _init);
@@ -27,18 +31,16 @@ PROJECT.namespace("PROJECT.pool.login");
 		function _init(data) {
 			_container = $('#' + PoolConstants.GLOBAL_CONTAINER_DIV);
 			_container.html(data);
-			$("#loginId").click(_handleClick);
+			ko.applyBindings(objRef);
 		}
 
-		function _handleClick(e) {
-			var username = $("#usernameId").val();
-			var passwd = $("#passwordId").val();
+		function handleClick(e) {
 			var params = {};
-			params["username"] = username;
-			params["password"] = passwd;
+			params["username"] = objRef.userName;
+			params["password"] = objRef.password;
 
-			PoolCommands.getInstance().execute(PoolConstants.LOGIN_COMMAND, [
-					params, _login, _loginFailed ]);
+			PoolCommands.getInstance().execute(PoolConstants.LOGIN_COMMAND,
+					[ params, _login, _loginFailed ]);
 		}
 
 		function _login() {

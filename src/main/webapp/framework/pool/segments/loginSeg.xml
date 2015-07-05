@@ -2,16 +2,16 @@
 	<form class="loginForm">
 		<div>
 			<span>UserName:</span>
-			<input type="text" id="usernameId" name="username" />
+			<input data-bind="value:userName" type="text" id="usernameId" name="username" />
 		</div>
 		<br/>
 		<div>
 			<span>Password:</span>
-			<input type="password" id="passwordId" name="password" />
+			<input data-bind="value:password" type="password" id="passwordId" name="password" />
 		</div>
 		<br/>
 		<div>
-		<input type="button" id="loginId" value="LogOn" />
+		<input data-bind="click:handleClick" type="button" id="loginId" value="LogOn" />
 		</div>
 	</form>
 </div>
