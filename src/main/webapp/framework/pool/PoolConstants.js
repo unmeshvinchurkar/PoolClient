@@ -1,13 +1,7 @@
-//
-// $Id: RMAConstants.js 288583 2015-05-21 07:37:14Z advbuild $
-//
-// Copyright (1997-2015),Fair Isaac Corporation. All Rights Reserved.
-//
-//
 PROJECT.namespace("PROJECT.pool");
 
 /*
- * @class PROJECT.pool.RMAConstants
+ * @class PROJECT.pool.PoolConstants
  */
 PROJECT.pool.PoolConstants = (function() {
 	var objRef = {};
@@ -27,16 +21,14 @@ PROJECT.pool.PoolConstants = (function() {
 	// images
 	objRef.COMMON_IMAGE_PATH = "framework/pool/images/";
 
-	objRef.APPLICATION_TYPE_POOL = "POOL";
-
-	// Landing page cached
-	objRef.LANDING_PAGE = "LANDING_PAGE";
+	objRef.APPLICATION_TYPE_POOL = "POOL";	
 
 	// Delay time for showing slide up messages
 	objRef.MESSAGE_DELAY_TIME = 4000;
 
 	// Pool Commands Constants
 	objRef.LOGIN_COMMAND = "login";
+	objRef.CREATE_POOL_COMMAND = "createPool";
 
 	return objRef;
 })();

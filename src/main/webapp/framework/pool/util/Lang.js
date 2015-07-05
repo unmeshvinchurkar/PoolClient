@@ -230,7 +230,7 @@ PROJECT.namespace("PROJECT.pool.util");
 	 */
 	PROJECT.pool.util.Lang.removeFromArray = function(arr, obj) {
 		if (arr) {
-			var index = FICO.util.Lang.indexOf(arr, obj);
+			var index = ROJECT.pool.util.Lang.indexOf(arr, obj);
 			if (index >= 0) {
 				arr.splice(index, 1);
 			}

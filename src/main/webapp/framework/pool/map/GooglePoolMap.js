@@ -15,6 +15,8 @@ PROJECT.namespace("PROJECT.pool.map");
 
 		var SegmentLoader = PROJECT.pool.util.SegmentLoader;
 		var PoolConstants = PROJECT.pool.PoolConstants;
+		var PoolCommands = PROJECT.pool.PoolCommands;
+
 		var _container = null;
 
 		/* Public Properties */
@@ -33,6 +35,7 @@ PROJECT.namespace("PROJECT.pool.map");
 		var _fromDateElem = null;
 		var _toDateElem = null;
 		var _startTimeElem = null;
+		var _route = null;
 
 		function render() {
 			SegmentLoader.getInstance().getSegment("createPoolSeg.xml", null,
@@ -140,6 +143,8 @@ PROJECT.namespace("PROJECT.pool.map");
 			_directionsService.route(request, function(response, status) {
 				if (status == google.maps.DirectionsStatus.OK) {
 
+					_route = response.routes[0];
+
 					// Place new markers on the MAP
 					var route = response.routes[0];
 					var legs = route.legs;
@@ -167,6 +172,8 @@ PROJECT.namespace("PROJECT.pool.map");
 					});
 
 					_directionsDisplay.setDirections(response);
+				} else {
+					_route = null;
 				}
 			});
 		}
@@ -176,6 +183,26 @@ PROJECT.namespace("PROJECT.pool.map");
 			var toDate = $(_toDateElem).datepicker("getDate");
 			var timeinSeconds = $(_startTimeElem).timepicker(
 					'getSecondsFromMidnight');
+			var route = _route;
+
+			var params = {};
+			params["fromDate"] = fromDate.getTime();
+			params["toDate"] = toDate.getTime();
+			params["startTime"] = timeinSeconds;
+			params["route"] = JSON.stringify(route);
+			params["vehicleId"] ="1";
+
+			PoolCommands.getInstance().execute(
+					PoolConstants.CREATE_POOL_COMMAND,
+					[ params, _saveSuccess, _saveError ]);
+		}
+
+		function _saveSuccess() {
+			alert("saved");
+		}
+
+		function _saveError() {
+			alert("save failed");
 		}
 
 		function _navToPlace() {

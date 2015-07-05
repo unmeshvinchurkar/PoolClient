@@ -29,11 +29,16 @@ PROJECT.namespace("PROJECT.pool");
 			if (commandId == PoolConstants.LOGIN_COMMAND) {
 				_login.apply(objRef, arguments);
 			}
+
+			else if (commandId == PoolConstants.CREATE_POOL_COMMAND) {
+				arguments.unshift(commandId);
+				_fireCommand.apply(objRef, arguments);
+			}
 		}
 
 		function _login(params, successFun, errorFunc) {
-			fireCommand(PoolConstants.LOGIN_COMMAND, _buildParamStr(params),
-					successFun, errorFunc);
+			objRef.fireCommand(PoolConstants.LOGIN_COMMAND,
+					_buildParamStr(params), successFun, errorFunc);
 		}
 
 		function _buildParamStr(params) {
@@ -43,6 +48,11 @@ PROJECT.namespace("PROJECT.pool");
 			}
 			paramStr = paramStr.substring(0, paramStr.length - 1);
 			return paramStr;
+		}
+
+		function _fireCommand(commandName, params, successFun, errorFunc) {
+			objRef.fireCommand(commandName, _buildParamStr(params), successFun,
+					errorFunc);
 		}
 
 		function fireCommand(commandName, params, successFun, errorFun) {
