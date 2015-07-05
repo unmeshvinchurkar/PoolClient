@@ -30,6 +30,10 @@ PROJECT.namespace("PROJECT.pool.map");
 		var _destMarker = null;
 		var _infowindow = null;
 
+		var _fromDateElem = null;
+		var _toDateElem = null;
+		var _startTimeElem = null;
+
 		function render() {
 			SegmentLoader.getInstance().getSegment("createPoolSeg.xml", null,
 					_init);
@@ -40,17 +44,24 @@ PROJECT.namespace("PROJECT.pool.map");
 			_container = $('#' + PoolConstants.GLOBAL_CONTAINER_DIV);
 			_container.html(data);
 
-			$("#fromDate").datepicker({
+			$("#savePoolButton").click(_handleSave);
+
+			_fromDateElem = $("#fromDate");
+			_toDateElem = $("#toDate");
+			_startTimeElem = $('#startTime');
+
+			$(_fromDateElem).datepicker({
 				showOtherMonths : true,
 				selectOtherMonths : true
 			});
 
-			$("#toDate").datepicker({
+			$(_toDateElem).datepicker({
 				showOtherMonths : true,
 				selectOtherMonths : true
+			// , dateFormat: 'dd-mm-yyyy'
 			});
-			
-			$('#startTime').timepicker();
+
+			$(_startTimeElem).timepicker();
 
 			_directionsService = new google.maps.DirectionsService();
 			_directionsDisplay = new google.maps.DirectionsRenderer({
@@ -158,6 +169,13 @@ PROJECT.namespace("PROJECT.pool.map");
 					_directionsDisplay.setDirections(response);
 				}
 			});
+		}
+
+		function _handleSave(e) {
+			var fromDate = $(_fromDateElem).datepicker("getDate");
+			var toDate = $(_toDateElem).datepicker("getDate");
+			var timeinSeconds = $(_startTimeElem).timepicker(
+					'getSecondsFromMidnight');
 		}
 
 		function _navToPlace() {

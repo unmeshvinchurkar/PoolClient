@@ -17,7 +17,7 @@
 					<input id="startTime" type="text"/>
 				</span>
 				<span id="savePool">
-					<input id="savePool" type="button" value="Save" />
+					<input id="savePoolButton" type="button" value="Save" />
 				</span>
 			</div>
 			<div class="mapContent">
