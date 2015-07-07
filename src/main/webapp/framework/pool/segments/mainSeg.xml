@@ -1,0 +1,19 @@
+<div style="position:relative">
+	<div class="main">
+		<div id="sidebar" class="sidebar">
+			<ul style="list-style-type: none;">
+				<li>
+					<a id="myPools" href="#myPools">My Pools</a>
+				</li>
+				<li>
+					<a id="createPool" href="#createPool">Create Pool</a>
+				</li>
+				<li>
+					<a id="searchPool" href="#searchPool">Search Pool</a>
+				</li>
+			</ul>
+		</div>
+		<div id="rightContent" class="rightContent">
+		</div>
+	</div>
+</div>

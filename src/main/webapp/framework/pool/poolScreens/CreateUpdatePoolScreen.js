@@ -1,23 +1,26 @@
-PROJECT.namespace("PROJECT.pool.map");
+PROJECT.namespace("PROJECT.pool.poolScreens");
 
 (function() {
 
 	/* Class Declaration */
-	PROJECT.pool.map.GooglePoolMap = GooglePoolMap;
+	PROJECT.pool.poolScreens.CreateUpdatePoolScreen = CreateUpdatePoolScreen;
 
 	/**
 	 * 
 	 * 
 	 * @class PROJECT.pool.map.GooglePoolMap
 	 */
-	function GooglePoolMap() {
+	function CreateUpdatePoolScreen(containerElemId, carPoolId) {
 		var objRef = this;
 
 		var SegmentLoader = PROJECT.pool.util.SegmentLoader;
 		var PoolConstants = PROJECT.pool.PoolConstants;
 		var PoolCommands = PROJECT.pool.PoolCommands;
+		
+		var _containerElemId = containerElemId
 
 		var _container = null;
+		var _carPoolId = carPoolId;
 
 		/* Public Properties */
 		objRef.render = render;
@@ -27,6 +30,7 @@ PROJECT.namespace("PROJECT.pool.map");
 		var _directionsDisplay;
 		var _markers = [];
 
+		var _carPoolId = null;
 		var _autocomplete = null;
 		var _srcMarker = null;
 		var _destMarker = null;
@@ -44,7 +48,7 @@ PROJECT.namespace("PROJECT.pool.map");
 
 		function _init(data) {
 
-			_container = $('#' + PoolConstants.GLOBAL_CONTAINER_DIV);
+			_container = $('#' + _containerElemId);
 			_container.html(data);
 
 			$("#savePoolButton").click(_handleSave);
@@ -66,7 +70,6 @@ PROJECT.namespace("PROJECT.pool.map");
 
 			$(_startTimeElem).timepicker();
 
-			_directionsService = new google.maps.DirectionsService();
 			_directionsDisplay = new google.maps.DirectionsRenderer({
 				suppressMarkers : true
 			});
@@ -133,12 +136,73 @@ PROJECT.namespace("PROJECT.pool.map");
 			}
 		}
 
+		function _buildParamStr(params) {
+			var paramStr = "";
+			for ( var propt in params) {
+				paramStr = paramStr + propt + "=" + params[propt] + "&";
+			}
+			paramStr = paramStr.substring(0, paramStr.length - 1);
+			return paramStr;
+		}
+
 		function _calcRoute(startPos, destpos) {
 			var request = {
 				origin : startPos,
 				destination : destpos,
-				travelMode : google.maps.TravelMode.DRIVING
+				travelMode : google.maps.TravelMode.DRIVING,
+				unitSystem : google.maps.UnitSystem.METRIC
+			//,key:"AIzaSyDM9TTxSkYXKz6F1XtOod-Nr8Q_wlRaNs4"
 			};
+
+			/**
+			$.ajax({
+				type : "GET",
+				url : "https://maps.googleapis.com/maps/api/directions/json",
+				async : true,
+				data : _buildParamStr(request),
+				success : parseResponse,
+				error : requestFailed
+			});
+			
+			function requestFailed(data, status){
+				
+				_route = null;
+				
+			}
+			
+			function parseResponse(data){
+				
+				 _route = data.routes[0];
+				// Place new markers on the MAP
+				 
+					var route = response.routes[0];
+					var legs = route.legs;
+					var startLeg = legs[0];
+					var endLeg = legs[legs.length - 1];
+
+					var startStep = startLeg.steps[0];
+					var endStep = endLeg.steps[endLeg.steps.length - 1];
+
+					var startLoc = startStep["start_location"];
+					var endLoc = endStep["end_location"];
+
+					// Re-create src and dest markers
+					_srcMarker.setMap(null);
+					_destMarker.setMap(null);
+
+					_srcMarker = new google.maps.Marker({
+						position : startLoc,
+						map : _map
+					});
+
+					_destMarker = new google.maps.Marker({
+						position : endLoc,
+						map : _map
+					});
+
+					_directionsDisplay.setDirections(response);				
+			}
+			 */
 
 			_directionsService.route(request, function(response, status) {
 				if (status == google.maps.DirectionsStatus.OK) {
@@ -176,29 +240,35 @@ PROJECT.namespace("PROJECT.pool.map");
 					_route = null;
 				}
 			});
+
 		}
 
 		function _handleSave(e) {
-			var fromDate = $(_fromDateElem).datepicker("getDate");
-			var toDate = $(_toDateElem).datepicker("getDate");
+			var startDate = $(_fromDateElem).datepicker("getDate");
+			var endDate = $(_toDateElem).datepicker("getDate");
 			var timeinSeconds = $(_startTimeElem).timepicker(
 					'getSecondsFromMidnight');
 			var route = _route;
 
 			var params = {};
-			params["fromDate"] = fromDate.getTime();
-			params["toDate"] = toDate.getTime();
+			params["startDate"] = startDate.getTime();
+			params["endDate"] = endDate.getTime();
 			params["startTime"] = timeinSeconds;
 			params["route"] = JSON.stringify(route);
-			params["vehicleId"] ="1";
+			params["vehicleId"] = "1";
+
+			if (_carPoolId) {
+				params["carPoolId"] = _carPoolId;
+			}
 
 			PoolCommands.getInstance().execute(
 					PoolConstants.CREATE_POOL_COMMAND,
 					[ params, _saveSuccess, _saveError ]);
 		}
 
-		function _saveSuccess() {
-			alert("saved");
+		function _saveSuccess(data) {
+			_carPoolId = data;
+			alert("saved"+_carPoolId);
 		}
 
 		function _saveError() {

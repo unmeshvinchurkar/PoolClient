@@ -1,15 +1,18 @@
-PROJECT.namespace("PROJECT.pool.login");
+PROJECT.namespace("PROJECT.pool.model");
 
 (function() {
 
 	/* Class Declaration */
-	PROJECT.pool.login.LoginScreen = LoginScreen;
+	PROJECT.pool.model.LoginModel = LoginModel;
 
 	/**
 	 * @class PROJECT.pool.map.GooglePoolMap
 	 */
-	function LoginScreen() {
+	function LoginModel() {
 		var objRef = this;
+
+		objRef.userName = ko.observable("");
+		objRef.password = ko.observable("");
 
 		var SegmentLoader = PROJECT.pool.util.SegmentLoader;
 		var PoolConstants = PROJECT.pool.PoolConstants;
@@ -17,12 +20,8 @@ PROJECT.namespace("PROJECT.pool.login");
 		var PoolConstants = PROJECT.pool.PoolConstants;
 		var _container = null;
 
-		objRef.userName = ko.observable("");
-		objRef.password = ko.observable("");
-
 		/* Public Properties */
 		objRef.render = render;
-		objRef.handleClick = handleClick;
 
 		function render() {
 			SegmentLoader.getInstance().getSegment("loginSeg.xml", null, _init);
@@ -31,27 +30,28 @@ PROJECT.namespace("PROJECT.pool.login");
 		function _init(data) {
 			_container = $('#' + PoolConstants.GLOBAL_CONTAINER_DIV);
 			_container.html(data);
-			ko.applyBindings(objRef);
+			// $("#loginId").click(_handleClick);
 		}
 
-		function handleClick(e) {
+		function _handleClick(e) {
+			var username = $("#usernameId").val();
+			var passwd = $("#passwordId").val();
 			var params = {};
-			params["username"] = objRef.userName();
-			params["password"] = objRef.password();
+			params["username"] = username;
+			params["password"] = passwd;
 
 			PoolCommands.getInstance().execute(PoolConstants.LOGIN_COMMAND,
 					[ params, _login, _loginFailed ]);
 		}
 
 		function _login() {
-			var mainScreen = new PROJECT.pool.poolScreens.MainScreen();
-			mainScreen.render();
+			var gMap = new PROJECT.pool.map.GooglePoolMap();
+			gMap.render();
 		}
 
 		function _loginFailed() {
 			alert("login failed");
 		}
-
 	}
 
 })();

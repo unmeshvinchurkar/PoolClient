@@ -1,30 +1,23 @@
 <div style="position:relative">
-	<div class="main">
-		<div id="sidebar" class="sidebar">
-		</div>
-		<div id="rightContent" class="rightContent">
-			<div class="toolBarContent">
-				<span style="margin-right:5px;">
-					<span>From Date: </span>
-					<input id="fromDate" type="text" />
-				</span>
-				<span style="margin-right:5px;"> 
-					<span>To Date: </span>
-					<input id="toDate" type="text" />
-				</span>
-				<span>
-					<span>Start Time: </span>
-					<input id="startTime" type="text"/>
-				</span>
-				<span id="savePool">
-					<input id="savePoolButton" type="button" value="Save" />
-				</span>
-			</div>
-			<div class="mapContent">
-				<input id="pac-input" class="controls" type="text"
-					placeholder="Search Box" />
-				<div id="map-canvas" style="width:100%; height:100%"></div>
-			</div>
-		</div>
+	<div class="toolBarContent">
+		<span style="margin-right:5px;">
+			<span>From Date: </span>
+			<input id="fromDate" type="text" />
+		</span>
+		<span style="margin-right:5px;">
+			<span>To Date: </span>
+			<input id="toDate" type="text" />
+		</span>
+		<span>
+			<span>Start Time: </span>
+			<input id="startTime" type="text" />
+		</span>
+		<span id="savePool">
+			<input id="savePoolButton" type="button" value="Save" />
+		</span>
+	</div>
+	<div class="mapContent">
+		<input id="pac-input" class="controls" type="text" placeholder="Search Box" />
+		<div id="map-canvas" style="width:100%; height:100%"></div>
 	</div>
 </div>

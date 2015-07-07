@@ -11,6 +11,10 @@
 	border-right: 0;
 }
 
+.sidebar > ul{
+	float:left;
+}
+
 .rightContent {
 	width: 84%;
 	display: inline-block;

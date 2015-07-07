@@ -13,6 +13,7 @@ PROJECT.pool.PoolConstants = (function() {
 	objRef.MAP_CONTENT = "rightMapContent"
 	objRef.MODULE_PATH = "framework/pool/module/";
 	objRef.APPLICATION_PATH = "framework/pool/";
+	objRef.RIGHT_CONTENT = "rightContent";
 
 	// layouts
 	objRef.LAYOUT_SECTION_HEADER = "header";
