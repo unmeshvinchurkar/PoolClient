@@ -17,7 +17,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		var PoolConstants = PROJECT.pool.PoolConstants;
 		var PoolCommands = PROJECT.pool.PoolCommands;
 		var CreateUpdatePoolScreen = PROJECT.pool.poolScreens.CreateUpdatePoolScreen;
-		var MyPoolScreen = ROJECT.pool.poolScreens.MyPoolScreen;
+		var MyPoolScreen = PROJECT.pool.poolScreens.MyPoolScreen;
 
 		var _container = null;
 
