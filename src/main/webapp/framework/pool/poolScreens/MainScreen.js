@@ -17,6 +17,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		var PoolConstants = PROJECT.pool.PoolConstants;
 		var PoolCommands = PROJECT.pool.PoolCommands;
 		var CreateUpdatePoolScreen = PROJECT.pool.poolScreens.CreateUpdatePoolScreen;
+		var MyPoolScreen = ROJECT.pool.poolScreens.MyPoolScreen;
 
 		var _container = null;
 
@@ -31,11 +32,17 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			_container = $('#' + PoolConstants.GLOBAL_CONTAINER_DIV);
 			_container.html(data);
 			$("#createPool").click(_createPool);
+			$("#myPools").click(_showMyPools);
 		}
 
 		function _createPool(e) {
 			var screen = new CreateUpdatePoolScreen(PoolConstants.RIGHT_CONTENT);
 			screen.render();
+		}
+
+		function _showMyPools() {
+			var myPoolScreen = new MyPoolScreen(PoolConstants.RIGHT_CONTENT);
+			myPoolScreen.render();
 		}
 	}
 

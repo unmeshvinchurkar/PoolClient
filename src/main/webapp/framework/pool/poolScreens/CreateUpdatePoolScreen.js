@@ -16,11 +16,12 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		var SegmentLoader = PROJECT.pool.util.SegmentLoader;
 		var PoolConstants = PROJECT.pool.PoolConstants;
 		var PoolCommands = PROJECT.pool.PoolCommands;
-		
+
 		var _containerElemId = containerElemId
 
 		var _container = null;
 		var _carPoolId = carPoolId;
+		var _geocoder = null;
 
 		/* Public Properties */
 		objRef.render = render;
@@ -40,6 +41,8 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		var _toDateElem = null;
 		var _startTimeElem = null;
 		var _route = null;
+		var _srcAddress = null;
+		var _destAddress = null;
 
 		function render() {
 			SegmentLoader.getInstance().getSegment("createPoolSeg.xml", null,
@@ -78,6 +81,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				draggable : true
 			};
 
+			_geocoder = new google.maps.Geocoder();
 			_directionsService = new google.maps.DirectionsService();
 
 			var mapOptions = {
@@ -136,73 +140,14 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			}
 		}
 
-		function _buildParamStr(params) {
-			var paramStr = "";
-			for ( var propt in params) {
-				paramStr = paramStr + propt + "=" + params[propt] + "&";
-			}
-			paramStr = paramStr.substring(0, paramStr.length - 1);
-			return paramStr;
-		}
-
 		function _calcRoute(startPos, destpos) {
 			var request = {
 				origin : startPos,
 				destination : destpos,
 				travelMode : google.maps.TravelMode.DRIVING,
 				unitSystem : google.maps.UnitSystem.METRIC
-			//,key:"AIzaSyDM9TTxSkYXKz6F1XtOod-Nr8Q_wlRaNs4"
+			// ,key:"AIzaSyDM9TTxSkYXKz6F1XtOod-Nr8Q_wlRaNs4"
 			};
-
-			/**
-			$.ajax({
-				type : "GET",
-				url : "https://maps.googleapis.com/maps/api/directions/json",
-				async : true,
-				data : _buildParamStr(request),
-				success : parseResponse,
-				error : requestFailed
-			});
-			
-			function requestFailed(data, status){
-				
-				_route = null;
-				
-			}
-			
-			function parseResponse(data){
-				
-				 _route = data.routes[0];
-				// Place new markers on the MAP
-				 
-					var route = response.routes[0];
-					var legs = route.legs;
-					var startLeg = legs[0];
-					var endLeg = legs[legs.length - 1];
-
-					var startStep = startLeg.steps[0];
-					var endStep = endLeg.steps[endLeg.steps.length - 1];
-
-					var startLoc = startStep["start_location"];
-					var endLoc = endStep["end_location"];
-
-					// Re-create src and dest markers
-					_srcMarker.setMap(null);
-					_destMarker.setMap(null);
-
-					_srcMarker = new google.maps.Marker({
-						position : startLoc,
-						map : _map
-					});
-
-					_destMarker = new google.maps.Marker({
-						position : endLoc,
-						map : _map
-					});
-
-					_directionsDisplay.setDirections(response);				
-			}
-			 */
 
 			_directionsService.route(request, function(response, status) {
 				if (status == google.maps.DirectionsStatus.OK) {
@@ -236,11 +181,42 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 					});
 
 					_directionsDisplay.setDirections(response);
+
+					if (!_carPoolId) {
+						_getAddress("source", startLoc);
+						_getAddress("destination", endLoc);
+					}
+
 				} else {
 					_route = null;
 				}
 			});
 
+		}
+
+		function _getAddress(addressType, latlng) {
+
+			_geocoder.geocode({
+				'location' : latlng
+			}, function(results, status) {
+				var address = "";
+
+				if (status == google.maps.GeocoderStatus.OK) {
+					if (results[1]) {
+						address = results[1].formatted_address;
+					} else {
+						address = "Address Not AVBL";
+					}
+				} else {
+					address = "Address Not AVBL";
+				}
+
+				if (addressType == "source") {
+					_srcAddress = address;
+				} else {
+					_destAddress = address;
+				}
+			});
 		}
 
 		function _handleSave(e) {
@@ -259,6 +235,9 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 
 			if (_carPoolId) {
 				params["carPoolId"] = _carPoolId;
+			} else {
+
+				params["poolName"] = _srcAddress + "$$$" + _destAddress;
 			}
 
 			PoolCommands.getInstance().execute(
@@ -268,7 +247,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 
 		function _saveSuccess(data) {
 			_carPoolId = data;
-			alert("saved"+_carPoolId);
+			alert("saved" + _carPoolId);
 		}
 
 		function _saveError() {

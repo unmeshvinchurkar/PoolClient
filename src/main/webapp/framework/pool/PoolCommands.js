@@ -29,8 +29,11 @@ PROJECT.namespace("PROJECT.pool");
 			if (commandId == PoolConstants.LOGIN_COMMAND) {
 				_login.apply(objRef, arguments);
 			}
-
 			else if (commandId == PoolConstants.CREATE_POOL_COMMAND) {
+				arguments.unshift(commandId);
+				_fireCommand.apply(objRef, arguments);
+			}
+			else if (commandId == PoolConstants.MY_POOL_COMMAND) {
 				arguments.unshift(commandId);
 				_fireCommand.apply(objRef, arguments);
 			}
