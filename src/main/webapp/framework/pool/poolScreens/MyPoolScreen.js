@@ -83,7 +83,8 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 										{
 											'sTitle' : "SN",
 											'sWidth' : '5%',
-											'mDataProp' : "carpoolName" // dummy property
+											'mDataProp' : "carpoolName" // dummy
+										// property
 										},
 										{
 											'sTitle' : "Pool Name",
@@ -141,25 +142,12 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 												return o.aData["endDate"];
 											}
 										} ],
-								"bInfo" : true,
-								"bFilter" : false,
+								//"bInfo" : true,
+								"bFilter" : true,
+								"pagingType" : "full_numbers",
 								"iDisplayLength" : 25,
-								"bJQueryUI" : true,
-								"sScrollX" : " ",
-								"scrollX" : true,
-								"sScrollY" : "100%",
-								"bScrollCollapse" : true,
-								"bAutoWidth" : false,
-								"sPaginationType" : "full_numbers",
+								//"bJQueryUI" : true,
 								"aaSorting" : [ [ 1, "asc" ] ],
-
-								"fnDrawCallback" : function() {
-									// Right align select length menu
-									$('#' + _id + '_length').css({
-										"float" : "right",
-										"text-align" : "right"
-									});
-								},
 								"fnRowCallback" : function(nRow, aData,
 										iDisplayIndex, iDisplayIndexFull) {
 									// Populate index column
