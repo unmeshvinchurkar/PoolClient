@@ -8,6 +8,7 @@ PROJECT.namespace("PROJECT.pool.util");
 (function() {
 	
 	PROJECT.pool.util.Lang = {};
+	 var OP = Object.prototype;
 
 	var HTML_CHARS = {
 		'&' : '&amp;',

@@ -31,6 +31,12 @@ PROJECT.pool.PoolConstants = (function() {
 
 	objRef.USER_SESSION_ATTR = "USER";
 
+	// Screen Ids
+	objRef.LOGIN_SCREEN = "loginScreen";
+	objRef.MAIN_SCREEN = "mainScreen";
+	objRef.MY_POOLS_SCREEN = "myPoolsScreen";
+	objRef.CREATE_UPDATE_POOL_SCREEN = "createUpdatePoolScreen";
+
 	// Pool Commands Constants
 	objRef.LOGIN_COMMAND = "login";
 	objRef.CREATE_POOL_COMMAND = "createPool";

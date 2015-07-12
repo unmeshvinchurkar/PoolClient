@@ -5,12 +5,17 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 	/* Class Declaration */
 	PROJECT.pool.poolScreens.MyPoolScreen = MyPoolScreen;
 
-	/**
-	 * 
-	 * 
+	/* extends */
+	PROJECT.pool.util.Lang.extend(MyPoolScreen,
+			PROJECT.pool.poolScreens.AbstractScreen);
+
+	/**	 
 	 * @class PROJECT.pool.poolScreens.MyPoolScreen
 	 */
 	function MyPoolScreen() {
+
+		MyPoolScreen.superclass.constructor.call(this);
+
 		var objRef = this;
 
 		var SegmentLoader = PROJECT.pool.util.SegmentLoader;
@@ -32,35 +37,47 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			_container.html(data);
 
 			var params = {};
-			PoolCommands.getInstance().execute(PoolConstants.MY_POOL_COMMAND,
+			objRef.fireCommand(PoolConstants.MY_POOL_COMMAND,
 					[ params, _renderPools, _renderPoolsFailed ]);
 		}
 
 		function _renderPools(data) {
 			data = data;
 			_poolTable = new CarPoolTable("poolTable");
+			_poolTable.onRowClick(_openPool);
 			_poolTable.clear();
 			_poolTable.addRows(data);
-
 		}
 
 		function _renderPoolsFailed(data) {
 			data = data;
 		}
 
+		function _openPool(poolId) {
+			var params = {};
+			params["poolId"] = poolId
+			objRef.fireCommand(PoolConstants.MY_POOL_COMMAND,
+					[ params, _renderPools, _renderPoolsFailed ]);
+		}
 	}
 
 	function CarPoolTable(id) {
 		var that = this;
 		var _jTable = null;
 		var _id = id;
+		var _callBackFun = null;
 
 		that.addRow = addRow;
 		that.addRows = addRows;
 		that.destroy = destroy;
 		that.clear = clear;
+		that.onRowClick = onRowClick;
 
 		_initialize();
+
+		function onRowClick(callBack) {
+			_callBackFun = callBack;
+		}
 
 		function destroy() {
 			try {
@@ -78,7 +95,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			_jTable = $('#' + _id)
 					.dataTable(
 							{
-								//"dom" : '<"top">rt<"bottom"ilp><"clear">',
+								// "dom" : '<"top">rt<"bottom"ilp><"clear">',
 								"aoColumns" : [
 										{
 											'sTitle' : "SN",
@@ -146,14 +163,32 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 								"bFilter" : false,
 								"pagingType" : "full_numbers",
 								"iDisplayLength" : 25,
-								"bLengthChange": false,
-								//"bJQueryUI" : true,
+								"bLengthChange" : false,
+								// "bJQueryUI" : true,
 								"aaSorting" : [ [ 1, "asc" ] ],
 								"fnRowCallback" : function(nRow, aData,
 										iDisplayIndex, iDisplayIndexFull) {
 									// Populate index column
-									$("td:first", nRow).html(iDisplayIndex + 1);
+									var index = iDisplayIndex + 1;
+									$("td:first", nRow).html(
+											"<a href ='javascript:void(0)' id='"
+													+ aData["carPoolId"]
+													+ "' >" + index + "</a>");
+
+									$(nRow).find("td:first > a")
+											.click(
+													function() {
+														_callBackFun($(this)
+																.attr("id"));
+													});
+
 									return nRow;
+								},
+
+								"fnCreatedRow" : function(nRow, aData,
+										iDataIndex) {
+									// $(nRow).find("td:first >
+									// a").click(function(){alert(iDataIndex)});
 								}
 							});
 		}

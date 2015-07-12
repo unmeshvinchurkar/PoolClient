@@ -29,7 +29,7 @@ body {
 <link rel="stylesheet" type="text/css"
 	href="vendorlib/jquery/jquery.dataTables.css" />
 
- <!-- 
+<!-- 
 <link rel="stylesheet" type="text/css"
 	href="vendorlib/jquery/dataTables.jqueryui.css" />
 	-->
@@ -51,7 +51,7 @@ body {
 	href="framework/pool/poolScreens/style/map.css" />
 
 <link rel="stylesheet" type="text/css"
-	href="framework/pool/login/style/login.css" />
+	href="framework/pool/poolScreens/style/login.css" />
 
 <script type="text/javascript" src="framework/pool/PROJECT.js"></script>
 <script type="text/javascript" src="framework/pool/PoolConstants.js"></script>
@@ -63,11 +63,15 @@ body {
 <script type="text/javascript" src="framework/pool/util/Hashtable.js"></script>
 <script type="text/javascript"
 	src="framework/pool/util/SegmentLoader.js"></script>
-<script type="text/javascript" src="framework/pool/PoolCommands.js"></script>
+<script type="text/javascript" src="framework/pool/ScreenNavigator.js"></script>
+
+<script type="text/javascript"
+	src="framework/pool/poolScreens/AbstractScreen.js"></script>
 
 <script type="text/javascript"
 	src="framework/pool/poolScreens/CreateUpdatePoolScreen.js"></script>
-<script type="text/javascript" src="framework/pool/login/LoginScreen.js"></script>
+<script type="text/javascript"
+	src="framework/pool/poolScreens/LoginScreen.js"></script>
 <script type="text/javascript"
 	src="framework/pool/poolScreens/MyPoolScreen.js"></script>
 <script type="text/javascript"
@@ -83,11 +87,8 @@ body {
 
 	function initialize() {
 
-		var login = new PROJECT.pool.login.LoginScreen();
+		var login = new PROJECT.pool.poolScreens.LoginScreen();
 		login.render();
-
-		//	var gMap = new PROJECT.pool.map.GooglePoolMap();
-		//	gMap.render();
 	}
 </script>
 </head>

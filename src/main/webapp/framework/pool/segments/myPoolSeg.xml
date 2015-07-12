@@ -6,7 +6,7 @@
 					Car Pools
 				</div>
 			</span>
-			<table  id="poolTable"  class="display">
+			<table  id="poolTable" data-role="datatable" class="display">
 			</table>
 		</div>
 

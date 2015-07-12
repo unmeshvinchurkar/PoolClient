@@ -5,20 +5,22 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 	/* Class Declaration */
 	PROJECT.pool.poolScreens.MainScreen = MainScreen;
 
+	/* extends */
+	PROJECT.pool.util.Lang.extend(MainScreen,
+			PROJECT.pool.poolScreens.AbstractScreen);
+
 	/**
-	 * 
-	 * 
 	 * @class PROJECT.pool.poolScreens.MainScreen
 	 */
 	function MainScreen() {
+
+		MainScreen.superclass.constructor.call(this);
+
 		var objRef = this;
 
 		var SegmentLoader = PROJECT.pool.util.SegmentLoader;
 		var PoolConstants = PROJECT.pool.PoolConstants;
 		var PoolCommands = PROJECT.pool.PoolCommands;
-		var CreateUpdatePoolScreen = PROJECT.pool.poolScreens.CreateUpdatePoolScreen;
-		var MyPoolScreen = PROJECT.pool.poolScreens.MyPoolScreen;
-
 		var _container = null;
 
 		/* Public Properties */
@@ -36,14 +38,12 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		}
 
 		function _createPool(e) {
-			var screen = new CreateUpdatePoolScreen(PoolConstants.RIGHT_CONTENT);
-			screen.render();
+			objRef.navigateTo(PoolConstants.CREATE_UPDATE_POOL_SCREEN);
 		}
 
 		function _showMyPools() {
-			var myPoolScreen = new MyPoolScreen(PoolConstants.RIGHT_CONTENT);
-			myPoolScreen.render();
+			objRef.navigateTo(PoolConstants.MY_POOLS_SCREEN);
 		}
-	}
 
+	}
 })();

@@ -5,12 +5,19 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 	/* Class Declaration */
 	PROJECT.pool.poolScreens.CreateUpdatePoolScreen = CreateUpdatePoolScreen;
 
+	/* extends */
+	PROJECT.pool.util.Lang.extend(CreateUpdatePoolScreen,
+			PROJECT.pool.poolScreens.AbstractScreen);
+
 	/**
 	 * 
 	 * 
 	 * @class PROJECT.pool.map.GooglePoolMap
 	 */
 	function CreateUpdatePoolScreen(containerElemId, carPoolId) {
+
+		CreateUpdatePoolScreen.superclass.constructor.call(this);
+
 		var objRef = this;
 
 		var SegmentLoader = PROJECT.pool.util.SegmentLoader;
