@@ -78,7 +78,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			_jTable = $('#' + _id)
 					.dataTable(
 							{
-								"dom" : '<"top">rt<"bottom"ilp><"clear">',
+								//"dom" : '<"top">rt<"bottom"ilp><"clear">',
 								"aoColumns" : [
 										{
 											'sTitle' : "SN",
@@ -142,10 +142,11 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 												return o.aData["endDate"];
 											}
 										} ],
-								//"bInfo" : true,
-								"bFilter" : true,
+								"bInfo" : false,
+								"bFilter" : false,
 								"pagingType" : "full_numbers",
 								"iDisplayLength" : 25,
+								"bLengthChange": false,
 								//"bJQueryUI" : true,
 								"aaSorting" : [ [ 1, "asc" ] ],
 								"fnRowCallback" : function(nRow, aData,
