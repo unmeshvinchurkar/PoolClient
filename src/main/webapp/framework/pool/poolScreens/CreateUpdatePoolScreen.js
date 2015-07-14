@@ -49,6 +49,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		var _route = null;
 		var _srcAddress = null;
 		var _destAddress = null;
+		var _poolPath = null;
 
 		function render() {
 			SegmentLoader.getInstance().getSegment("createPoolSeg.xml", null,
@@ -156,7 +157,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 							geoPoints[i].latitude, geoPoints[i].longitude));
 				}
 
-				var poolPath = new google.maps.Polyline({
+				 _poolPath = new google.maps.Polyline({
 					path : coordinates,
 					geodesic : true,
 					strokeColor : '#FF0000',
@@ -164,7 +165,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 					strokeWeight : 2
 				});
 
-				poolPath.setMap(_map);
+				 _poolPath.setMap(_map);
 			}
 		}
 
@@ -191,6 +192,10 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				marker.setMap(null);
 				// Remove existing route(polyline) on the map
 				_directionsDisplay.set('directions', null);
+				
+				if(_poolPath){
+					_poolPath.setMap(null);
+				}
 			}
 		}
 
