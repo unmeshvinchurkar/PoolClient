@@ -9,7 +9,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 	PROJECT.pool.util.Lang.extend(MyPoolScreen,
 			PROJECT.pool.poolScreens.AbstractScreen);
 
-	/**	 
+	/**
 	 * @class PROJECT.pool.poolScreens.MyPoolScreen
 	 */
 	function MyPoolScreen() {
@@ -37,8 +37,8 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			_container.html(data);
 
 			var params = {};
-			objRef.fireCommand(PoolConstants.MY_POOL_COMMAND,
-					[ params, _renderPools, _renderPoolsFailed ]);
+			objRef.fireCommand(PoolConstants.MY_POOL_COMMAND, [ params,
+					_renderPools, _renderPoolsFailed ]);
 		}
 
 		function _renderPools(data) {
@@ -55,9 +55,8 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 
 		function _openPool(poolId) {
 			var params = {};
-			params["poolId"] = poolId
-			objRef.fireCommand(PoolConstants.MY_POOL_COMMAND,
-					[ params, _renderPools, _renderPoolsFailed ]);
+			params["poolId"] = poolId;
+			objRef.navigateTo(PoolConstants.CREATE_UPDATE_POOL_SCREEN, params);
 		}
 	}
 
@@ -104,34 +103,49 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 										// property
 										},
 										{
-											'sTitle' : "Pool Name",
-											'sWidth' : '70%',
+											'sTitle' : "Start Address",
+											'sWidth' : '30%',
+											'sType' : 'string-case',
+											'mDataProp' : 'srcArea',
+											"bUseRendered" : true,
+											'fnRender' : function(o) {
+												return "<span style='display:block;overflow:hidden;width:100%;' title='"
+														+ o.aData["srcArea"]
+														+ "'>"
+														+ o.aData["srcArea"]
+														+ "</span>";
+											}
+										},
+										{
+											'sTitle' : "End Address",
+											'sWidth' : '30%',
+											'sType' : 'string-case',
+											'mDataProp' : 'destArea',
+											"bUseRendered" : true,
+											'fnRender' : function(o) {
+												return "<span style='display:block;overflow:hidden;width:100%;' title='"
+														+ o.aData["destArea"]
+														+ "'>"
+														+ o.aData["destArea"]
+														+ "</span>";
+											}
+										},
+
+										{
+											'sTitle' : "owner Name",
+											'sWidth' : '10%',
 											'sType' : 'string-case',
 											'mDataProp' : 'carpoolName',
 											"bUseRendered" : true,
 											'fnRender' : function(o) {
-												return "<span style='display:block;overflow:hidden;width:100%;' title='"
+												return "<span style='display:block;overflow:hidden;width:100%' title='"
 														+ o.aData["carpoolName"]
 														+ "'>"
 														+ o.aData["carpoolName"]
 														+ "</span>";
 											}
 										},
-
 										{
-											'sTitle' : "ownerId",
-											'sWidth' : '10%',
-											'sType' : 'string-case',
-											'mDataProp' : 'ownerId',
-											"bUseRendered" : true,
-											'fnRender' : function(o) {
-												return "<span style='display:block;overflow:hidden;width:100%' title='"
-														+ o.aData["ownerId"]
-														+ "'>"
-														+ o.aData["ownerId"]
-														+ "</span>";
-											}
-										}, {
 											'sTitle' : "Start Time",
 											'sWidth' : '5%',
 											'sType' : 'string-case',
@@ -140,7 +154,8 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 											'fnRender' : function(o) {
 												return o.aData["startTime"];
 											}
-										}, {
+										},
+										{
 											'sTitle' : "Start Date",
 											'sWidth' : '5%',
 											'sType' : 'string-case',
@@ -149,7 +164,8 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 											'fnRender' : function(o) {
 												return o.aData["startDate"];
 											}
-										}, {
+										},
+										{
 											'sTitle' : "End Date",
 											'sWidth' : '5%',
 											'sType' : 'string-case',
@@ -157,6 +173,18 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 											"bUseRendered" : true,
 											'fnRender' : function(o) {
 												return o.aData["endDate"];
+											}
+										},
+										{
+											'sTitle' : "Delete",
+											'sWidth' : '5%',
+											'sType' : 'string-case',
+											'mDataProp' : 'carPoolId',
+											"bUseRendered" : true,
+											'fnRender' : function(o) {
+												return "<input id ='"
+														+ o.aData["carPoolId"]
+														+ "' type='button'>Delete</input>";
 											}
 										} ],
 								"bInfo" : false,
@@ -198,7 +226,9 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		}
 
 		function addRows(dataArray) {
-			_jTable.fnAddData(dataArray);
+			if (dataArray && dataArray.length > 0) {
+				_jTable.fnAddData(dataArray);
+			}
 		}
 
 		function clear() {

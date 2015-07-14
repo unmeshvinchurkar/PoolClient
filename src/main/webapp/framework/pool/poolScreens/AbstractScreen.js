@@ -19,7 +19,10 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		/* Public Properties */
 		objRef.render = render;
 		objRef.getJsonData = getJsonData;
-		objRef.fireCommand = fireCommand;
+		objRef.post = post;
+		objRef.get = get;
+		objRef.fireCommand = post;
+		objRef.fetch = fetch;
 		objRef.navigateTo = navigateTo;
 
 		function navigateTo(screenId, data) {
@@ -31,16 +34,35 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 
 		}
 
-		function fireCommand(commandName, arguments) {
+		function fetch(path, callBack) {
+
+			if (!callBack) {
+				callBack = function() {
+				}
+			}
+
+			$.get(_URL_PREFIX + path, function(data) {
+				callBack(data);
+			});
+		}
+
+		function get(commandName, arguments) {
 			arguments.unshift(commandName);
+			arguments.unshift("GET");
 			_fireCommand.apply(objRef, arguments);
 		}
 
-		function _fireCommand(commandName, params, successFun, errorFun) {
+		function post(commandName, arguments) {
+			arguments.unshift(commandName);
+			arguments.unshift("POST");
+			_fireCommand.apply(objRef, arguments);
+		}
+
+		function _fireCommand(type, commandName, params, successFun, errorFun) {
 			var paramStr = _buildParamStr(params);
 
 			$.ajax({
-				type : "POST",
+				type : type,
 				url : _URL_PREFIX + commandName,
 				async : true,
 				data : paramStr,

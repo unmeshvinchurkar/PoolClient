@@ -24,10 +24,10 @@ PROJECT.namespace("PROJECT.pool");
 		// var _componentId;
 		objRef.navigateTo = navigateTo;
 
-		function navigateTo(screenId, data) {
+		function navigateTo(screenId, params) {
 
 			if (screenId == PoolConstants.MAIN_SCREEN) {
-				var mainScreen = new PROJECT.pool.poolScreens.MainScreen(data);
+				var mainScreen = new PROJECT.pool.poolScreens.MainScreen(params);
 				mainScreen.render();
 			} else if (screenId == PoolConstants.LOGIN_SCREEN) {
 				var login = new PROJECT.pool.poolScreens.LoginScreen();
@@ -37,7 +37,7 @@ PROJECT.namespace("PROJECT.pool");
 				myPoolScreen.render();
 			} else if (screenId == PoolConstants.CREATE_UPDATE_POOL_SCREEN) {
 				var screen = new CreateUpdatePoolScreen(
-						PoolConstants.RIGHT_CONTENT);
+						PoolConstants.RIGHT_CONTENT, params);
 				screen.render();
 			}
 		}

@@ -14,7 +14,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 	 * 
 	 * @class PROJECT.pool.map.GooglePoolMap
 	 */
-	function CreateUpdatePoolScreen(containerElemId, carPoolId) {
+	function CreateUpdatePoolScreen(containerElemId, params) {
 
 		CreateUpdatePoolScreen.superclass.constructor.call(this);
 
@@ -27,7 +27,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		var _containerElemId = containerElemId
 
 		var _container = null;
-		var _carPoolId = carPoolId;
+		var _carPoolId = params ? params["poolId"] : null;
 		var _geocoder = null;
 
 		/* Public Properties */
@@ -38,7 +38,6 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		var _directionsDisplay;
 		var _markers = [];
 
-		var _carPoolId = null;
 		var _autocomplete = null;
 		var _srcMarker = null;
 		var _destMarker = null;
@@ -119,6 +118,54 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 
 			google.maps.event.addListener(_autocomplete, 'place_changed',
 					_navToPlace);
+
+			if (_carPoolId) {
+				_loadPoolData(_carPoolId);
+			}
+		}
+
+		function _loadPoolData(poolId) {
+
+			objRef.fetch(poolId, drawPool);
+
+			function drawPool(data) {
+
+				var srcLoc = new google.maps.LatLng(data.srcLattitude,
+						data.srcLongitude);
+				var destLoc = new google.maps.LatLng(data.destLattitude,
+						data.destLongitude);
+
+				_srcMarker = new google.maps.Marker({
+					position : srcLoc,
+					map : _map
+				});
+
+				_destMarker = new google.maps.Marker({
+					position : destLoc,
+					map : _map
+				});
+
+				var bounds = new google.maps.LatLngBounds(srcLoc, destLoc);
+				_map.fitBounds(bounds);
+
+				var coordinates = [];
+				var geoPoints = data.geoPoints;
+
+				for (var i = 0; i < geoPoints.length; i++) {
+					coordinates.push(new google.maps.LatLng(
+							geoPoints[i].latitude, geoPoints[i].longitude));
+				}
+
+				var poolPath = new google.maps.Polyline({
+					path : coordinates,
+					geodesic : true,
+					strokeColor : '#FF0000',
+					strokeOpacity : 1.0,
+					strokeWeight : 2
+				});
+
+				poolPath.setMap(_map);
+			}
 		}
 
 		function _placeMarker(location) {
@@ -242,14 +289,13 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 
 			if (_carPoolId) {
 				params["carPoolId"] = _carPoolId;
-			} else {
-
-				params["poolName"] = _srcAddress + "$$$" + _destAddress;
 			}
 
-			PoolCommands.getInstance().execute(
-					PoolConstants.CREATE_POOL_COMMAND,
-					[ params, _saveSuccess, _saveError ]);
+			params["srcArea"] = _srcAddress;
+			params["destArea"] = _destAddress;
+
+			objRef.fireCommand(PoolConstants.CREATE_POOL_COMMAND, [ params,
+					_saveSuccess, _saveError ]);
 		}
 
 		function _saveSuccess(data) {
