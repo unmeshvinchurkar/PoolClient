@@ -157,7 +157,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 							geoPoints[i].latitude, geoPoints[i].longitude));
 				}
 
-				 _poolPath = new google.maps.Polyline({
+				_poolPath = new google.maps.Polyline({
 					path : coordinates,
 					geodesic : true,
 					strokeColor : '#FF0000',
@@ -165,7 +165,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 					strokeWeight : 2
 				});
 
-				 _poolPath.setMap(_map);
+				_poolPath.setMap(_map);
 			}
 		}
 
@@ -192,8 +192,8 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				marker.setMap(null);
 				// Remove existing route(polyline) on the map
 				_directionsDisplay.set('directions', null);
-				
-				if(_poolPath){
+
+				if (_poolPath) {
 					_poolPath.setMap(null);
 				}
 			}
@@ -241,10 +241,8 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 
 					_directionsDisplay.setDirections(response);
 
-					if (!_carPoolId) {
-						_getAddress("source", startLoc);
-						_getAddress("destination", endLoc);
-					}
+					_getAddress("source", startLoc);
+					_getAddress("destination", endLoc);
 
 				} else {
 					_route = null;
