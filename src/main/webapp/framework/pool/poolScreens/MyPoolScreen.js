@@ -44,7 +44,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		function _renderPools(data) {
 			data = data;
 			_poolTable = new CarPoolTable("poolTable");
-			_poolTable.onRowClick(_openPool);
+			_poolTable.onRowClick(_onClick);
 			_poolTable.clear();
 			_poolTable.addRows(data);
 		}
@@ -53,10 +53,22 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			data = data;
 		}
 
-		function _openPool(poolId) {
-			var params = {};
-			params["poolId"] = poolId;
-			objRef.navigateTo(PoolConstants.CREATE_UPDATE_POOL_SCREEN, params);
+		function _onClick(elementId, poolTable) {
+
+			if (elementId.startsWith("_delete")) {
+				var poolId = elementId.split(":")[1];
+				objRef.fetch("deletepool/" + poolId,
+
+				function(data) {
+					_poolTable.deleteRow($("#" + elementId).closest('tr')
+							.get(0));
+				});
+			} else {
+				var params = {};
+				params["poolId"] = elementId;
+				objRef.navigateTo(PoolConstants.CREATE_UPDATE_POOL_SCREEN,
+						params);
+			}
 		}
 	}
 
@@ -71,11 +83,16 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		that.destroy = destroy;
 		that.clear = clear;
 		that.onRowClick = onRowClick;
+		that.deleteRow = deleteRow;
 
 		_initialize();
 
 		function onRowClick(callBack) {
 			_callBackFun = callBack;
+		}
+
+		function deleteRow(row) {
+			_jTable.fnDeleteRow(row);
 		}
 
 		function destroy() {
@@ -94,7 +111,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			_jTable = $('#' + _id)
 					.dataTable(
 							{
-								// "dom" : '<"top">rt<"bottom"ilp><"clear">',
+
 								"aoColumns" : [
 										{
 											'sTitle' : "SN",
@@ -180,11 +197,10 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 											'sWidth' : '5%',
 											'sType' : 'string-case',
 											'mDataProp' : 'carPoolId',
-											"bUseRendered" : true,
-											'fnRender' : function(o) {
-												return "<input id ='"
-														+ o.aData["carPoolId"]
-														+ "' type='button'>Delete</input>";
+											"mRender" : function(data, type,
+													full) {
+												return '<a href="javascript:void(0)" id="_delete:'
+														+ data + '">Delete</a>';
 											}
 										} ],
 								"bInfo" : false,
@@ -192,7 +208,6 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 								"pagingType" : "full_numbers",
 								"iDisplayLength" : 25,
 								"bLengthChange" : false,
-								// "bJQueryUI" : true,
 								"aaSorting" : [ [ 1, "asc" ] ],
 								"fnRowCallback" : function(nRow, aData,
 										iDisplayIndex, iDisplayIndexFull) {
@@ -203,20 +218,15 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 													+ aData["carPoolId"]
 													+ "' >" + index + "</a>");
 
-									$(nRow).find("td:first > a")
+									$(nRow).find("td:first > a, td:last > a")
 											.click(
 													function() {
 														_callBackFun($(this)
-																.attr("id"));
+																.attr("id"),
+																that);
 													});
 
 									return nRow;
-								},
-
-								"fnCreatedRow" : function(nRow, aData,
-										iDataIndex) {
-									// $(nRow).find("td:first >
-									// a").click(function(){alert(iDataIndex)});
 								}
 							});
 		}
