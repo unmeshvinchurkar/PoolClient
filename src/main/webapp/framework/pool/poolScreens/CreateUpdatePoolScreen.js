@@ -68,14 +68,18 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			_startTimeElem = $('#startTime');
 
 			$(_fromDateElem).datepicker({
+				// dateFormat: 'yyyy-mm-dd',
 				showOtherMonths : true,
-				selectOtherMonths : true
+				selectOtherMonths : true,
+				changeYear : true
+			// ,defaultDate: new Date()
 			});
 
 			$(_toDateElem).datepicker({
+				// dateFormat: 'yyyy-mm-dd',
 				showOtherMonths : true,
-				selectOtherMonths : true
-			// , dateFormat: 'dd-mm-yyyy'
+				selectOtherMonths : true,
+				changeYear : true
 			});
 
 			$(_startTimeElem).timepicker();
@@ -130,6 +134,17 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			objRef.fetch(poolId, drawPool);
 
 			function drawPool(data) {
+
+				var stDate = new Date(data.startDate);
+
+				$(_fromDateElem).datepicker("setDate", stDate);
+
+				if (data.endDate) {
+					$(_toDateElem).datepicker("setDate", data.endDate);
+				}
+
+				_srcAddress = data.srcArea;
+				_destAddress = data.destArea;
 
 				var srcLoc = new google.maps.LatLng(data.srcLattitude,
 						data.srcLongitude);
@@ -208,72 +223,50 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			// ,key:"AIzaSyDM9TTxSkYXKz6F1XtOod-Nr8Q_wlRaNs4"
 			};
 
-			_directionsService.route(request, function(response, status) {
-				if (status == google.maps.DirectionsStatus.OK) {
+			_directionsService
+					.route(
+							request,
+							function(response, status) {
+								if (status == google.maps.DirectionsStatus.OK) {
 
-					_route = response.routes[0];
+									_route = response.routes[0];
 
-					// Place new markers on the MAP
-					var route = response.routes[0];
-					var legs = route.legs;
-					var startLeg = legs[0];
-					var endLeg = legs[legs.length - 1];
+									// Place new markers on the MAP
+									var route = response.routes[0];
+									var legs = route.legs;
+									var startLeg = legs[0];
+									var endLeg = legs[legs.length - 1];
 
-					var startStep = startLeg.steps[0];
-					var endStep = endLeg.steps[endLeg.steps.length - 1];
+									var startStep = startLeg.steps[0];
+									var endStep = endLeg.steps[endLeg.steps.length - 1];
 
-					var startLoc = startStep["start_location"];
-					var endLoc = endStep["end_location"];
+									var startLoc = startStep["start_location"];
+									var endLoc = endStep["end_location"];
 
-					// Re-create src and dest markers
-					_srcMarker.setMap(null);
-					_destMarker.setMap(null);
+									// Re-create src and dest markers
+									_srcMarker.setMap(null);
+									_destMarker.setMap(null);
 
-					_srcMarker = new google.maps.Marker({
-						position : startLoc,
-						map : _map
-					});
+									_srcMarker = new google.maps.Marker({
+										position : startLoc,
+										map : _map
+									});
 
-					_destMarker = new google.maps.Marker({
-						position : endLoc,
-						map : _map
-					});
+									_destMarker = new google.maps.Marker({
+										position : endLoc,
+										map : _map
+									});
 
-					_directionsDisplay.setDirections(response);
+									_directionsDisplay.setDirections(response);
 
-					_getAddress("source", startLoc);
-					_getAddress("destination", endLoc);
+									_srcAddress = _route.legs[0].start_address;
+									_destAddress = _route.legs[_route.legs.length - 1].end_address;
 
-				} else {
-					_route = null;
-				}
-			});
+								} else {
+									_route = null;
+								}
+							});
 
-		}
-
-		function _getAddress(addressType, latlng) {
-
-			_geocoder.geocode({
-				'location' : latlng
-			}, function(results, status) {
-				var address = "";
-
-				if (status == google.maps.GeocoderStatus.OK) {
-					if (results[1]) {
-						address = results[1].formatted_address;
-					} else {
-						address = "Address Not AVBL";
-					}
-				} else {
-					address = "Address Not AVBL";
-				}
-
-				if (addressType == "source") {
-					_srcAddress = address;
-				} else {
-					_destAddress = address;
-				}
-			});
 		}
 
 		function _handleSave(e) {
