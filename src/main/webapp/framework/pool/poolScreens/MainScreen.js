@@ -35,6 +35,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			_container.html(data);
 			$("#createPool").click(_createPool);
 			$("#myPools").click(_showMyPools);
+			$("#searchPool").click(_searchPools);
 		}
 
 		function _createPool(e) {
@@ -43,6 +44,10 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 
 		function _showMyPools() {
 			objRef.navigateTo(PoolConstants.MY_POOLS_SCREEN);
+		}
+
+		function _searchPools() {
+			objRef.navigateTo(PoolConstants.SEARCH_POOL_SCREEN);
 		}
 
 	}
