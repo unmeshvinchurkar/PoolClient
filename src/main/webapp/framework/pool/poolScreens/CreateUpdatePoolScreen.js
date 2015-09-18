@@ -71,20 +71,26 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				// dateFormat: 'yyyy-mm-dd',
 				showOtherMonths : true,
 				selectOtherMonths : true,
-				changeYear : true
-			// ,defaultDate: new Date()
+				changeYear : true,
+				defaultDate : new Date(),
+				minDate : new Date()
 			});
 
 			$(_toDateElem).datepicker({
 				// dateFormat: 'yyyy-mm-dd',
 				showOtherMonths : true,
 				selectOtherMonths : true,
-				changeYear : true
+				changeYear : true,
+				defaultDate : new Date(),
+				minDate : new Date()
 			});
 
 			$(_startTimeElem).timepicker({
-				'step' : 15
+				'step' : 15,
+				disableTextInput : true
 			});
+
+			$(_startTimeElem).timepicker('setTime', new Date());
 
 			_directionRenderer = new google.maps.DirectionsRenderer({
 				suppressMarkers : true,
@@ -146,6 +152,15 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 
 				if (data.endDate) {
 					$(_toDateElem).datepicker("setDate", data.endDate);
+				}
+
+				var now = new Date();
+				var d = new Date(now.getFullYear(), now.getMonth(), now
+						.getDay(), 0, 0, 0, 0);
+
+				if (data.startTime) {
+					$(_startTimeElem).timepicker('setTime',
+							new Date(d.getTime() + data.startTime * 1000));
 				}
 
 				_srcAddress = data.srcArea;
