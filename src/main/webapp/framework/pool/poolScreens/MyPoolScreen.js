@@ -169,7 +169,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 											'mDataProp' : 'startTime',
 											"bUseRendered" : true,
 											'fnRender' : function(o) {
-												return o.aData["startTime"];
+												return o.aData["startTime"]/(3600);
 											}
 										},
 										{
@@ -179,7 +179,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 											'mDataProp' : 'startDate',
 											"bUseRendered" : true,
 											'fnRender' : function(o) {
-												return o.aData["startDate"];
+												return new Date(o.aData["startDate"]*1000).toDateString();
 											}
 										},
 										{
@@ -189,7 +189,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 											'mDataProp' : 'endDate',
 											"bUseRendered" : true,
 											'fnRender' : function(o) {
-												return o.aData["endDate"];
+												return new Date(o.aData["endDate"]*1000).toDateString();
 											}
 										},
 										{

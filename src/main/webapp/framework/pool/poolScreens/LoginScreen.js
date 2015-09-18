@@ -35,6 +35,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 
 		function _init(data) {
 			_container = $('#' + PoolConstants.GLOBAL_CONTAINER_DIV);
+			_container.html("");
 			_container.html(data);
 			ko.applyBindings(objRef);
 		}

@@ -47,12 +47,18 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		}
 
 		function get(commandName, arguments) {
+			if (!arguments) {
+				arguments = [];
+			}
 			arguments.unshift(commandName);
 			arguments.unshift("GET");
 			_fireCommand.apply(objRef, arguments);
 		}
 
 		function post(commandName, arguments) {
+			if (!arguments) {
+				arguments = [];
+			}
 			arguments.unshift(commandName);
 			arguments.unshift("POST");
 			_fireCommand.apply(objRef, arguments);
@@ -79,10 +85,13 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 
 		function _buildParamStr(params) {
 			var paramStr = "";
-			for ( var propt in params) {
-				paramStr = paramStr + propt + "=" + params[propt] + "&";
+
+			if (params) {
+				for ( var propt in params) {
+					paramStr = paramStr + propt + "=" + params[propt] + "&";
+				}
+				paramStr = paramStr.substring(0, paramStr.length - 1);
 			}
-			paramStr = paramStr.substring(0, paramStr.length - 1);
 			return paramStr;
 		}
 	}

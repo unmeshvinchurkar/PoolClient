@@ -36,6 +36,12 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			$("#createPool").click(_createPool);
 			$("#myPools").click(_showMyPools);
 			$("#searchPool").click(_searchPools);
+			$("#logOut").click(_logout);
+		}
+
+		function _logout(e) {
+			objRef.fireCommand("logout");
+			objRef.navigateTo(PoolConstants.LOGIN_SCREEN);
 		}
 
 		function _createPool(e) {

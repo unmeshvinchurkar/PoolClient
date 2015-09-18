@@ -1,4 +1,7 @@
 <div style="position:relative">
+	<div class="toolbar" style="text-align:right">
+		<a id="logOut" href="#logOut">Logout</a>
+	</div>
 	<div class="main">
 		<div id="sidebar" class="sidebar">
 			<ul style="list-style-type: none;">
