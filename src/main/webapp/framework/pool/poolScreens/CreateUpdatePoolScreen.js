@@ -67,28 +67,42 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			_toDateElem = $("#toDate");
 			_startTimeElem = $('#startTime');
 
-			$(_fromDateElem).datepicker({
-				// dateFormat: 'yyyy-mm-dd',
-				showOtherMonths : true,
-				selectOtherMonths : true,
-				changeYear : true,
-				defaultDate : new Date(),
-				minDate : new Date()
-			});
+			$(_fromDateElem).datepicker(
+					{
+						// dateFormat: 'yyyy-mm-dd',
+						showOtherMonths : true,
+						selectOtherMonths : true,
+						changeYear : true,
+						defaultDate : new Date(),
+						minDate : new Date(),
+						onClose : function(selectedDate) {
+							$(_toDateElem).datepicker("option", "minDate",
+									selectedDate);
+						}
+					});
 
-			$(_toDateElem).datepicker({
-				// dateFormat: 'yyyy-mm-dd',
-				showOtherMonths : true,
-				selectOtherMonths : true,
-				changeYear : true,
-				defaultDate : new Date(),
-				minDate : new Date()
-			});
+			$(_toDateElem).datepicker(
+					{
+						// dateFormat: 'yyyy-mm-dd',
+						showOtherMonths : true,
+						selectOtherMonths : true,
+						changeYear : true,
+						'defaultDate' : new Date(),
+						minDate : new Date(),
+						onClose : function(selectedDate) {
+							$(_fromDateElem).datepicker("option", "maxDate",
+									selectedDate);
+						}
+					});
 
 			$(_startTimeElem).timepicker({
 				'step' : 15,
-				disableTextInput : true
+				'disableTextInput' : true,
+				'forceRoundTime' : true
 			});
+
+			$(_fromDateElem).datepicker("setDate", new Date());
+			$(_toDateElem).datepicker("setDate", new Date());
 
 			$(_startTimeElem).timepicker('setTime', new Date());
 
@@ -146,19 +160,19 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 
 			function drawPool(data) {
 
-				var stDate = new Date(data.startDate);
-
-				$(_fromDateElem).datepicker("setDate", stDate);
+				if (data.startDate) {
+					$(_fromDateElem).datepicker("setDate", data.startDate);
+				}
 
 				if (data.endDate) {
 					$(_toDateElem).datepicker("setDate", data.endDate);
 				}
 
-				var now = new Date();
-				var d = new Date(now.getFullYear(), now.getMonth(), now
-						.getDay(), 0, 0, 0, 0);
-
 				if (data.startTime) {
+					var now = new Date();
+					var d = new Date(now.getFullYear(), now.getMonth(), now
+							.getDay(), 0, 0, 0, 0);
+
 					$(_startTimeElem).timepicker('setTime',
 							new Date(d.getTime() + data.startTime * 1000));
 				}
@@ -339,25 +353,6 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				_map.setZoom(17); // Why 17? Because it
 				// looks good.
 			}
-		}
-
-		function calcRoute() {
-
-			var request = {
-				origin : 'Sydney, NSW',
-				destination : 'Sydney, NSW',
-				waypoints : [ {
-					location : 'Bourke, NSW'
-				}, {
-					location : 'Broken Hill, NSW'
-				} ],
-				travelMode : google.maps.TravelMode.DRIVING
-			};
-			_directionsService.route(request, function(response, status) {
-				if (status == google.maps.DirectionsStatus.OK) {
-					// _directionRenderer.setDirections(response);
-				}
-			});
 		}
 
 		function computeTotalDistance(result) {
