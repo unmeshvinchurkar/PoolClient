@@ -161,11 +161,11 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			function drawPool(data) {
 
 				if (data.startDate) {
-					$(_fromDateElem).datepicker("setDate", data.startDate);
+					$(_fromDateElem).datepicker("setDate", new Date(data.startDate*1000));
 				}
 
 				if (data.endDate) {
-					$(_toDateElem).datepicker("setDate", data.endDate);
+					$(_toDateElem).datepicker("setDate", new Date(data.endDate*1000));
 				}
 
 				if (data.startTime) {
