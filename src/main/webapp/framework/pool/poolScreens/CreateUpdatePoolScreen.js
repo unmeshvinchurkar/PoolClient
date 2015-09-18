@@ -35,7 +35,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 
 		var _map;
 		var _directionsService;
-		var _directionsDisplay;
+		var _directionRenderer;
 		var _markers = [];
 
 		var _autocomplete = null;
@@ -82,15 +82,20 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				changeYear : true
 			});
 
-			$(_startTimeElem).timepicker();
-
-			_directionsDisplay = new google.maps.DirectionsRenderer({
-				suppressMarkers : true
+			$(_startTimeElem).timepicker({
+				'step' : 15
 			});
 
-			var rendererOptions = {
+			_directionRenderer = new google.maps.DirectionsRenderer({
+				suppressMarkers : true,
 				draggable : true
-			};
+			});
+
+			_directionRenderer.addListener('directions_changed', function() {
+
+				var directions = _directionRenderer.getDirections();
+				_drawRoute(directions.routes[0]);
+			});
 
 			_geocoder = new google.maps.Geocoder();
 			_directionsService = new google.maps.DirectionsService();
@@ -101,7 +106,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			};
 			_map = new google.maps.Map(document.getElementById('map-canvas'),
 					mapOptions);
-			_directionsDisplay.setMap(_map);
+			_directionRenderer.setMap(_map);
 
 			var defaultBounds = new google.maps.LatLngBounds(
 					new google.maps.LatLng(-33.8902, 151.1759),
@@ -206,7 +211,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				_destMarker = null;
 				marker.setMap(null);
 				// Remove existing route(polyline) on the map
-				_directionsDisplay.set('directions', null);
+				_directionRenderer.set('directions', null);
 
 				if (_poolPath) {
 					_poolPath.setMap(null);
@@ -223,50 +228,48 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			// ,key:"AIzaSyDM9TTxSkYXKz6F1XtOod-Nr8Q_wlRaNs4"
 			};
 
-			_directionsService
-					.route(
-							request,
-							function(response, status) {
-								if (status == google.maps.DirectionsStatus.OK) {
+			_directionsService.route(request, function(response, status) {
+				if (status == google.maps.DirectionsStatus.OK) {
+					_route = response.routes[0];
+					_drawRoute(_route);
+					_directionRenderer.setDirections(response);
 
-									_route = response.routes[0];
+				} else {
+					_route = null;
+				}
+			});
 
-									// Place new markers on the MAP
-									var route = response.routes[0];
-									var legs = route.legs;
-									var startLeg = legs[0];
-									var endLeg = legs[legs.length - 1];
+		}
 
-									var startStep = startLeg.steps[0];
-									var endStep = endLeg.steps[endLeg.steps.length - 1];
+		function _drawRoute(route) {
 
-									var startLoc = startStep["start_location"];
-									var endLoc = endStep["end_location"];
+			// Place new markers on the MAP
+			var legs = route.legs;
+			var startLeg = legs[0];
+			var endLeg = legs[legs.length - 1];
 
-									// Re-create src and dest markers
-									_srcMarker.setMap(null);
-									_destMarker.setMap(null);
+			var startStep = startLeg.steps[0];
+			var endStep = endLeg.steps[endLeg.steps.length - 1];
 
-									_srcMarker = new google.maps.Marker({
-										position : startLoc,
-										map : _map
-									});
+			var startLoc = startStep["start_location"];
+			var endLoc = endStep["end_location"];
 
-									_destMarker = new google.maps.Marker({
-										position : endLoc,
-										map : _map
-									});
+			// Re-create src and dest markers
+			_srcMarker.setMap(null);
+			_destMarker.setMap(null);
 
-									_directionsDisplay.setDirections(response);
+			_srcMarker = new google.maps.Marker({
+				position : startLoc,
+				map : _map
+			});
 
-									_srcAddress = _route.legs[0].start_address;
-									_destAddress = _route.legs[_route.legs.length - 1].end_address;
+			_destMarker = new google.maps.Marker({
+				position : endLoc,
+				map : _map
+			});
 
-								} else {
-									_route = null;
-								}
-							});
-
+			_srcAddress = _route.legs[0].start_address;
+			_destAddress = _route.legs[_route.legs.length - 1].end_address;
 		}
 
 		function _handleSave(e) {
@@ -337,7 +340,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			};
 			_directionsService.route(request, function(response, status) {
 				if (status == google.maps.DirectionsStatus.OK) {
-					// _directionsDisplay.setDirections(response);
+					// _directionRenderer.setDirections(response);
 				}
 			});
 		}
