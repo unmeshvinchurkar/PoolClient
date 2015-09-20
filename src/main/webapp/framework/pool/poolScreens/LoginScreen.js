@@ -38,6 +38,12 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			_container.html("");
 			_container.html(data);
 			ko.applyBindings(objRef);
+
+			$("#registerUser").click(_registerUser);
+		}
+
+		function _registerUser(e) {
+			objRef.navigateTo(PoolConstants.USER_REGISTRATION_SCREEN);
 		}
 
 		function handleClick(e) {

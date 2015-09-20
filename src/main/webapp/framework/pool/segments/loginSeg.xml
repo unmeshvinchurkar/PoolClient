@@ -14,4 +14,10 @@
 		<input data-bind="click:handleClick" type="button" id="loginId" value="LogOn" />
 		</div>
 	</form>
+	
+	<br/>
+	<br/>
+	
+	<a id="registerUser" href="#registerUser">Register User</a>
+	
 </div>

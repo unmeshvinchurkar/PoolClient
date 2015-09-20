@@ -37,12 +37,15 @@ PROJECT.pool.PoolConstants = (function() {
 	objRef.MY_POOLS_SCREEN = "myPoolsScreen";
 	objRef.CREATE_UPDATE_POOL_SCREEN = "createUpdatePoolScreen";
 	objRef.SEARCH_POOL_SCREEN = "searchPoolScreen";
+	objRef.USER_REGISTRATION_SCREEN = "userRegistrationScreen";
 
 	// Pool Commands Constants
 	objRef.LOGIN_COMMAND = "login";
+	objRef.LOGOUT_COMMAND = "logout";
 	objRef.CREATE_POOL_COMMAND = "createPool";
 	objRef.SEARCH_POOL_COMMAND = "searchPools";
 	objRef.MY_POOL_COMMAND = "myPools";
+	objRef.SIGN_UP_COMMAND = "signup";
 
 	return objRef;
 })();

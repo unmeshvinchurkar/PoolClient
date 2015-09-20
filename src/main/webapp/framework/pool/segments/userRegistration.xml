@@ -1,0 +1,107 @@
+<div style="background:pink;">
+	<form id='register'
+		style="text-align:center;width:50%;margin-left:25%;background:white;"
+		action='' method='post' accept-charset='UTF-8'>
+
+		<fieldset>
+			<br />
+			<span>
+				<strong>Register</strong>
+			</span>
+			<br />
+			<br />
+			<br />
+
+			<label for='firstName'>First Name*: </label>
+			<br />
+			<input type='text' name='firstName' id='firstName' maxlength="50" />
+			<br />
+			<br />
+
+			<label for='lastName'>Last Name*: </label>
+			<br />
+			<input type='text' name='lastName' id='lastName' maxlength="50" />
+
+			<br />
+			<br />
+			<input type="radio" id="sex"  name="sex" value="M" />
+			Male
+			<input type="radio" id="sex" name="sex" value="F" />
+			Female
+			<br />
+			<br />
+
+			<label for='birthDay'>Date Of Birth*:</label>
+			<br />
+			<input type='text' name='birthDay' id='birthDay' />
+
+			<br />
+			<br />
+
+			<label for='email'>Email Address*:</label>
+			<br />
+			<input type='text' name='email' id='email' maxlength="50" />
+			<br />
+			<br />
+
+			<label for='streetAddress'>Street Address*:</label>
+			<br />
+			<input type='text' name='streetAddress' id='streetAddress' />
+			<br />
+			<br />
+
+			<label for='city'>City*:</label>
+			<br />
+			<input type='text' name='city' id='city' />
+			<br />
+			<br />
+
+			<label for='state'>State*:</label>
+			<br />
+			<input type='text' name='state' id='state' />
+			<br />
+			<br />
+
+			<label for='pin'>PIN*:</label>
+			<br />
+			<input type='text' name='pin' id='pin' />
+			<br />
+			<br />
+
+			<label for='country'>Country*:</label>
+			<br />
+			<input type='text' name='country' id='country' />
+			<br />
+			<br />
+
+			<label for='username'>UserName*:</label>
+			<br />
+			<input type='text' name='username' id='username' maxlength="50" />
+			<br />
+			<br />
+
+			<label for='password'>Password*:</label>
+			<br />
+			<input type='password' name='password' id='password' maxlength="50" />
+			<br />
+			<br />
+
+			<label for='rePasswords'>Re-Password*:</label>
+			<br />
+			<input type='password' name='rePassword' id='rePassword'
+				maxlength="50" />
+			<br />
+			<br />
+			<div id="capchaContainer">
+				<img src="/PoolServer/simpleImg" />
+				<input type="button" id="refresh" value="Refresh" />
+			</div>
+			<br />
+
+			<input name="answer" id="answer" />
+			<br />
+			<br />
+			<input type='button' id='save' name='save' value='Save' />
+		</fieldset>
+	</form>
+</div>

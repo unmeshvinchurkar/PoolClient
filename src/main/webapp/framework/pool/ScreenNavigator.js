@@ -21,6 +21,7 @@ PROJECT.namespace("PROJECT.pool");
 		var CreateUpdatePoolScreen = PROJECT.pool.poolScreens.CreateUpdatePoolScreen;
 		var MyPoolScreen = PROJECT.pool.poolScreens.MyPoolScreen;
 		var SearchPoolScreen = PROJECT.pool.poolScreens.SearchPoolScreen;
+		var UserRegistrationScreen = PROJECT.pool.poolScreens.UserRegistrationScreen;
 
 		// var _componentId;
 		objRef.navigateTo = navigateTo;
@@ -45,6 +46,13 @@ PROJECT.namespace("PROJECT.pool");
 						params);
 				screen.render();
 			}
+
+			else if (screenId == PoolConstants.USER_REGISTRATION_SCREEN) {
+				var screen = new UserRegistrationScreen(
+						PoolConstants.RIGHT_CONTENT);
+				screen.render();
+			}
+
 		}
 	}
 
