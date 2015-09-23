@@ -22,6 +22,7 @@ PROJECT.namespace("PROJECT.pool");
 		var MyPoolScreen = PROJECT.pool.poolScreens.MyPoolScreen;
 		var SearchPoolScreen = PROJECT.pool.poolScreens.SearchPoolScreen;
 		var UserRegistrationScreen = PROJECT.pool.poolScreens.UserRegistrationScreen;
+		var ManageVehiclesScreen = PROJECT.pool.poolScreens.ManageVehiclesScreen;
 
 		// var _componentId;
 		objRef.navigateTo = navigateTo;
@@ -46,9 +47,13 @@ PROJECT.namespace("PROJECT.pool");
 						params);
 				screen.render();
 			}
-
 			else if (screenId == PoolConstants.USER_REGISTRATION_SCREEN) {
 				var screen = new UserRegistrationScreen(
+						PoolConstants.RIGHT_CONTENT);
+				screen.render();
+			}
+			else if (screenId == PoolConstants.MANAGE_VEHICLE_SCREEN) {
+				var screen = new ManageVehiclesScreen(
 						PoolConstants.RIGHT_CONTENT);
 				screen.render();
 			}
