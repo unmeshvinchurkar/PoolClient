@@ -10,13 +10,11 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			PROJECT.pool.poolScreens.AbstractScreen);
 
 	/**
-	 * 
-	 * 
-	 * @class PROJECT.pool.map.GooglePoolMap
+	 * @class PROJECT.pool.map.ManageVehiclesScreen
 	 */
 	function ManageVehiclesScreen(containerElemId, params) {
 
-		SearchPoolScreen.superclass.constructor.call(this);
+		ManageVehiclesScreen.superclass.constructor.call(this);
 
 		var objRef = this;
 
@@ -37,10 +35,8 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		}
 
 		function _init(data) {
-
 			_container = $('#' + _containerElemId);
 			_container.html(data);
-
 		}
 	}
 })();
