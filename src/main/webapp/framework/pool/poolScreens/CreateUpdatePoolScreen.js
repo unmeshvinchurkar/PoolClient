@@ -160,12 +160,18 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 
 			function drawPool(data) {
 
+				if (data.noOfAvblSeats) {
+					("#totalSeats").val(data.noOfAvblSeats);
+				}
+
 				if (data.startDate) {
-					$(_fromDateElem).datepicker("setDate", new Date(data.startDate*1000));
+					$(_fromDateElem).datepicker("setDate",
+							new Date(data.startDate * 1000));
 				}
 
 				if (data.endDate) {
-					$(_toDateElem).datepicker("setDate", new Date(data.endDate*1000));
+					$(_toDateElem).datepicker("setDate",
+							new Date(data.endDate * 1000));
 				}
 
 				if (data.startTime) {
@@ -307,6 +313,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			var timeinSeconds = $(_startTimeElem).timepicker(
 					'getSecondsFromMidnight');
 			var route = _route;
+			var totalNoOfSeats = ("#totalSeats").val();
 
 			var params = {};
 			params["startDate"] = startDate.getTime();
@@ -317,6 +324,8 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 
 			if (_carPoolId) {
 				params["carPoolId"] = _carPoolId;
+			} else {
+				params["totalSeats"] = totalNoOfSeats;
 			}
 
 			params["srcArea"] = _srcAddress;

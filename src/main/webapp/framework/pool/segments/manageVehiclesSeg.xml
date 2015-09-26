@@ -1,66 +1,69 @@
-<div style="position:relative">
+<div
+	style="height:100%;overflow-y:hidden;position:relative;text-align:center;background-color:pink;">
 
-	<legend>Vehicle Registration</legend>
+	<div class="vehicleForm">
 
-	<div class="input select required">
-		<label for="VehicledetailManufacturer">Manufacturer</label>
-		<select id="VehicledetailManufacturer">
-			<option value="Select" selected="selected">Select</option>
-			<option value="Chevrolet">Chevrolet</option>
-			<option value="Fiat">Fiat</option>
-			<option value="Force">Force</option>
-			<option value="Ford">Ford</option>
-			<option value="Honda">Honda</option>
-			<option value="Hyundai">Hyundai</option>
-			<option value="Mahindra">Mahindra</option>
-			<option value="Maruti">Maruti</option>
-			<option value="Mitsubishi">Mitsubishi</option>
-			<option value="Nissan">Nissan</option>
-			<option value="Premier">Premier</option>
-			<option value="Renault">Renault</option>
-			<option value="Reva">Reva</option>
-			<option value="Skoda">Skoda</option>
-			<option value="Tata">Tata</option>
-			<option value="Toyota">Toyota</option>
-			<option value="Volkswagen">Volkswagen</option>
-			<option value="Volvo">Volvo</option>
-		</select>
-	</div>
-	<div class="input select required">
-		<label for="VehicledetailModelname">Modelname</label>
-		<input type="text" maxlength="20" id="VehicledetailModelname" />
-	</div>
-	<div class="input select required">
-		<label for="VehicledetailFueltype">Fueltype</label>
-		<select id="VehicledetailFueltype">
-			<option value="PETROL">PETROL</option>
-			<option value="DIESEL">DIESEL</option>
-		</select>
-	</div>
-	<div class="input text required">
-		<label for="VehicledetailColour">Colour</label>
-		<input type="text" maxlength="20" id="VehicledetailColour" />
-	</div>
-	<div class="input text required">
-		<label for="VehicledetailRegistrationNumber">Registration Number</label>
-		<input type="text" maxlength="30" id="VehicledetailRegistrationNumber" />
-	</div>
-	<div class="input select required">
-		<label for="VehicledetailSeatingCapacity">No. of Vacant Seats</label>
-		<select id="VehicledetailSeatingCapacity">
-			<option value="1">1</option>
-			<option value="2">2</option>
-			<option value="3">3</option>
-			<option value="4">4</option>
-		</select>
-	</div>
-
-
-	<div class="input text required">
-		<label for="VehicledetailDrivingLicense">Driving License</label>
-		<input type="text" maxlength="50" id="VehicledetailDrivingLicense" />
-	</div>
-	<div class="submit">
-		<input type="button" value="Submit" />
+		<div>
+			<span>
+				<h3>Vehicle Registration</h3>
+			</span>
+		</div>
+		<br />
+		<div class="input select required">
+			<label for="VehicledetailManufacturer">Manufacturer</label>
+			<select id="VehicledetailManufacturer">
+				<option value="Select" selected="selected">Select</option>
+				<option value="Chevrolet">Chevrolet</option>
+				<option value="Fiat">Fiat</option>
+				<option value="Force">Force</option>
+				<option value="Ford">Ford</option>
+				<option value="Honda">Honda</option>
+				<option value="Hyundai">Hyundai</option>
+				<option value="Mahindra">Mahindra</option>
+				<option value="Maruti">Maruti</option>
+				<option value="Mitsubishi">Mitsubishi</option>
+				<option value="Nissan">Nissan</option>
+				<option value="Premier">Premier</option>
+				<option value="Renault">Renault</option>
+				<option value="Reva">Reva</option>
+				<option value="Skoda">Skoda</option>
+				<option value="Tata">Tata</option>
+				<option value="Toyota">Toyota</option>
+				<option value="Volkswagen">Volkswagen</option>
+				<option value="Volvo">Volvo</option>
+			</select>
+		</div>
+		<br />
+		<div class="input select required">
+			<label for="VehicledetailModelname">Modelname</label>
+			<input type="text" maxlength="20" id="VehicledetailModelname" />
+		</div>
+		<br />
+		<div class="input select required">
+			<label for="VehicledetailFueltype">Fueltype</label>
+			<select id="VehicledetailFueltype">
+				<option value="PETROL">PETROL</option>
+				<option value="DIESEL">DIESEL</option>
+			</select>
+		</div>
+		<br />
+		<div class="input text required">
+			<label for="VehicledetailColour">Color</label>
+			<input type="text" maxlength="20" id="VehicledetailColour" />
+		</div>
+		<br />
+		<div class="input text required">
+			<label for="VehicledetailRegistrationNumber">Registration Number</label>
+			<input type="text" maxlength="30" id="VehicledetailRegistrationNumber" />
+		</div>
+		<br />
+		<div class="input text required">
+			<label for="VehicledetailDrivingLicense">Driving License</label>
+			<input type="text" maxlength="50" id="VehicledetailDrivingLicense" />
+		</div>
+		<br />
+		<div class="submit">
+			<input type="button" value="Submit" />
+		</div>
 	</div>
 </div>

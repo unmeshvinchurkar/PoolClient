@@ -12,6 +12,15 @@
 			<span>Start Time: </span>
 			<input id="startTime" type="text" />
 		</span>
+		<span>
+			<span>Total Seats(Except Owner/Driver): </span>
+			<select id="totalSeats">
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+				<option value="4">4</option>
+			</select>
+		</span>
 		<span id="savePool">
 			<input id="savePoolButton" type="button" value="Save" />
 		</span>
