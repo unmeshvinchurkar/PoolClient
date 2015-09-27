@@ -15,7 +15,10 @@
 					<a id="searchPool" href="#searchPool">Search Pool</a>
 				</li>
 				<li>
-					<a id="manageVehicles" href="#manageVehicles">Manage Vehicles</a>
+					<a id="manageVehicles" href="#manageVehicles">Register Vehicle</a>
+				</li>
+				<li>
+					<a id="changePassword" href="#changePassword">Change Password</a>
 				</li>
 			</ul>
 		</div>

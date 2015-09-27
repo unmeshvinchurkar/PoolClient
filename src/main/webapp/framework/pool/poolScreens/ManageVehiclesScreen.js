@@ -37,6 +37,49 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		function _init(data) {
 			_container = $('#' + _containerElemId);
 			_container.html(data);
+			_loadVehicleData();
+
+			$("#submit").click(_handleClick);
+		}
+
+		function _loadVehicleData() {
+
+			objRef.fetch("getVehicle", fillData);
+
+			function fillData(data) {
+				if (data) {
+					$("#VehicledetailManufacturer").val(data.manufacturer);
+					$("#VehicledetailModelname").val(data.model);
+					$("#VehicledetailFueltype").val(data.fuelType);
+					$("#VehicledetailColour").val(data.color);
+					$("#VehicledetailRegistrationNumber").val(
+							data.registrationNo);
+					$("#VehicledetailDrivingLicense").val(data.drivingLicense);
+				}
+			}
+		}
+
+		function _handleClick(e) {
+			var params = {};
+			params["manufacturer"] = $("#VehicledetailManufacturer").val();
+			params["model"] = $("#VehicledetailModelname").val();
+			params["fuelType"] = $("#VehicledetailFueltype").val();
+			params["color"] = $("#VehicledetailColour").val();
+			params["registrationNumber"] = $("#VehicledetailRegistrationNumber")
+					.val();
+			params["drivingLicense"] = $("#VehicledetailDrivingLicense").val();
+
+			objRef.fireCommand("addVehicle",
+					[ params, _saveSuccess, _saveError ]);
+
+		}
+
+		function _saveSuccess(data) {
+			alert("saved");
+		}
+
+		function _saveError(data) {
+			alert("save failed");
 		}
 	}
 })();
