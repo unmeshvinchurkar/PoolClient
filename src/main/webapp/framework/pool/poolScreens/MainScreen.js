@@ -37,7 +37,12 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			$("#myPools").click(_showMyPools);
 			$("#searchPool").click(_searchPools);
 			$("#manageVehicles").click(_manageVehicles);
+			$("#poolCalendar").click(_poolCalendar);
 			$("#logOut").click(_logout);
+		}
+		
+		function _poolCalendar(e){			
+			objRef.navigateTo(PoolConstants.POOL_CALENDAR_SCREEN);
 		}
 		
 		function _manageVehicles(e){			

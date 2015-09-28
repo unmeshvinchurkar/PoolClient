@@ -23,6 +23,7 @@ PROJECT.namespace("PROJECT.pool");
 		var SearchPoolScreen = PROJECT.pool.poolScreens.SearchPoolScreen;
 		var UserRegistrationScreen = PROJECT.pool.poolScreens.UserRegistrationScreen;
 		var ManageVehiclesScreen = PROJECT.pool.poolScreens.ManageVehiclesScreen;
+		var PoolCalendarScreen = PROJECT.pool.poolScreens.PoolCalendarScreen;
 
 		// var _componentId;
 		objRef.navigateTo = navigateTo;
@@ -54,6 +55,11 @@ PROJECT.namespace("PROJECT.pool");
 			}
 			else if (screenId == PoolConstants.MANAGE_VEHICLE_SCREEN) {
 				var screen = new ManageVehiclesScreen(
+						PoolConstants.RIGHT_CONTENT);
+				screen.render();
+			}
+			else if (screenId == PoolConstants.POOL_CALENDAR_SCREEN) {
+				var screen = new PoolCalendarScreen(
 						PoolConstants.RIGHT_CONTENT);
 				screen.render();
 			}

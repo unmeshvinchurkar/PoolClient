@@ -161,7 +161,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			function drawPool(data) {
 
 				if (data.noOfAvblSeats) {
-					("#totalSeats").val(data.noOfAvblSeats);
+					$("#totalSeats").val(data.noOfAvblSeats);
 				}
 
 				if (data.startDate) {

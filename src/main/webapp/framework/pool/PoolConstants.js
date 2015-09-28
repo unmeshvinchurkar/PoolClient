@@ -39,6 +39,7 @@ PROJECT.pool.PoolConstants = (function() {
 	objRef.SEARCH_POOL_SCREEN = "searchPoolScreen";
 	objRef.USER_REGISTRATION_SCREEN = "userRegistrationScreen";
 	objRef.MANAGE_VEHICLE_SCREEN = "manageVehicleScreen";
+	objRef.POOL_CALENDAR_SCREEN = "poolCalendarScreen";
 
 	// Pool Commands Constants
 	objRef.LOGIN_COMMAND = "login";
