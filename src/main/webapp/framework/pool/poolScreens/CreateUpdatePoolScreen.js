@@ -104,8 +104,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			$(_fromDateElem).datepicker("setDate", new Date());
 			$(_toDateElem).datepicker("setDate", new Date());
 
-			$(_startTimeElem).timepicker('setTime', new Date());
-
+         $(_startTimeElem).timepicker('setTime', new Date());
 			_directionRenderer = new google.maps.DirectionsRenderer({
 				suppressMarkers : true,
 				draggable : true
@@ -313,13 +312,13 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			var timeinSeconds = $(_startTimeElem).timepicker(
 					'getSecondsFromMidnight');
 			var route = _route;
-			var totalNoOfSeats = ("#totalSeats").val();
+			var totalNoOfSeats = $("#totalSeats").val();
 
 			var params = {};
 			params["startDate"] = startDate.getTime();
 			params["endDate"] = endDate.getTime();
 			params["startTime"] = timeinSeconds;
-			params["route"] = JSON.stringify(route);
+			params["route"] = JSON.stringify(route).replace("\n/g", " ");
 			params["vehicleId"] = "1";
 
 			if (_carPoolId) {

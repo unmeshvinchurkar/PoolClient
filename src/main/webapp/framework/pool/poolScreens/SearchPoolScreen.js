@@ -81,7 +81,11 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				changeYear : true
 			});
 
-			$(_startTimeElem).timepicker();
+			$(_startTimeElem).timepicker({
+				'step' : 15,
+				'disableTextInput' : true,
+				'forceRoundTime' : true
+			});
 
 			_directionsDisplay = new google.maps.DirectionsRenderer({
 				suppressMarkers : true
@@ -222,6 +226,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			params["srcLng"] = _srcMarker.getPosition().lng();
 			params["destLat"] = _destMarker.getPosition().lat();
 			params["destLng"] = _destMarker.getPosition().lng();
+			params["startTime"] = timeinSeconds;
 
 			objRef.get(PoolConstants.SEARCH_POOL_COMMAND, [ params,
 					_saveSuccess, _saveError ]);
