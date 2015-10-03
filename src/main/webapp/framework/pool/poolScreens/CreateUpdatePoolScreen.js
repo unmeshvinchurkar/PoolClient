@@ -320,16 +320,20 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			params["startTime"] = timeinSeconds;
 
 			// Remove instructions which contain special characters
-			var legs = route["legs"];
-			for (var i = 0; i < legs.length; i++) {
-				var leg = legs[i];
-				var steps = leg["steps"];
-				for (var j = 0; j < steps.length; j++) {
-					steps[j].instructions = '';
+
+			if (route) {
+				var legs = route["legs"];
+				for (var i = 0; i < legs.length; i++) {
+					var leg = legs[i];
+					var steps = leg["steps"];
+					for (var j = 0; j < steps.length; j++) {
+						steps[j].instructions = '';
+					}
 				}
 			}
-			
-			params["route"] = _escape(JSON.stringify(route));
+
+			params["route"] = route ? _escape(JSON.stringify(route))
+					: undefined;
 			params["vehicleId"] = "1";
 
 			if (_carPoolId) {
