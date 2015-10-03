@@ -318,7 +318,18 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			params["startDate"] = startDate.getTime();
 			params["endDate"] = endDate.getTime();
 			params["startTime"] = timeinSeconds;
-			params["route"] = JSON.stringify(route).replace("\n/g", " ");
+
+			// Remove instructions which contain special characters
+			var legs = route["legs"];
+			for (var i = 0; i < legs.length; i++) {
+				var leg = legs[i];
+				var steps = leg["steps"];
+				for (var j = 0; j < steps.length; j++) {
+					steps[j].instructions = '';
+				}
+			}
+			
+			params["route"] = _escape(JSON.stringify(route));
 			params["vehicleId"] = "1";
 
 			if (_carPoolId) {
@@ -332,6 +343,18 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 
 			objRef.fireCommand(PoolConstants.CREATE_POOL_COMMAND, [ params,
 					_saveSuccess, _saveError ]);
+		}
+		
+		function _escape (text) {
+		    return text  
+		        .replace(/(\r\n|\n|\r|(\n)+)/gm,"")
+		        .replace(/[\b]/g, ' ')
+		        .replace(/\\n/g, ' ')
+		        .replace(/[\f]/g, ' ')
+		        .replace(/[\n]/g, ' ')
+		        .replace(/[\r]/g, ' ')
+		        .replace(/nbsp;/g, ' ');
+		        
 		}
 
 		function _saveSuccess(data) {
