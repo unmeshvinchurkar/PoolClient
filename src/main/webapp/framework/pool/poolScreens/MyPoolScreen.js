@@ -166,10 +166,29 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 											'sTitle' : "Start Time",
 											'sWidth' : '5%',
 											'sType' : 'string-case',
-											'mDataProp' : 'startTime',
-											"bUseRendered" : true,
-											'fnRender' : function(o) {
-												return o.aData["startTime"]/(3600);
+											'data' : 'startTime',
+											'render' : function(cellData, type,
+													rowData) {
+
+												var unit = "AM";
+												var timeInSeconds = cellData;
+												var hrs = parseInt(timeInSeconds / (3600));
+
+												if (hrs >= 12) {
+													unit = "PM";
+
+													if (hrs >= 13) {
+														hrs = hrs - 12;
+													}
+												}
+
+												var remSeconds = parseInt(timeInSeconds % (3600));
+												var secs = parseInt(remSeconds / 60);
+
+												secs = secs > 9 ? secs : secs
+														+ "0";
+
+												return hrs + ":" + secs + unit;
 											}
 										},
 										{
@@ -179,7 +198,9 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 											'mDataProp' : 'startDate',
 											"bUseRendered" : true,
 											'fnRender' : function(o) {
-												return new Date(o.aData["startDate"]*1000).toDateString();
+												return new Date(
+														o.aData["startDate"] * 1000)
+														.toDateString();
 											}
 										},
 										{
@@ -189,7 +210,9 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 											'mDataProp' : 'endDate',
 											"bUseRendered" : true,
 											'fnRender' : function(o) {
-												return new Date(o.aData["endDate"]*1000).toDateString();
+												return new Date(
+														o.aData["endDate"] * 1000)
+														.toDateString();
 											}
 										},
 										{
