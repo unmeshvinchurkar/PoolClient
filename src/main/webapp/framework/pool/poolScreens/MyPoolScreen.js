@@ -195,24 +195,26 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 											'sTitle' : "Start Date",
 											'sWidth' : '5%',
 											'sType' : 'string-case',
-											'mDataProp' : 'startDate',
-											"bUseRendered" : true,
-											'fnRender' : function(o) {
-												return new Date(
-														o.aData["startDate"] * 1000)
-														.toDateString();
+											'data' : 'startDate',
+											'render' : function(cellData, type,
+													rowData) {
+
+												var date = new Date(1970, 0, 1);
+												date.setSeconds(cellData);
+
+												return date.toString();
 											}
 										},
 										{
 											'sTitle' : "End Date",
 											'sWidth' : '5%',
 											'sType' : 'string-case',
-											'mDataProp' : 'endDate',
-											"bUseRendered" : true,
-											'fnRender' : function(o) {
-												return new Date(
-														o.aData["endDate"] * 1000)
-														.toDateString();
+											'data' : 'endDate',
+											'render' : function(cellData) {
+												var date = new Date(1970, 0, 1);
+												date.setSeconds(cellData);
+
+												return date.toString();
 											}
 										},
 										{

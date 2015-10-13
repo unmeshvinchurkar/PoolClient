@@ -229,15 +229,49 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			params["startTime"] = timeinSeconds;
 
 			objRef.get(PoolConstants.SEARCH_POOL_COMMAND, [ params,
-					_saveSuccess, _saveError ]);
+					_searchSuccess, _searchFailed ]);
 		}
 
-		function _saveSuccess(data) {
-			alert("car pools Ids: " + data);
+		function _searchSuccess(result) {
+			alert("car pools Ids: " + result);
+
+			var poolResults = [];
+
+			if (result) {
+
+				for (var i = 0; i < result.length; i++) {
+
+					var data = result[i];
+
+					var details = {};
+
+					poolResults.push(details);
+					var carpool = data["carpool"];
+					var user = data["user"];
+
+					details["srcArea"] = carpool["srcArea"];
+					details["destArea"] = carpool["destArea"];
+					details["startTime"] = carpool["startTime"];
+					details["carPoolId"] = carpool["carPoolId"];
+					details["vehicleId"] = carpool["vehicleId"];
+					details["username"] = user["username"];
+					details["firstName"] = user["firstName"];
+					details["lastName"] = user["lastName"];
+					details["ownerId"] = user["userId"];
+					details["gender"] = user["gender"];
+				}
+			}
+
+			if (poolResults.length > 0) {
+				objRef.navigateTo(PoolConstants.SEARCH_POOL_RESULT_SCREEN,
+						poolResults);
+			} else {
+				alert("No Pools found");
+			}
 		}
 
-		function _saveError() {
-			alert("save failed");
+		function _searchFailed() {
+			alert("search failed");
 		}
 
 		function _navToPlace() {
@@ -259,6 +293,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				// looks good.
 			}
 		}
+
 	}
 
 })();
