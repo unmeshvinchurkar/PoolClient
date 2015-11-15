@@ -49,6 +49,8 @@ PROJECT.pool.PoolConstants = (function() {
 	objRef.SEARCH_POOL_COMMAND = "searchPools";
 	objRef.MY_POOL_COMMAND = "myPools";
 	objRef.SIGN_UP_COMMAND = "signup";
+	objRef.GET_CALENDAR_COMMAND = "getCalendar";
+	
 
 	return objRef;
 })();
