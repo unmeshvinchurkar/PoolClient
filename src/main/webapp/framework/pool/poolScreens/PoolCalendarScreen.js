@@ -28,6 +28,16 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 
 		/* Public Properties */
 		objRef.render = render;
+		objRef.getCarPoolId = getCarPoolId;
+		objRef.setCarPoolId = setCarPoolId;
+
+		function setCarPoolId(carPoolId) {
+			_carPoolId = carPoolId;
+		}
+
+		function getCarPoolId() {
+			return _carPoolId;
+		}
 
 		function render() {
 			SegmentLoader.getInstance().getSegment("poolCalendar.xml", null,
@@ -53,7 +63,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 
 		function _showCalendar(carPoolId, poolTable) {
 
-			_carPoolId = carPoolId;
+			objRef.setCarPoolId(carPoolId);
 			SegmentLoader.getInstance().getSegment("calendar.xml", null,
 					_loadCalendar);
 		}
@@ -64,14 +74,14 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 
 			var arguments = [];
 			var params = {};
-			params["carPoolId"] = _carPoolId;
+			params["carPoolId"] = objRef.getCarPoolId();
 			arguments.push(params);
 			arguments.push(_drawCalendar);
 			objRef.get(PoolConstants.GET_CALENDAR_COMMAND, arguments);
 		}
 
 		function _drawCalendar(data) {
-			
+
 			var date = new Date();
 
 			$('#calendar').fullCalendar(
@@ -81,71 +91,94 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 							center : 'title'
 						},
 						defaultDate : date.getFullYear() + "-"
-								+ date.getMonth() + "-1",
+								+ (date.getMonth() + 1) + "-1",
 						// selectable : true,
 						selectHelper : true,
 						dayClick : _dayClick,
 						editable : true,
-						eventLimit : true, // allow "more" link when too many
-						// events
-						events : [ {
-							title : 'All Day Event',
-							start : '2015-02-01'
-						}, {
-							title : 'Long Event',
-							start : '2015-02-07',
-							end : '2015-02-10'
-						} ]
+						eventLimit : true,
+						events : []
+					});
+		}
+
+		function _dayClick(date, jsEvent, view) {
+			date = date.toDate();
+			var startDate = new Date(date.getFullYear(), date.getMonth(), date
+					.getDate(), 0, 0, 0);
+			var endDate = new Date(date.getFullYear(), date.getMonth(), date
+					.getDate(), 0, 0, 0);
+
+			var dateStr = date.getFullYear() + '-' + (date.getMonth() + 1)
+					+ '-' + date.getDate();
+
+			var timeInSec = startDate.getMilliseconds() / 1000;
+
+			var events = [];
+
+			// Collect all events of the day
+			$('#calendar').fullCalendar(
+					'clientEvents',
+					function(event) {
+						var eventDate = event.start.toDate();
+						var eventDateStr = eventDate.getFullYear() + '-'
+								+ (eventDate.getMonth() + 1) + '-'
+								+ eventDate.getDate();
+
+						if (eventDateStr == dateStr
+								&& event._id == "myHoliday" + eventDateStr) {
+							events.push(event);
+						}
 					});
 
-			function _dayClick(date, jsEvent, view) {
+			var found = false;
 
-				date = date.toDate();
-				var startDate = new Date(date.getFullYear(), date.getMonth(),
-						date.getDate(), 0, 0, 0);
-				var endDate = new Date(date.getFullYear(), date.getMonth(),
-						date.getDate(), 0, 0, 0);
+			for (var i = 0; i < events.length; i++) {
+				var eventObj = events[i];
 
-				var events = [];
+				$('#calendar').fullCalendar('removeEvents', function(event) {
 
-				// Collect all events of the day
-				$('#calendar').fullCalendar(
-						'clientEvents',
-						function(event) {
-							if (event.start.toDate() >= startDate
-									&& event.start.toDate() <= endDate
-									|| event.end && event.end.toDate() >= startDate
-									&& event.end.toDate() <= endDate) {
-								events.push(event);
-							}
-
-						});
-
-				var found = false;
-
-				for (var i = 0; i < events.length; i++) {
-					var eventObj = events[i];
-
-					if (eventObj._id == "myHoliday") {
-
-						$('#calendar').fullCalendar('removeEvents',
-								eventObj._id);
+					if (eventObj == event) {
+						_unmarkHoliday(objRef.getCarPoolId(), timeInSec);
 						found = true;
+						return true;
 					}
-				}
+				});
+			}
 
-				if (!found) {
+			if (!found) {
+				_markHoliday(objRef.getCarPoolId(), timeInSec,
+						markHolidaySuccess);
+
+				function markHolidaySuccess() {
 					var title = "My Holiday";
-
-					eventData = {
-						id : "myHoliday",
+					var eventData = {
+						id : "myHoliday" + dateStr,
 						title : title,
-						start : startDate,
-						end : endDate
+						start : dateStr,
+						end : dateStr
 					};
 					$('#calendar').fullCalendar('renderEvent', eventData, true);
 				}
 			}
+		}
+
+		function _markHoliday(carPoolId, timeInSec, successFunction) {
+			var arguments = [];
+			var params = {};
+			params["carPoolId"] = carPoolId;
+			params["timeInSec"] = timeInSec;
+			arguments.push(params);
+			arguments.push(successFunction);
+			objRef.post(PoolConstants.MARK_HOLIDAY_COMMAND, arguments);
+		}
+
+		function _unmarkHoliday(carPoolId, timeInSec) {
+			var arguments = [];
+			var params = {};
+			params["carPoolId"] = carPoolId;
+			params["timeInSec"] = timeInSec;
+			arguments.push(params);
+			objRef.post(PoolConstants.UNMARK_HOLIDAY_COMMAND, arguments);
 		}
 
 		function CarPoolTable(id) {

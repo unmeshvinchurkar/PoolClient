@@ -50,6 +50,8 @@ PROJECT.pool.PoolConstants = (function() {
 	objRef.MY_POOL_COMMAND = "myPools";
 	objRef.SIGN_UP_COMMAND = "signup";
 	objRef.GET_CALENDAR_COMMAND = "getCalendar";
+	objRef.MARK_HOLIDAY_COMMAND = "markHoliday";
+	objRef.UNMARK_HOLIDAY_COMMAND = "unMarkHoliday";
 	
 
 	return objRef;
