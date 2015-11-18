@@ -111,7 +111,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			var dateStr = date.getFullYear() + '-' + (date.getMonth() + 1)
 					+ '-' + date.getDate();
 
-			var timeInSec = startDate.getMilliseconds() / 1000;
+			var timeInSec = startDate.getTime() / 1000;
 
 			var events = [];
 
