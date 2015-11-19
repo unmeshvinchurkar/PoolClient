@@ -25,6 +25,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		var _containerElemId = containerElemId;
 		var _poolTable = null;
 		var _carPoolId = null;
+		var _isOwner = false;
 
 		/* Public Properties */
 		objRef.render = render;
@@ -99,6 +100,36 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 						eventLimit : true,
 						events : []
 					});
+
+			var poolHolidays = data["poolHolidays"];
+			var isOwner = data.isOwner;
+
+			if (poolHolidays) {
+
+				for (var i = 0; i < poolHolidays.length; i++) {
+
+					var holiday = poolHolidays[i];
+					var title = "MyHoliday";
+
+					if (!isOwner) {
+						title = "PoolHoliday";
+					}
+					
+					var date = new Date(holiday.date * 1000);
+					
+					var dateStr = date.getFullYear() + '-' + (date.getMonth() + 1)
+					+ '-' + date.getDate();
+
+					var eventData = {
+						id : title + dateStr,
+						title : title,
+						start : date,
+						end : date
+					};
+					$('#calendar').fullCalendar('renderEvent', eventData, true);
+				}
+			}
+
 		}
 
 		function _dayClick(date, jsEvent, view) {
@@ -125,7 +156,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 								+ eventDate.getDate();
 
 						if (eventDateStr == dateStr
-								&& event._id == "myHoliday" + eventDateStr) {
+								&& event._id == "MyHoliday" + eventDateStr) {
 							events.push(event);
 						}
 					});
@@ -150,9 +181,9 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 						markHolidaySuccess);
 
 				function markHolidaySuccess() {
-					var title = "My Holiday";
+					var title = "MyHoliday";
 					var eventData = {
-						id : "myHoliday" + dateStr,
+						id : "MyHoliday" + dateStr,
 						title : title,
 						start : dateStr,
 						end : dateStr
