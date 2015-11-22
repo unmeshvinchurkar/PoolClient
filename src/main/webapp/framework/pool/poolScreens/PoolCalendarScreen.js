@@ -86,14 +86,14 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 
 		function _prevMonthClickHandler() {
 			$('#calendar').fullCalendar('prev');
-			var month = $('#calendar').fullCalendar('getDate').getMonth();
-			var year = $('#calendar').fullCalendar('getDate').getYear();
+			var month = $('#calendar').fullCalendar('getDate').get("month");
+			var year = $('#calendar').fullCalendar('getDate').get("year");
 
 			var arguments = [];
 			var params = {};
 			params["carPoolId"] = objRef.getCarPoolId();
 			params["year"] = year;
-			params["month"] = month;
+			params["month"] = month+1;
 			arguments.push(params);
 			arguments.push(_renderMonth);
 			objRef.get(PoolConstants.GET_CALENDAR_COMMAND, arguments);
@@ -101,14 +101,14 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 
 		function _nextsMonthClickHandler() {
 			$('#calendar').fullCalendar('next');
-			var month = $('#calendar').fullCalendar('getDate').getMonth();
-			var year = $('#calendar').fullCalendar('getDate').getYear();
+			var month = $('#calendar').fullCalendar('getDate').get("month");
+			var year = $('#calendar').fullCalendar('getDate').get("year");
 
 			var arguments = [];
 			var params = {};
 			params["carPoolId"] = objRef.getCarPoolId();
 			params["year"] = year;
-			params["month"] = month;
+			params["month"] = month+1;
 			arguments.push(params);
 			arguments.push(_renderMonth);
 			objRef.get(PoolConstants.GET_CALENDAR_COMMAND, arguments);
@@ -149,12 +149,39 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		}
 
 		function _renderMonth(data) {
-			
+
 			var poolHolidays = data["poolHolidays"];
+			var userHolidays = data["userHolidays"];
+			var currentUserId = data["currentUserId"];
 			var isOwner = data.isOwner;
-			
+
 			$('#calendar').fullCalendar('removeEvents');
-			
+
+			if (userHolidays) {
+
+				for (var i = 0; i < userHolidays.length; i++) {
+
+					var holiday = userHolidays[i];
+					var userId = userHolidays[i].userId;
+					var title = "MyHoliday";
+
+					if (currentUserId != userId) {
+						title = userId + "'s Holiday";
+					}
+					var date = new Date(holiday.date * 1000);
+					var dateStr = date.getFullYear() + '-'
+							+ (date.getMonth() + 1) + '-' + date.getDate();
+
+					var eventData = {
+						id : title + dateStr,
+						title : title,
+						start : date,
+						end : date
+					};
+					$('#calendar').fullCalendar('renderEvent', eventData, true);
+				}
+			}
+
 			if (poolHolidays) {
 				for (var i = 0; i < poolHolidays.length; i++) {
 
