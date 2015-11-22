@@ -104,7 +104,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			$(_fromDateElem).datepicker("setDate", new Date());
 			$(_toDateElem).datepicker("setDate", new Date());
 
-         $(_startTimeElem).timepicker('setTime', new Date());
+			$(_startTimeElem).timepicker('setTime', new Date());
 			_directionRenderer = new google.maps.DirectionsRenderer({
 				suppressMarkers : true,
 				draggable : true
@@ -113,7 +113,9 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			_directionRenderer.addListener('directions_changed', function() {
 
 				var directions = _directionRenderer.getDirections();
-				_drawRoute(directions.routes[0]);
+				if (directions) {
+					_drawRoute(directions.routes[0]);
+				}
 			});
 
 			_geocoder = new google.maps.Geocoder();
@@ -254,11 +256,22 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		}
 
 		function _calcRoute(startPos, destpos) {
+
+			var startDate = $(_fromDateElem).datepicker("getDate");
+			var timeinSeconds = $(_startTimeElem).timepicker(
+					'getSecondsFromMidnight');
+
+			var departureTime = startDate.getTime() + timeinSeconds * 1000;
+
 			var request = {
 				origin : startPos,
 				destination : destpos,
 				travelMode : google.maps.TravelMode.DRIVING,
-				unitSystem : google.maps.UnitSystem.METRIC
+				unitSystem : google.maps.UnitSystem.METRIC,
+				drivingOptions : {
+					departureTime : new Date(departureTime),
+					trafficModel : google.maps.TrafficModel.BEST_GUESS
+				}
 			// ,key:"AIzaSyDM9TTxSkYXKz6F1XtOod-Nr8Q_wlRaNs4"
 			};
 
@@ -327,7 +340,26 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 					var leg = legs[i];
 					var steps = leg["steps"];
 					for (var j = 0; j < steps.length; j++) {
+
 						steps[j].instructions = '';
+						var obj = {};
+						obj["lat"] = steps[j]["start_point"].lat();
+						obj["lng"] = steps[j]["start_point"].lng();
+						steps[j]["start_point"] = obj;
+
+						obj = {};
+						obj["lat"] = steps[j]["end_point"].lat();
+						obj["lng"] = steps[j]["end_point"].lng();
+						steps[j]["end_point"] = obj;
+
+						var path = steps[j].path;
+
+						for (var k = 0; k < path.length; k++) {
+							var obj = {};
+							obj["lat"] = path[k].lat();
+							obj["lng"] = path[k].lng();
+							path[k] = obj;
+						}
 					}
 				}
 			}
@@ -348,17 +380,12 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			objRef.fireCommand(PoolConstants.CREATE_POOL_COMMAND, [ params,
 					_saveSuccess, _saveError ]);
 		}
-		
-		function _escape (text) {
-		    return text  
-		        .replace(/(\r\n|\n|\r|(\n)+)/gm,"")
-		        .replace(/[\b]/g, ' ')
-		        .replace(/\\n/g, ' ')
-		        .replace(/[\f]/g, ' ')
-		        .replace(/[\n]/g, ' ')
-		        .replace(/[\r]/g, ' ')
-		        .replace(/nbsp;/g, ' ');
-		        
+
+		function _escape(text) {
+			return text.replace(/(\r\n|\n|\r|(\n)+)/gm, "").replace(/[\b]/g,
+					' ').replace(/\\n/g, ' ').replace(/[\f]/g, ' ').replace(
+					/[\n]/g, ' ').replace(/[\r]/g, ' ').replace(/nbsp;/g, ' ');
+
 		}
 
 		function _saveSuccess(data) {
@@ -366,7 +393,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			alert("saved" + _carPoolId);
 		}
 
-		function _saveError() {
+		function _saveError(data) {
 			alert("save failed");
 		}
 
