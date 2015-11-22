@@ -247,7 +247,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 
 					poolResults.push(details);
 					var carpool = data["carpool"];
-					var user = data["user"];
+					var user = data["owner"];
 
 					details["srcArea"] = carpool["srcArea"];
 					details["destArea"] = carpool["destArea"];
