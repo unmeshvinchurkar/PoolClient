@@ -233,8 +233,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		}
 
 		function _searchSuccess(result) {
-			alert("car pools Ids: " + result);
-
+			
 			var poolResults = [];
 
 			if (result) {

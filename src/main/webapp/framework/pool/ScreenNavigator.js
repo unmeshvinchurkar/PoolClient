@@ -65,7 +65,7 @@ PROJECT.namespace("PROJECT.pool");
 				screen.render();
 			} else if (screenId == PoolConstants.SEARCH_POOL_RESULT_SCREEN) {
 				var screen = new SearchPoolResultScreen(
-						PoolConstants.RIGHT_CONTENT);
+						PoolConstants.RIGHT_CONTENT, params);
 				screen.render();
 			}
 
