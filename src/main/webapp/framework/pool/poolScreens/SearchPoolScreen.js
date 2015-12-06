@@ -258,6 +258,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 					details["lastName"] = user["lastName"];
 					details["ownerId"] = user["userId"];
 					details["gender"] = user["gender"];
+					details["ownerName"] = user["firstName"]+" "+user["lastName"];
 				}
 			}
 

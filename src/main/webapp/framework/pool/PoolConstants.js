@@ -47,11 +47,21 @@ PROJECT.pool.PoolConstants = (function() {
 	objRef.LOGOUT_COMMAND = "logout";
 	objRef.CREATE_POOL_COMMAND = "createPool";
 	objRef.SEARCH_POOL_COMMAND = "searchPools";
+	objRef.CHANGE_PASSWORD_COMMAND = "changePassword";
 	objRef.MY_POOL_COMMAND = "myPools";
 	objRef.SIGN_UP_COMMAND = "signup";
 	objRef.GET_CALENDAR_COMMAND = "getCalendar";
 	objRef.MARK_HOLIDAY_COMMAND = "markHoliday";
-	objRef.UNMARK_HOLIDAY_COMMAND = "unMarkHoliday";
+	objRef.UNMARK_HOLIDAY_COMMAND = "unMarkHoliday";	
+	objRef.GET_NOTIFICATIONS_COMMAND = "getNotifications";
+	objRef.RAISE_JOIN_REQUEST_COMMAND = "raiseJoinRequest";	
+	objRef.REJECT_JOIN_REQUEST_COMMAND = "rejectJoinRequest";
+	objRef.ACCEPT_JOIN_REQUEST_COMMAND = "acceptJoinRequest";	
+	objRef.LEAVE_POOL_COMMAND = "leavePool";
+	objRef.REMOVE_TRAVELLER_COMMAND = "removeTraveller";
+	objRef.DELETE_POOL_COMMAND = "deletepool";
+	objRef.GET_VEHICLE_COMMAND ="getVehicle";
+	objRef.ADD_VEHICLE_COMMAND ="addVehicle";
 	
 
 	return objRef;
