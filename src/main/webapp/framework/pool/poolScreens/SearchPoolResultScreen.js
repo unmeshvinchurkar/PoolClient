@@ -55,9 +55,16 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				$("body").append(data);
 				var dialogId = "dialog";
 				$("#dialog").dialog({
-					height : 800,
-					width : 700,
-					draggable : false
+					height : 700,
+					width : 800,
+					draggable : false,
+					modal : true,
+					open : function() {
+						$('.ui-widget-overlay').addClass('custom-overlay');
+					},
+					close : function() {
+						$('.ui-widget-overlay').removeClass('custom-overlay');
+					}
 				});
 				var params = {};
 				params["poolId"] = carpoolId;
