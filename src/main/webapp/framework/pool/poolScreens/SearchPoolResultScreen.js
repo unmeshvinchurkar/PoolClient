@@ -54,13 +54,18 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			function initDialog(data) {
 				$("body").append(data);
 				var dialogId = "dialog";
-				$("#dialog").dialog();
+				$("#dialog").dialog({
+					height : 800,
+					width : 700,
+					draggable : false
+				});
 				var params = {};
 				params["poolId"] = carpoolId;
 				params["readOnly"] = true;
 				var screen = new PROJECT.pool.poolScreens.CreateUpdatePoolScreen(
 						dialogId, params);
 				screen.render();
+				screen.markPoint(pickupLattitude, pickupLongitude);
 			}
 		}
 
