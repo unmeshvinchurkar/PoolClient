@@ -90,11 +90,11 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				params["pickupTime"] = rowData["pickupTime"];
 
 				objRef.fireCommand(PoolConstants.RAISE_JOIN_REQUEST_COMMAND, [
-						params, _searchSuccess, function() {
+						params, _joinReqSuccess, function() {
 						} ]);
 
 				function _joinReqSuccess() {
-					$("#" + elementId).attr("disabled", "disabled");
+					$(document.getElementById(elementId)).attr("disabled", "disabled");
 				}
 
 			} else if (elementId.startsWith("_open")) {
