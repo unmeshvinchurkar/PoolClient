@@ -233,13 +233,12 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		}
 
 		function _searchSuccess(result) {
-			
+
 			var poolResults = [];
 
 			if (result) {
 
 				for (var i = 0; i < result.length; i++) {
-
 					var data = result[i];
 
 					var details = {};
@@ -253,12 +252,20 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 					details["startTime"] = carpool["startTime"];
 					details["carPoolId"] = carpool["carPoolId"];
 					details["vehicleId"] = carpool["vehicleId"];
+					details["pickupTime"] = carpool["pickupTime"];
+					details["pickupLattitude"] = carpool["pickupLattitude"];
+					details["pickupLongitude"] = carpool["pickupLongitude"];
+					details["srcLattitude"] = carpool["srcLattitude"];
+					details["srcLongitude"] = carpool["srcLongitude"];
+					details["destLattitude"] = carpool["destLattitude"];
+					details["destLongitude"] = carpool["destLongitude"];
 					details["username"] = user["username"];
 					details["firstName"] = user["firstName"];
 					details["lastName"] = user["lastName"];
 					details["ownerId"] = user["userId"];
 					details["gender"] = user["gender"];
-					details["ownerName"] = user["firstName"]+" "+user["lastName"];
+					details["ownerName"] = user["firstName"] + " "
+							+ user["lastName"];
 				}
 			}
 

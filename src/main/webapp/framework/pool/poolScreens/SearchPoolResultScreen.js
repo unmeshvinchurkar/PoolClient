@@ -47,21 +47,48 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			_poolTable.addRows(_searchResult);
 		}
 
-		function _onClick(elementId, poolTable) {
+		function _openDialog(carpoolId, pickupLattitude, pickupLongitude) {
+			SegmentLoader.getInstance().getSegment("mapDialog.xml", null,
+					initDialog);
 
-			if (elementId.startsWith("_delete")) {
-				var poolId = elementId.split(":")[1];
-				objRef.fetch("deletepool/" + poolId,
-
-				function(data) {
-					_poolTable.deleteRow($("#" + elementId).closest('tr')
-							.get(0));
-				});
-			} else {
+			function initDialog(data) {
+				$("body").append(data);
+				var dialogId = "dialog";
+				$("#dialog").dialog();
 				var params = {};
-				params["poolId"] = elementId;
-				objRef.navigateTo(PoolConstants.CREATE_UPDATE_POOL_SCREEN,
-						params);
+				params["poolId"] = carpoolId;
+				params["readOnly"] = true;
+				var screen = new PROJECT.pool.poolScreens.CreateUpdatePoolScreen(
+						dialogId, params);
+				screen.render();
+			}
+		}
+
+		function _onClick(elementId, poolTable, rowData) {
+
+			if (elementId.startsWith("_join")) {
+				var poolId = elementId.split(":")[1];
+
+				var params = {};
+				params["carPoolId"] = poolId;
+				params["srcLattitude"] = rowData["srcLattitude"];
+				params["srcLongitude"] = rowData["srcLongitude"];
+				params["destLattitude"] = rowData["destLattitude"];
+				params["destLongitude"] = rowData["destLongitude"];
+				params["pickupTime"] = rowData["pickupTime"];
+
+				objRef.fireCommand(PoolConstants.RAISE_JOIN_REQUEST_COMMAND, [
+						params, _searchSuccess, function() {
+						} ]);
+
+				function _joinReqSuccess() {
+					$("#" + elementId).attr("disabled", "disabled");
+				}
+
+			} else if (elementId.startsWith("_open")) {
+				var poolId = elementId.split(":")[1];
+				_openDialog(poolId, rowData["pickupLattitude"],
+						rowData["pickupLongitude"]);
 			}
 		}
 
@@ -142,24 +169,24 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 											},
 
 											{
-												'sTitle' : "owner Name",
-												'sWidth' : '10%',
+												'sTitle' : "Owner Name",
+												'sWidth' : '20%',
 												'sType' : 'string-case',
-												'mDataProp' : 'firstName',
+												'mDataProp' : 'ownerName',
 												"bUseRendered" : true,
 												'fnRender' : function(o) {
 													return "<span style='display:block;overflow:hidden;width:100%' title='"
-															+ o.aData["firstName"]
+															+ o.aData["ownerName"]
 															+ "'>"
-															+ o.aData["firstName"]
+															+ o.aData["ownerName"]
 															+ "</span>";
 												}
 											},
 											{
-												'sTitle' : "Start Time",
-												'sWidth' : '5%',
+												'sTitle' : "Pickup Time",
+												'sWidth' : '7%',
 												'sType' : 'string-case',
-												'data' : 'startTime',
+												'data' : 'pickupTime',
 												'render' : function(cellData,
 														type, rowData) {
 
@@ -184,6 +211,18 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 													return hrs + ":" + secs
 															+ unit;
 												}
+											},
+											{
+												'sTitle' : "Send Join Request",
+												'sWidth' : '8%',
+												'sType' : 'string-case',
+												'mDataProp' : 'carPoolId',
+												"mRender" : function(data,
+														type, full) {
+													return '<a href="javascript:void(0)" id="_join:'
+															+ data
+															+ '">Send Join Request</a>';
+												}
 											} ],
 									"bInfo" : false,
 									"bFilter" : false,
@@ -193,10 +232,11 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 									"aaSorting" : [ [ 1, "asc" ] ],
 									"fnRowCallback" : function(nRow, aData,
 											iDisplayIndex, iDisplayIndexFull) {
+
 										// Populate index column
 										var index = iDisplayIndex + 1;
 										$("td:first", nRow).html(
-												"<a href ='javascript:void(0)' id='"
+												"<a href ='javascript:void(0)' id='_open:"
 														+ aData["carPoolId"]
 														+ "' >" + index
 														+ "</a>");
@@ -206,11 +246,10 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 														"td:first > a, td:last > a")
 												.click(
 														function() {
-															_callBackFun(
-																	$(this)
-																			.attr(
-																					"id"),
-																	that);
+															
+															var api  =_jTable.api();
+															var rowData = api.row($(this).closest("tr")).data();
+															_callBackFun($(this).attr("id"), that, rowData);
 														});
 
 										return nRow;

@@ -24,14 +24,15 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		var PoolConstants = PROJECT.pool.PoolConstants;
 		var PoolCommands = PROJECT.pool.PoolCommands;
 
-		var _containerElemId = containerElemId
-
+		var _containerElemId = containerElemId;
 		var _container = null;
 		var _carPoolId = params ? params["poolId"] : null;
+		var _isReadOnly = params["readOnly"];
 		var _geocoder = null;
 
 		/* Public Properties */
 		objRef.render = render;
+		objRef.markPoint = markPoint;
 
 		var _map;
 		var _directionsService;
@@ -61,7 +62,11 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			_container = $('#' + _containerElemId);
 			_container.html(data);
 
-			$("#savePoolButton").click(_handleSave);
+			if (!_isReadOnly) {
+				$("#savePoolButton").click(_handleSave);
+			} else {
+				$("#savePoolButton").remove();
+			}
 
 			_fromDateElem = $("#fromDate");
 			_toDateElem = $("#toDate");
@@ -110,13 +115,17 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				draggable : true
 			});
 
-			_directionRenderer.addListener('directions_changed', function() {
-
-				var directions = _directionRenderer.getDirections();
-				if (directions) {
-					_drawRoute(directions.routes[0]);
-				}
-			});
+			if (!_isReadOnly) {
+				_directionRenderer
+						.addListener('directions_changed',
+								function() {
+									var directions = _directionRenderer
+											.getDirections();
+									if (directions) {
+										_drawRoute(directions.routes[0]);
+									}
+								});
+			}
 
 			_geocoder = new google.maps.Geocoder();
 			_directionsService = new google.maps.DirectionsService();
@@ -134,24 +143,34 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 					new google.maps.LatLng(-33.8474, 151.2631));
 			_map.fitBounds(defaultBounds);
 
-			// Create the search box and link it to the UI element.
-			var input = (document.getElementById('pac-input'));
-			_map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+			if (!_isReadOnly) {
 
-			_autocomplete = new google.maps.places.Autocomplete(input);
-			_autocomplete.bindTo('bounds', _map);
+				// Create the search box and link it to the UI element.
+				var input = (document.getElementById('pac-input'));
+				_map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
-			_infowindow = new google.maps.InfoWindow();
+				_autocomplete = new google.maps.places.Autocomplete(input);
+				_autocomplete.bindTo('bounds', _map);
 
-			google.maps.event.addListener(_map, 'click', function(event) {
-				_placeMarker(event.latLng);
-			});
+				_infowindow = new google.maps.InfoWindow();
 
-			google.maps.event.addListener(_autocomplete, 'place_changed',
-					_navToPlace);
+				google.maps.event.addListener(_map, 'click', function(event) {
+					_placeMarker(event.latLng);
+				});
+
+				google.maps.event.addListener(_autocomplete, 'place_changed',
+						_navToPlace);
+			}
 
 			if (_carPoolId) {
 				_loadPoolData(_carPoolId);
+			}
+
+			if (_isReadOnly) {
+				$(_fromDateElem).attr("disabled", "disabled");
+				$(_toDateElem).attr("disabled", "disabled");
+				$(_startTimeElem).attr("disabled", "disabled");
+				$("#totalSeats").attr("disabled", "disabled");
 			}
 		}
 
@@ -223,6 +242,19 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 
 				_poolPath.setMap(_map);
 			}
+		}
+
+		function markPoint(lattitude, longitude) {
+			var latLng = {};
+
+			latLng["lat"] = lattitude;
+			latLng["lng"] = longitude;
+			var marker = new google.maps.Marker({
+				position : latLng,
+				label : "Pickup Point",
+				map : _map,
+				icon : 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+			});
 		}
 
 		function _placeMarker(location) {
