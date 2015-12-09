@@ -39,13 +39,17 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			$("#manageVehicles").click(_manageVehicles);
 			$("#poolCalendar").click(_poolCalendar);
 			$("#logOut").click(_logout);
+			$("#myRequests").click(_showMyRequests);
 		}
-		
-		function _poolCalendar(e){			
+		function _showMyRequests(e) {
+			objRef.navigateTo(PoolConstants.POOL_MY_REQUESTS_SCREEN);
+		}
+
+		function _poolCalendar(e) {
 			objRef.navigateTo(PoolConstants.POOL_CALENDAR_SCREEN);
 		}
-		
-		function _manageVehicles(e){			
+
+		function _manageVehicles(e) {
 			objRef.navigateTo(PoolConstants.MANAGE_VEHICLE_SCREEN);
 		}
 

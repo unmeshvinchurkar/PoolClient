@@ -20,6 +20,9 @@
 				<li>
 					<a id="poolCalendar" href="#poolCalendar">Pool Calendar</a>
 				</li>
+				<li>
+					<a id="myRequests" href="#myRequests">My Requests</a>
+				</li>
 			</ul>
 		</div>
 		<div id="rightContent" class="rightContent">

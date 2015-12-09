@@ -25,6 +25,7 @@ PROJECT.namespace("PROJECT.pool");
 		var ManageVehiclesScreen = PROJECT.pool.poolScreens.ManageVehiclesScreen;
 		var PoolCalendarScreen = PROJECT.pool.poolScreens.PoolCalendarScreen;
 		var SearchPoolResultScreen = PROJECT.pool.poolScreens.SearchPoolResultScreen;
+		var MyRequestsScreen = PROJECT.pool.poolScreens.MyRequestsScreen;
 
 		// var _componentId;
 		objRef.navigateTo = navigateTo;
@@ -48,24 +49,24 @@ PROJECT.namespace("PROJECT.pool");
 				var screen = new SearchPoolScreen(PoolConstants.RIGHT_CONTENT,
 						params);
 				screen.render();
-			}
-			else if (screenId == PoolConstants.USER_REGISTRATION_SCREEN) {
+			} else if (screenId == PoolConstants.USER_REGISTRATION_SCREEN) {
 				var screen = new UserRegistrationScreen(
 						PoolConstants.RIGHT_CONTENT);
 				screen.render();
-			}
-			else if (screenId == PoolConstants.MANAGE_VEHICLE_SCREEN) {
+			} else if (screenId == PoolConstants.MANAGE_VEHICLE_SCREEN) {
 				var screen = new ManageVehiclesScreen(
 						PoolConstants.RIGHT_CONTENT);
 				screen.render();
-			}
-			else if (screenId == PoolConstants.POOL_CALENDAR_SCREEN) {
-				var screen = new PoolCalendarScreen(
-						PoolConstants.RIGHT_CONTENT);
+			} else if (screenId == PoolConstants.POOL_CALENDAR_SCREEN) {
+				var screen = new PoolCalendarScreen(PoolConstants.RIGHT_CONTENT);
 				screen.render();
 			} else if (screenId == PoolConstants.SEARCH_POOL_RESULT_SCREEN) {
 				var screen = new SearchPoolResultScreen(
 						PoolConstants.RIGHT_CONTENT, params);
+				screen.render();
+			} else if (screenId == PoolConstants.POOL_MY_REQUESTS_SCREEN) {
+				var screen = new MyRequestsScreen(PoolConstants.RIGHT_CONTENT,
+						params);
 				screen.render();
 			}
 
