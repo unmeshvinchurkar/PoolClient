@@ -31,13 +31,19 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		objRef.render = render;
 
 		function render() {
+			SegmentLoader.getInstance().getSegment("myRequestsPage.xml", null,
+					_init);
+		}
+
+		function _init(data) {
+			_container = $('#' + _containerElemId);
+			_container.html(data);
+
 			objRef.get(PoolConstants.GET_SENT_REQUESTS_COMMAND, [ {},
 					_renderRequests, _fetchingFailed ]);
 		}
 
 		function _renderRequests(data) {
-
-			_container = $('#' + _containerElemId);
 
 			var html = "<table class='sentRequestTable'><thead><tr><th>SNo.</th><th>Car Pool Owner</th><th>Pickup Time</th><th>Request Date</th><th>Status</th></tr></thead><tbody>";
 			var valArray = data;
@@ -52,20 +58,39 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 					html = html + "<tr>";
 					html = html + "<td><a id='" + row["carPoolId"]
 							+ "' href='javascript:void(0)' >" + i + "</a></td>";
-					
+
 					html = html + "<td>" + row["ownerName"] + "</td>";
-					html = html + "<td>"+ _convertSecondsToTime(row["startTime"]) + "</td>";
+					html = html + "<td>"
+							+ _convertSecondsToTime(row["startTime"]) + "</td>";
 					html = html + "<td>" + date.toString() + "</td>";
-					html = html + "<td>" + (row["status"] == 1 ? 'Accepted' : 'Rejected')
+					html = html + "<td>"
+							+ (row["status"] == 1 ? 'Accepted' : 'Rejected')
 							+ "</td>";
 					html = html + "</tr>";
 				}
 			}
 			html = html + "</tbody></table>";
-			$(_container).html(html);
+			$("#sentRequests").html(html);
+			_applyEffect();
 		}
 
 		function _fetchingFailed() {
+		}
+
+		function _applyEffect() {
+
+			$('.tabs .tab-links a').on(
+					'click',
+					function(e) {
+						var currentAttrValue = jQuery(this).attr('href');
+						// Show/Hide Tabs
+						jQuery('.tabs ' + currentAttrValue).show().siblings()
+								.hide();
+						// Change/remove current tab to active
+						jQuery(this).parent('li').addClass('active').siblings()
+								.removeClass('active');
+						e.preventDefault();
+					});
 		}
 
 		function _convertSecondsToTime(timeInSeconds) {
