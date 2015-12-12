@@ -14,7 +14,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 	 */
 	function MyRequestsScreen(containerElemId) {
 
-		PoolCalendarScreen.superclass.constructor.call(this);
+		MyRequestsScreen.superclass.constructor.call(this);
 
 		var objRef = this;
 
@@ -31,16 +31,34 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		objRef.render = render;
 
 		function render() {
-			SegmentLoader.getInstance().getSegment("poolCalendar.xml", null,
-					init);
+			objRef.get(PoolConstants.GET_SENT_REQUESTS_COMMAND, [ {},
+					_renderRequests, _fetchingFailed ]);
+		}
 
-			function init(data) {
-				_container = $('#' + _containerElemId);
-				_container.html(data);
+		function _renderRequests(data) {
 
-				objRef.fireCommand(PoolConstants.MY_POOL_COMMAND, [ {},
-						_renderPools, _renderPoolsFailed ]);
+			_container = $('#' + _containerElemId);
+
+			var html = "<table class='sentRequestTable'><thead><tr><th>SNo.</th><th>Car Pool Owner</th><th>Pickup Time</th><th>Request Date</th><th>Status</th></tr></thead><tbody>";
+			var valArray = data;
+
+			if (valArray != null) {
+				for (var i = 0; i < valArray.length; i++) {
+					var row = valArray[i];
+					html = html + "<tr>";
+					html = html + "<td>" + i + "</td>";
+					html = html + "<td>" + row["ownerName"] + "</td>";
+					html = html + "<td>" + row["startTime"] + "</td>";
+					html = html + "<td>" + row["createDate"] + "</td>";
+					html = html + "<td>" + (row["status"] == 1 ? 'Accepted' : 'Rejected') + "</td>";
+					html = html + "</tr>";
+				}
 			}
+			html = html + "</tbody></table>";
+			$(_container).html(html);
+		}
+
+		function _fetchingFailed() {
 		}
 	}
 })();
