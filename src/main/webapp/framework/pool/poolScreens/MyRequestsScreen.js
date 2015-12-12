@@ -45,12 +45,19 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			if (valArray != null) {
 				for (var i = 0; i < valArray.length; i++) {
 					var row = valArray[i];
+
+					var date = new Date(1970, 0, 1);
+					date.setSeconds(row["createDate"]);
+
 					html = html + "<tr>";
-					html = html + "<td>" + i + "</td>";
+					html = html + "<td><a id='" + row["carPoolId"]
+							+ "' href='javascript:void(0)' >" + i + "</a></td>";
+					
 					html = html + "<td>" + row["ownerName"] + "</td>";
-					html = html + "<td>" + row["startTime"] + "</td>";
-					html = html + "<td>" + row["createDate"] + "</td>";
-					html = html + "<td>" + (row["status"] == 1 ? 'Accepted' : 'Rejected') + "</td>";
+					html = html + "<td>"+ _convertSecondsToTime(row["startTime"]) + "</td>";
+					html = html + "<td>" + date.toString() + "</td>";
+					html = html + "<td>" + (row["status"] == 1 ? 'Accepted' : 'Rejected')
+							+ "</td>";
 					html = html + "</tr>";
 				}
 			}
@@ -59,6 +66,24 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		}
 
 		function _fetchingFailed() {
+		}
+
+		function _convertSecondsToTime(timeInSeconds) {
+			var unit = "AM";
+			var hrs = parseInt(timeInSeconds / (3600));
+
+			if (hrs >= 12) {
+				unit = "PM";
+
+				if (hrs >= 13) {
+					hrs = hrs - 12;
+				}
+			}
+
+			var remSeconds = parseInt(timeInSeconds % (3600));
+			var secs = parseInt(remSeconds / 60);
+			secs = secs > 9 ? secs : secs + "0";
+			return hrs + ":" + secs + unit;
 		}
 	}
 })();
