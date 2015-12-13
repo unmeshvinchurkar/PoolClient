@@ -27,7 +27,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		var _containerElemId = containerElemId;
 		var _container = null;
 		var _carPoolId = params ? params["poolId"] : null;
-		var _isReadOnly = params["readOnly"];
+		var _isReadOnly = params? params["readOnly"]: false;
 		var _geocoder = null;
 
 		/* Public Properties */
