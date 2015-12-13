@@ -1,21 +1,21 @@
-.sentRequestTable {
+.requestTable {
 	border-collapse: collapse;
 	width: 100%;
 }
 
-.sentRequestTable th, .sentRequestTable td {
+.requestTable th, .requestTable td {
 	border: 1px solid black;
 	text-align: left;
 	padding: 8px;
 }
 
-.sentRequestTable th {
+.requestTable th {
 	background-color: blue;
 	color: white;
 	border-bottom: 1px solid #ddd;
 }
 
-.sentRequestTable tr:nth-child(even) {
+.requestTable tr:nth-child(even) {
 	background-color: #f2f2f2
 }
 
