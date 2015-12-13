@@ -95,6 +95,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 
 				function _joinReqSuccess() {
 					$(document.getElementById(elementId)).attr("disabled", "disabled");
+					$(document.getElementById(elementId)).parent().html("Join Request Sent");
 				}
 
 			} else if (elementId.startsWith("_open")) {

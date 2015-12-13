@@ -124,6 +124,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				function _acceptedSuccessful() {
 					$(".requestTable button[requestId='"+ reqData["requestId"] + "']").attr("disabled", "disabled");
 
+					$(".requestTable button[requestId='"+ reqData["requestId"] + "']").parent().html("Accepted");
 				}
 				
 				function _acceptedFailed() {
@@ -144,6 +145,9 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 
 				function _rejectSuccessful() {
 					$(".requestTable button[requestId='"+ reqData["requestId"] + "']").attr("disabled", "disabled");
+					$(".requestTable button[requestId='"+ reqData["requestId"] + "']").parent().html("Rejected");
+				
+				
 				}
 				
 				function _rejectFailed() {

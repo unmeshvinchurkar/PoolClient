@@ -40,7 +40,13 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			$("#poolCalendar").click(_poolCalendar);
 			$("#logOut").click(_logout);
 			$("#myRequests").click(_showMyRequests);
+			$("#notifications").click(_showNotifications);
 		}
+		
+		function _showNotifications(e) {
+			objRef.navigateTo(PoolConstants.POOL_MY_NOTIFICATIONS_SCREEN);
+		}
+		
 		function _showMyRequests(e) {
 			objRef.navigateTo(PoolConstants.POOL_MY_REQUESTS_SCREEN);
 		}

@@ -26,6 +26,7 @@ PROJECT.namespace("PROJECT.pool");
 		var PoolCalendarScreen = PROJECT.pool.poolScreens.PoolCalendarScreen;
 		var SearchPoolResultScreen = PROJECT.pool.poolScreens.SearchPoolResultScreen;
 		var MyRequestsScreen = PROJECT.pool.poolScreens.MyRequestsScreen;
+		var MyNotificationsScreen = PROJECT.pool.poolScreens.MyNotificationsScreen;
 
 		// var _componentId;
 		objRef.navigateTo = navigateTo;
@@ -66,6 +67,10 @@ PROJECT.namespace("PROJECT.pool");
 				screen.render();
 			} else if (screenId == PoolConstants.POOL_MY_REQUESTS_SCREEN) {
 				var screen = new MyRequestsScreen(PoolConstants.RIGHT_CONTENT,
+						params);
+				screen.render();
+			} else if (screenId == PoolConstants.POOL_MY_NOTIFICATIONS_SCREEN) {
+				var screen = new MyNotificationsScreen(PoolConstants.RIGHT_CONTENT,
 						params);
 				screen.render();
 			}
