@@ -53,8 +53,8 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 
 			function initDialog(data) {
 				$("body").append(data);
-				var dialogId = "dialog";
-				$("#dialog").dialog({
+				var dialogId = "dialogId";
+				$("#dialogId").dialog({
 					height : 700,
 					width : 800,
 					draggable : false,
@@ -231,9 +231,16 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 												'mDataProp' : 'carPoolId',
 												"mRender" : function(data,
 														type, full) {
+													
+													if(!full["requestReceived"]){
+													
 													return '<a href="javascript:void(0)" id="_join:'
 															+ data
 															+ '">Send Join Request</a>';
+													}
+													else{														
+														return "Request Received";
+													}
 												}
 											} ],
 									"bInfo" : false,
@@ -247,11 +254,12 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 
 										// Populate index column
 										var index = iDisplayIndex + 1;
+
 										$("td:first", nRow).html(
 												"<a href ='javascript:void(0)' id='_open:"
 														+ aData["carPoolId"]
 														+ "' >" + index
-														+ "</a>");
+														+ "</a>");					
 
 										$(nRow)
 												.find(

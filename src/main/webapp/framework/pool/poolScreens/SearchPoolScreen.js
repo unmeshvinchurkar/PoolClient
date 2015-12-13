@@ -259,6 +259,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 					details["srcLongitude"] = carpool["srcLongitude"];
 					details["destLattitude"] = carpool["destLattitude"];
 					details["destLongitude"] = carpool["destLongitude"];
+					details["requestReceived"] = carpool["requestReceived"];
 					details["username"] = user["username"];
 					details["firstName"] = user["firstName"];
 					details["lastName"] = user["lastName"];
