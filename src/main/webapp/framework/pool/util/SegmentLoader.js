@@ -49,7 +49,7 @@ PROJECT.namespace("PROJECT.pool.util");
 			_callback = callBack;
 
 			var location = modulePath + segmentName;
-			_segmentData = _getSegmentCache().get(location);
+			_segmentData = _getSegmentCache()[location];
 
 			if (_segmentData === undefined || _segmentData === null
 					|| _segmentData === '') {
@@ -62,23 +62,22 @@ PROJECT.namespace("PROJECT.pool.util");
 					success : _loadSegment
 				});
 
-				_getSegmentCache().put(location, _segmentData);
-
 			} else {
 				_callback(_segmentData);
+				_segmentData = null;
 			}
 
 			_callback = null;
 		}
 
 		function _loadSegment(responseData, status) {
-			_segmentData = responseData;
-			_callback(_segmentData);
+			_callback(responseData);
+			_getSegmentCache()[location] = responseData;
 		}
 
 		function _getSegmentCache() {
 			if (_segmentCacheInst == null) {
-				_segmentCacheInst = new Hashtable();
+				_segmentCacheInst = {};
 			}
 			return _segmentCacheInst;
 		}

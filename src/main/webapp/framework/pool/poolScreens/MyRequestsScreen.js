@@ -109,32 +109,45 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			$("button#acceptRequest").click(_acceptRequest);
 			$("button#rejectRequest").click(_rejectRequest);
 		}
-		
 
-		function _acceptRequest(e) {			
-			var target = $(e.target);			
+		function _acceptRequest(e) {
+			var target = $(e.target);
 			var reqData = _data[$(target).attr("requestId")];
-			
-			if(reqData){
+
+			if (reqData) {
+
+				var params = {};
+				params["requestId"] = reqData["requestId"];
+				objRef.post(PoolConstants.ACCEPT_JOIN_REQUEST_COMMAND, [
+						params, _acceptedSuccessful, _acceptedFailed ]);
+
+				function _acceptedSuccessful() {
+					$(".requestTable button[requestId='"+ reqData["requestId"] + "']").attr("disabled", "disabled");
+
+				}
 				
-				
-				
-				
-				
+				function _acceptedFailed() {
+				}
 			}
 		}
 
 		function _rejectRequest(e) {
-			
-			var target = $(e.target);			
+			var target = $(e.target);
 			var reqData = _data[$(target).attr("requestId")];
-			
-			if(reqData){
+
+			if (reqData) {
+
+				var params = {};
+				params["requestId"] = reqData["requestId"];
+				objRef.post(PoolConstants.REJECT_JOIN_REQUEST_COMMAND, [
+						params, _rejectSuccessful, _rejectFailed ]);
+
+				function _rejectSuccessful() {
+					$(".requestTable button[requestId='"+ reqData["requestId"] + "']").attr("disabled", "disabled");
+				}
 				
-				
-				
-				
-				
+				function _rejectFailed() {
+				}
 			}
 		}
 
@@ -210,25 +223,33 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 
 			function initDialog(data) {
 				$("body").append(data);
-				var dialogId = "dialog";
-				$("#dialog").dialog({
+				var dialogId = "dialogId";			
+
+				var params = {};
+				params["poolId"] = carpoolId;
+				params["readOnly"] = true;
+				var screen = new PROJECT.pool.poolScreens.CreateUpdatePoolScreen(
+						dialogId, params);	
+				
+				$("#dialogId").dialog({
 					height : 700,
 					width : 800,
 					draggable : false,
-					modal : true,
+					modal : false,
 					open : function() {
 						$('.ui-widget-overlay').addClass('custom-overlay');
 					},
 					close : function() {
 						$('.ui-widget-overlay').removeClass('custom-overlay');
+						screen.destroy();
+						$(this).dialog('close');
+						 $(this).remove();
+						 $("#dialog").remove();
 					}
 				});
-				var params = {};
-				params["poolId"] = carpoolId;
-				params["readOnly"] = true;
-				var screen = new PROJECT.pool.poolScreens.CreateUpdatePoolScreen(
-						dialogId, params);
+
 				screen.render();
+
 				screen.markPoint(pickupLattitude, pickupLongitude);
 			}
 		}		

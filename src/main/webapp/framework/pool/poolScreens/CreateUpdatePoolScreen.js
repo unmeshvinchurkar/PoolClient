@@ -33,6 +33,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		/* Public Properties */
 		objRef.render = render;
 		objRef.markPoint = markPoint;
+		objRef.destroy = destroy;
 
 		var _map;
 		var _directionsService;
@@ -51,6 +52,12 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		var _srcAddress = null;
 		var _destAddress = null;
 		var _poolPath = null;
+		
+		function destroy(){
+			
+			$('#' + _containerElemId).html(" ");
+			
+		}
 
 		function render() {
 			SegmentLoader.getInstance().getSegment("createPoolSeg.xml", null,
