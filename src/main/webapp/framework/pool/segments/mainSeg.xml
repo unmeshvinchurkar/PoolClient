@@ -1,10 +1,10 @@
-<div style="position:relative">
+<div style="height:100%;position:relative;">
 	<div class="toolbar" style="text-align:right">
 		<a id="logOut" href="#logOut">Logout</a>
 	</div>
 
-	<div class="mainTabs">
-		<div class="tabs">
+	<div class="mainTabs" style="height:100%">
+		<div class="tabs" style="height:100%">
 			<ul class="tab-links">
 				<li class="active">
 					<a id="myPools" href="#myPools">My Pools</a>
