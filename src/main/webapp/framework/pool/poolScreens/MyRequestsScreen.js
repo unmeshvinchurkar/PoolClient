@@ -21,6 +21,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		var SegmentLoader = PROJECT.pool.util.SegmentLoader;
 		var PoolConstants = PROJECT.pool.PoolConstants;
 		var PoolCommands = PROJECT.pool.PoolCommands;
+		var PoolUtil = PROJECT.pool.util.PoolUtil.getInstance();
 
 		var _containerElemId = containerElemId;
 		var _poolTable = null;
@@ -94,7 +95,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 					html = html + "<td>" + row["fullName"] + "</td>";
 					html = html + "<td>"
 							+ _convertSecondsToTime(row["startTime"]) + "</td>";
-					html = html + "<td>" + date.toString() + "</td>";
+					html = html + "<td>" + PoolUtil.convertDateToString(date) + "</td>";
 					html = html
 							+ "<td>"
 							+ '<button requestId="'	+ row["requestId"] 	+ '" id="acceptRequest" type="button">Accept</button>  <button requestId="'	+ row["requestId"] 	+ '" id="rejectRequest" type="button">Reject</button> '
@@ -259,19 +260,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		}		
 
 		function _convertSecondsToTime(timeInSeconds) {
-			var unit = "AM";
-			var hrs = parseInt(timeInSeconds / (3600));
-
-			if (hrs >= 12) {
-				unit = "PM";
-				if (hrs >= 13) {
-					hrs = hrs - 12;
-				}
-			}
-			var remSeconds = parseInt(timeInSeconds % (3600));
-			var secs = parseInt(remSeconds / 60);
-			secs = secs > 9 ? secs : secs + "0";
-			return hrs + ":" + secs + unit;
+			return PoolUtil.convertSecondsToTime(timeInSeconds);
 		}
 	}
 })();

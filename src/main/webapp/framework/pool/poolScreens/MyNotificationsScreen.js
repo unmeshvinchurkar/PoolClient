@@ -21,6 +21,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		var SegmentLoader = PROJECT.pool.util.SegmentLoader;
 		var PoolConstants = PROJECT.pool.PoolConstants;
 		var PoolCommands = PROJECT.pool.PoolCommands;
+		var PoolUtil = PROJECT.pool.util.PoolUtil.getInstance();
 
 		var _containerElemId = containerElemId;
 		var _poolTable = null;
@@ -63,10 +64,10 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 					html = html + "<td><a  id='" + row["carPoolId"]
 							+ "' href='javascript:void(0)' >" + i + "</a></td>";
 					html = html + "<td>" + row["fromUser"] + "</td>";
-					html = html + "<td>" + date.toString() + "</td>";
+					html = html + "<td>" + PoolUtil.convertDateToString(date) + "</td>";
 					html = html + "<td>" + row["notificationType"] + "</td>";
 					html = html + "<td>"
-							+ (holidayDate ? holidayDate.toString() : "")
+							+ (holidayDate ? PoolUtil.convertDateToString(holidayDate) : "")
 							+ "</td>";
 					html = html + "</tr>";
 				}

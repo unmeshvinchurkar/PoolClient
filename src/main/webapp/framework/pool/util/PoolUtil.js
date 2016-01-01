@@ -19,17 +19,14 @@ PROJECT.namespace("PROJECT.pool.util");
 
 		/* public properties */
 		objRef.convertSecondsToTime = convertSecondsToTime;
+		objRef.convertDateToString = convertDateToString;
 
-		/**
-		 * returns XML segment
-		 * 
-		 * @function {public String} getSegment
-		 * @param {String}
-		 *            segmentName - segment name
-		 * @param {String}
-		 *            modulePath - module path
-		 * @returns segment
-		 */
+		function convertDateToString(date, format) {
+			
+			format = format ? format : 'yy-mm-dd';
+			return $.datepicker.formatDate(format, date);
+		}
+
 		function convertSecondsToTime(timeInSeconds) {
 
 			var unit = "AM";

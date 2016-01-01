@@ -73,8 +73,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 	}
 
 	function CarPoolTable(id) {
-		var that = this;
-		
+		var that = this;		
 		
 		var PoolUtil = PROJECT.pool.util.PoolUtil.getInstance();
 		
@@ -126,7 +125,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 										},
 										{
 											'sTitle' : "Start Address",
-											'sWidth' : '30%',
+											'sWidth' : '27%',
 											'sType' : 'string-case',
 											'mDataProp' : 'srcArea',
 											"bUseRendered" : true,
@@ -140,7 +139,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 										},
 										{
 											'sTitle' : "End Address",
-											'sWidth' : '30%',
+											'sWidth' : '27%',
 											'sType' : 'string-case',
 											'mDataProp' : 'destArea',
 											"bUseRendered" : true,
@@ -179,28 +178,26 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 										},
 										{
 											'sTitle' : "Start Date",
-											'sWidth' : '5%',
+											'sWidth' : '8%',
 											'sType' : 'string-case',
 											'data' : 'startDate',
 											'render' : function(cellData, type,
 													rowData) {
-
+												
 												var date = new Date(1970, 0, 1);
-												date.setSeconds(cellData);
-
-												return date.toString();
+												date.setSeconds(cellData);												
+												return PoolUtil.convertDateToString(date);
 											}
 										},
 										{
 											'sTitle' : "End Date",
-											'sWidth' : '5%',
+											'sWidth' : '8%',
 											'sType' : 'string-case',
 											'data' : 'endDate',
 											'render' : function(cellData) {
 												var date = new Date(1970, 0, 1);
 												date.setSeconds(cellData);
-
-												return date.toString();
+												return PoolUtil.convertDateToString(date);
 											}
 										},
 										{
