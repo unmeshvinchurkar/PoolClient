@@ -2,12 +2,12 @@
 	<form class="loginForm">
 		<div>
 			<span>UserName:</span>
-			<input data-bind="value:userName" type="text" id="usernameId" name="username" />
+			<input type="text" id="usernameId" name="username" />
 		</div>
 		<br/>
 		<div>
 			<span>Password:</span>
-			<input data-bind="value:password" type="password" id="passwordId" name="password" />
+			<input  type="password" id="passwordId" name="password" />
 		</div>
 		<br/>
 		<div>

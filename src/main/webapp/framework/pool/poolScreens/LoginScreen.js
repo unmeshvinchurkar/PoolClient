@@ -10,7 +10,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			PROJECT.pool.poolScreens.AbstractScreen);
 
 	/**
-	 * @class PROJECT.pool.map.GooglePoolMap
+	 * @class PROJECT.pool.map.LoginScreen
 	 */
 	function LoginScreen() {
 
@@ -21,9 +21,6 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		var PoolConstants = PROJECT.pool.PoolConstants;
 
 		var _container = null;
-
-		objRef.userName = ko.observable("");
-		objRef.password = ko.observable("");
 
 		/* Public Properties */
 		objRef.render = render;
@@ -37,9 +34,9 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			_container = $('#' + PoolConstants.GLOBAL_CONTAINER_DIV);
 			_container.html("");
 			_container.html(data);
-			ko.applyBindings(objRef);
 
 			$("#registerUser").click(_registerUser);
+			$("#loginId").click(handleClick);			
 		}
 
 		function _registerUser(e) {
@@ -48,8 +45,8 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 
 		function handleClick(e) {
 			var params = {};
-			params["username"] = objRef.userName();
-			params["password"] = objRef.password();
+			params["username"] = $("#usernameId").val();
+			params["password"] = $("#passwordId").val();
 
 			objRef.fireCommand(PoolConstants.LOGIN_COMMAND, [ params, _login,
 					_loginFailed ]);
