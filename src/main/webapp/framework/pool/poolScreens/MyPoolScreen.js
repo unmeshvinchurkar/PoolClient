@@ -74,6 +74,11 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 
 	function CarPoolTable(id) {
 		var that = this;
+		
+		
+		var PoolUtil = PROJECT.pool.util.PoolUtil.getInstance();
+		
+		
 		var _jTable = null;
 		var _id = id;
 		var _callBackFun = null;
@@ -168,27 +173,8 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 											'sType' : 'string-case',
 											'data' : 'startTime',
 											'render' : function(cellData, type,
-													rowData) {
-
-												var unit = "AM";
-												var timeInSeconds = cellData;
-												var hrs = parseInt(timeInSeconds / (3600));
-
-												if (hrs >= 12) {
-													unit = "PM";
-
-													if (hrs >= 13) {
-														hrs = hrs - 12;
-													}
-												}
-
-												var remSeconds = parseInt(timeInSeconds % (3600));
-												var secs = parseInt(remSeconds / 60);
-
-												secs = secs > 9 ? secs : secs
-														+ "0";
-
-												return hrs + ":" + secs + unit;
+													rowData) {												
+												return PoolUtil.convertSecondsToTime(cellData);
 											}
 										},
 										{

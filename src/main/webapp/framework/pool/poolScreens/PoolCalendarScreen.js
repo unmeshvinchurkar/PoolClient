@@ -93,7 +93,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			var params = {};
 			params["carPoolId"] = objRef.getCarPoolId();
 			params["year"] = year;
-			params["month"] = month+1;
+			params["month"] = month + 1;
 			arguments.push(params);
 			arguments.push(_renderMonth);
 			objRef.get(PoolConstants.GET_CALENDAR_COMMAND, arguments);
@@ -108,7 +108,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			var params = {};
 			params["carPoolId"] = objRef.getCarPoolId();
 			params["year"] = year;
-			params["month"] = month+1;
+			params["month"] = month + 1;
 			arguments.push(params);
 			arguments.push(_renderMonth);
 			objRef.get(PoolConstants.GET_CALENDAR_COMMAND, arguments);
@@ -289,6 +289,9 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 
 		function CarPoolTable(id) {
 			var that = this;
+
+			var PoolUtil = PROJECT.pool.util.PoolUtil.getInstance();
+
 			var _jTable = null;
 			var _id = id;
 			var _callBackFun = null;
@@ -362,7 +365,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 											},
 
 											{
-												'sTitle' : "owner Name",
+												'sTitle' : "Owner Name",
 												'sWidth' : '10%',
 												'sType' : 'string-case',
 												'mDataProp' : 'carpoolName',
@@ -379,10 +382,13 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 												'sTitle' : "PickUp Time",
 												'sWidth' : '9%',
 												'sType' : 'string-case',
-												'mDataProp' : 'startTime',
-												"bUseRendered" : true,
-												'fnRender' : function(o) {
-													return o.aData["startTime"] / (3600);
+												'data' : 'startTime',
+												'render' : function(cellData,
+														type, rowData) {
+
+													return PoolUtil
+															.convertSecondsToTime(cellData);
+
 												}
 											} ],
 									"bInfo" : false,
