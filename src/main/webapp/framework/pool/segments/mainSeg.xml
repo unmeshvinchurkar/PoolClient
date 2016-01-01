@@ -2,10 +2,11 @@
 	<div class="toolbar" style="text-align:right">
 		<a id="logOut" href="#logOut">Logout</a>
 	</div>
-	<div class="main">
-		<div id="sidebar" class="sidebar">
-			<ul style="list-style-type: none;">
-				<li>
+
+	<div class="mainTabs">
+		<div class="tabs">
+			<ul class="tab-links">
+				<li class="active">
 					<a id="myPools" href="#myPools">My Pools</a>
 				</li>
 				<li>
@@ -27,8 +28,11 @@
 					<a id="notifications" href="#notifications">Notifications</a>
 				</li>
 			</ul>
-		</div>
-		<div id="rightContent" class="rightContent">
+
+			<div class="tab-content">
+				<div id="rightContent" class="tab active">
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

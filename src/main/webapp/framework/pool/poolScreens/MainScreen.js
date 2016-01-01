@@ -41,39 +41,60 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			$("#logOut").click(_logout);
 			$("#myRequests").click(_showMyRequests);
 			$("#notifications").click(_showNotifications);
+
+			$('.mainTabs > .tabs .tab-links a').on(
+					'click',
+					function(e) {
+						// Change/remove current tab to active
+						$(this).parent('li').addClass('active').siblings()
+								.removeClass('active');
+
+						e.preventDefault();
+					});
+
+			_showMyPools();
 		}
-		
+
 		function _showNotifications(e) {
 			objRef.navigateTo(PoolConstants.POOL_MY_NOTIFICATIONS_SCREEN);
+			e.preventDefault();
 		}
-		
+
 		function _showMyRequests(e) {
 			objRef.navigateTo(PoolConstants.POOL_MY_REQUESTS_SCREEN);
+			e.preventDefault();
 		}
 
 		function _poolCalendar(e) {
 			objRef.navigateTo(PoolConstants.POOL_CALENDAR_SCREEN);
+			e.preventDefault();
 		}
 
 		function _manageVehicles(e) {
 			objRef.navigateTo(PoolConstants.MANAGE_VEHICLE_SCREEN);
+			e.preventDefault();
 		}
 
 		function _logout(e) {
 			objRef.fireCommand("logout");
 			objRef.navigateTo(PoolConstants.LOGIN_SCREEN);
+			e.preventDefault();
 		}
 
 		function _createPool(e) {
 			objRef.navigateTo(PoolConstants.CREATE_UPDATE_POOL_SCREEN);
+			e.preventDefault();
 		}
 
-		function _showMyPools() {
+		function _showMyPools(e) {
 			objRef.navigateTo(PoolConstants.MY_POOLS_SCREEN);
+			if (e)
+				e.preventDefault();
 		}
 
-		function _searchPools() {
+		function _searchPools(e) {
 			objRef.navigateTo(PoolConstants.SEARCH_POOL_SCREEN);
+			e.preventDefault();
 		}
 
 	}

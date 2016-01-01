@@ -1,11 +1,6 @@
 <div>
 	<div>
-		<div>
-			<span style="position:relative">
-				<div style="position:relative;top:25px;">
-					Car Pools
-				</div>
-			</span>
+		<div>			
 			<table id="poolTable" data-role="datatable" class="display">
 			</table>
 		</div>

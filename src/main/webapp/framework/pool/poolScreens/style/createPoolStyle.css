@@ -25,6 +25,10 @@
 	display: inline-block;
 }
 
+.tabs .tab-links {
+	margin: 0px;
+}
+
 /*----- Tab Links -----*/
 /* Clearfix */
 .tab-links:after {
@@ -37,6 +41,8 @@
 	margin: 0px 5px;
 	float: left;
 	list-style: none;
+	line-height: 1.650em;
+	border: 1px solid black;
 }
 
 .tab-links a {
@@ -51,12 +57,12 @@
 }
 
 .tab-links a:hover {
-	background: #a7cce5;
+	background: rgba(255, 240, 47, 0.87);
 	text-decoration: none;
 }
 
 li.active a, li.active a:hover {
-	background: #f2f2f2;
+	background: rgba(255, 240, 47, 0.87);
 	color: #4c4c4c;
 }
 
@@ -65,7 +71,11 @@ li.active a, li.active a:hover {
 	padding: 15px;
 	border-radius: 3px;
 	box-shadow: -1px 1px 1px rgba(0, 0, 0, 0.15);
-	background: #f2f2f2;;
+	background: rgba(255, 240, 47, 0.87);
+}
+
+#rightContent {
+	background: white;
 }
 
 .tab {
