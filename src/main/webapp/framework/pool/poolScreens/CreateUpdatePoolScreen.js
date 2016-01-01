@@ -53,10 +53,8 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		var _destAddress = null;
 		var _poolPath = null;
 		
-		function destroy(){
-			
-			$('#' + _containerElemId).html(" ");
-			
+		function destroy(){			
+			$('#' + _containerElemId).html(" ");			
 		}
 
 		function render() {
@@ -248,6 +246,16 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				});
 
 				_poolPath.setMap(_map);
+
+				var subscriptions = data.subscriptionDetails;
+
+				if (subscriptions) {
+					for (var i = 0; i < subscriptions.length; i++) {
+						var sub = subscriptions[i];
+						objRef.markPoint(sub["pickupLattitude"],
+								sub["pickupLongitute"]);
+					}
+				}				
 			}
 		}
 

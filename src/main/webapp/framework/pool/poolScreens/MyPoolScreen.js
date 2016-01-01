@@ -153,7 +153,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 										},
 
 										{
-											'sTitle' : "owner Name",
+											'sTitle' : "Owner Name",
 											'sWidth' : '10%',
 											'sType' : 'string-case',
 											'mDataProp' : 'carpoolName',
