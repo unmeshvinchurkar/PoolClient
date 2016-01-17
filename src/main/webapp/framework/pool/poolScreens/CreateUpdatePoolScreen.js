@@ -28,6 +28,11 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		var _container = null;
 		var _carPoolId = params ? params["poolId"] : null;
 		var _isReadOnly = params? params["readOnly"]: false;
+		
+		if(_carPoolId){			
+			_isReadOnly = true;			
+		}	
+		
 		var _geocoder = null;
 
 		/* Public Properties */
@@ -166,6 +171,10 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				google.maps.event.addListener(_autocomplete, 'place_changed',
 						_navToPlace);
 			}
+			else{				
+				var input = (document.getElementById('pac-input'));
+				$(input).remove();				
+			}
 
 			if (_carPoolId) {
 				_loadPoolData(_carPoolId);
@@ -232,9 +241,13 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				var coordinates = [];
 				var geoPoints = data.geoPoints;
 
+				var bounds = new google.maps.LatLngBounds();
 				for (var i = 0; i < geoPoints.length; i++) {
-					coordinates.push(new google.maps.LatLng(
-							geoPoints[i].latitude, geoPoints[i].longitude));
+					var latLong = new google.maps.LatLng(geoPoints[i].latitude,
+							geoPoints[i].longitude);
+
+					coordinates.push(latLong);
+					bounds.extend(latLong);
 				}
 
 				_poolPath = new google.maps.Polyline({
@@ -246,6 +259,8 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				});
 
 				_poolPath.setMap(_map);
+
+				_map.fitBounds(bounds);
 
 				var subscriptions = data.subscriptionDetails;
 
