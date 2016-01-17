@@ -142,17 +142,22 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			_directionsService = new google.maps.DirectionsService();
 
 			var mapOptions = {
-				zoom : 7,
+				zoom : 13,
 				mapTypeId : google.maps.MapTypeId.ROADMAP
 			};
 			_map = new google.maps.Map(document.getElementById('map-canvas'),
 					mapOptions);
 			_directionRenderer.setMap(_map);
 
-			var defaultBounds = new google.maps.LatLngBounds(
-					new google.maps.LatLng(-33.8902, 151.1759),
-					new google.maps.LatLng(-33.8474, 151.2631));
-			_map.fitBounds(defaultBounds);
+			if (!_carPoolId) {
+				$.get("http://ipinfo.io", function(response) {
+
+					var latLngArry = response.loc.split(",");
+					var latLng = new google.maps.LatLng(latLngArry[0],
+							latLngArry[1]);
+					_map.setCenter(latLng);
+				}, "jsonp");
+			}
 
 			if (!_isReadOnly) {
 
