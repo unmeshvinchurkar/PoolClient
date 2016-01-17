@@ -79,7 +79,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 
 			$(_fromDateElem).datepicker(
 					{
-						// dateFormat: 'yyyy-mm-dd',
+						 dateFormat: 'dd-mm-yy',
 						showOtherMonths : true,
 						selectOtherMonths : true,
 						changeYear : true,
@@ -93,7 +93,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 
 			$(_toDateElem).datepicker(
 					{
-						// dateFormat: 'yyyy-mm-dd',
+						 dateFormat: 'dd-mm-yy',
 						showOtherMonths : true,
 						selectOtherMonths : true,
 						changeYear : true,

@@ -23,7 +23,7 @@ PROJECT.namespace("PROJECT.pool.util");
 
 		function convertDateToString(date, format) {
 			
-			format = format ? format : 'yy-mm-dd';
+			format = format ? format : 'dd-mm-yy';
 			return $.datepicker.formatDate(format, date);
 		}
 

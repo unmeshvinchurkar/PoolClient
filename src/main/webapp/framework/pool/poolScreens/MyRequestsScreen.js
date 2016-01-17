@@ -28,6 +28,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		var _carPoolId = null;
 		var _isOwner = false;
 		var _data = {};
+		var _dialog = null;
 
 		/* Public Properties */
 		objRef.render = render;
@@ -234,9 +235,13 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				params["poolId"] = carpoolId;
 				params["readOnly"] = true;
 				var screen = new PROJECT.pool.poolScreens.CreateUpdatePoolScreen(
-						dialogId, params);	
+						dialogId, params);
+
+				if (_dialog) {
+					_dialog.destroy();
+				}
 				
-				$("#dialogId").dialog({
+				_dialog = $("#dialogId").dialog({
 					height : 700,
 					width : 800,
 					draggable : false,
@@ -255,7 +260,11 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 
 				screen.render();
 
-				screen.markPoint(pickupLattitude, pickupLongitude);
+				setTimeout(function() {
+					screen.markPoint(pickupLattitude, pickupLongitude);
+				}, 3000);
+
+				
 			}
 		}		
 

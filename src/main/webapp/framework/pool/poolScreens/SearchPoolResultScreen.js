@@ -83,8 +83,8 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 
 				var params = {};
 				params["carPoolId"] = poolId;
-				params["srcLattitude"] = rowData["srcLattitude"];
-				params["srcLongitude"] = rowData["srcLongitude"];
+				params["srcLattitude"] = rowData["pickupLattitude"];
+				params["srcLongitude"] = rowData["pickupLongitude"];
 				params["destLattitude"] = rowData["destLattitude"];
 				params["destLongitude"] = rowData["destLongitude"];
 				params["pickupTime"] = rowData["pickupTime"];
