@@ -23,6 +23,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		var SegmentLoader = PROJECT.pool.util.SegmentLoader;
 		var PoolConstants = PROJECT.pool.PoolConstants;
 		var PoolCommands = PROJECT.pool.PoolCommands;
+		var PoolUtil = PROJECT.pool.util.PoolUtil.getInstance();
 
 		var _containerElemId = containerElemId;
 		var _container = null;
@@ -270,23 +271,38 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 					for (var i = 0; i < subscriptions.length; i++) {
 						var sub = subscriptions[i];
 						objRef.markPoint(sub["pickupLattitude"],
-								sub["pickupLongitute"]);
+								sub["pickupLongitute"], sub["firstName"], PoolUtil.convertSecondsToTime(sub["pickupTime"]));
 					}
 				}				
 			}
 		}
 
-		function markPoint(lattitude, longitude) {
+		function markPoint(lattitude, longitude, userName, pickupTime) {
 			var latLng = {};
+
+			var content = userName ? userName : "";
+			content = pickupTime ? content+ ", Pickup: " + pickupTime : content
 
 			latLng["lat"] = lattitude;
 			latLng["lng"] = longitude;
 			var marker = new google.maps.Marker({
 				position : latLng,
-				label : "Pickup Point",
+				label : content,
+				title : content,
 				map : _map,
 				icon : 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
 			});
+
+			if (content) {
+
+				google.maps.event.addListener(marker, 'click', function() {
+					var infowindow = new google.maps.InfoWindow({
+						content : content
+					});
+					infowindow.open(_map, marker);
+				});
+			}
+
 		}
 
 		function _placeMarker(location, labelStr) {
