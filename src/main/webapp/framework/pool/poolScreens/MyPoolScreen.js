@@ -60,8 +60,15 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				objRef.fetch("deletepool/" + poolId,
 
 				function(data) {
-					_poolTable.deleteRow($("#" + elementId).closest('tr')
+					_poolTable.deleteRow($(document.getElementById(elementId)).closest('tr')
 							.get(0));
+				});
+			} else if (elementId.startsWith("_leave")) {
+				var poolId = elementId.split(":")[1];
+				
+				objRef.fetch("leavePool/" + poolId, function(data) {
+					_poolTable.deleteRow($(document.getElementById(elementId))
+							.closest('tr').get(0));
 				});
 			} else {
 				var params = {};
@@ -206,9 +213,16 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 											'sType' : 'string-case',
 											'mDataProp' : 'carPoolId',
 											"mRender" : function(data, type,
-													full) {
-												return '<a href="javascript:void(0)" id="_delete:'
-														+ data + '">Delete</a>';
+													rowData) {
+												if (rowData.isOwner) {
+													return '<a href="javascript:void(0)" id="_delete:'
+															+ data
+															+ '">Delete</a>';
+												} else {
+													return '<a href="javascript:void(0)" id="_leave:'
+															+ data
+															+ '">Leave</a>';
+												}
 											}
 										} ],
 								"bInfo" : false,
