@@ -149,7 +149,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 											{
 												'sTitle' : "SN",
 												'sWidth' : '5%',
-												'mDataProp' : "carpoolName" // dummy
+												'mDataProp' : "srcArea" // dummy
 											// property
 											},
 											{

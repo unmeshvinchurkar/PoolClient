@@ -13,7 +13,7 @@
 			<input id="startTime" type="text" />
 		</span>
 		<span>
-			<span>Total Seats(Except Owner/Driver): </span>
+			<span>Vacant Seats: </span>
 			<select id="totalSeats">
 				<option value="1">1</option>
 				<option value="2">2</option>

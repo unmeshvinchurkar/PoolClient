@@ -9,7 +9,7 @@
 			<input id="toDate" type="text" />
 		</span>
 		<span>
-			<span>Start Time: </span>
+			<span>Pickup Time: </span>
 			<input id="startTime" type="text" />
 		</span>
 		<span id="searchPools">
