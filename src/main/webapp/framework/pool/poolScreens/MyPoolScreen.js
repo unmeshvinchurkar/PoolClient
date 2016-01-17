@@ -174,10 +174,10 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 											}
 										},
 										{
-											'sTitle' : "Start Time",
+											'sTitle' : "Pickup/Start Time",
 											'sWidth' : '5%',
 											'sType' : 'string-case',
-											'data' : 'startTime',
+											'data' : 'pickupTime',
 											'render' : function(cellData, type,
 													rowData) {												
 												return PoolUtil.convertSecondsToTime(cellData);
