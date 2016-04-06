@@ -5,7 +5,10 @@
 
 	<div class="mainTabs" style="height:100%">
 		<div class="tabs" style="height:100%">
-			<ul class="tab-links">
+			<ul class="tab-links">			
+			   <li>
+					<a id="myProfile" href="#myProfile">My Profile</a>
+				</li>
 				<li class="active">
 					<a id="myPools" href="#myPools">My Pools</a>
 				</li>

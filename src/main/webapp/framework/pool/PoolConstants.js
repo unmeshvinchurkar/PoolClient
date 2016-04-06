@@ -43,6 +43,7 @@ PROJECT.pool.PoolConstants = (function() {
 	objRef.POOL_CALENDAR_SCREEN = "poolCalendarScreen";
 	objRef.POOL_MY_REQUESTS_SCREEN = "myRequestsScreen";
 	objRef.POOL_MY_NOTIFICATIONS_SCREEN = "myNotifications";
+	objRef.MY_PROFILE_SCREEN = "myProfileScreen";
 
 	// Pool Commands Constants
 	objRef.LOGIN_COMMAND = "login";
@@ -57,6 +58,9 @@ PROJECT.pool.PoolConstants = (function() {
 	objRef.DELETE_POOL_COMMAND = "deletepool";
 	objRef.GET_VEHICLE_COMMAND = "getVehicle";
 	objRef.ADD_VEHICLE_COMMAND = "addVehicle";
+
+	objRef.GET_USER_DETAILS_COMMAND = "getUserDetails";
+	objRef.GET_CURRENT_USER_DETAILS_COMMAND = "getCurrentUserDetails";
 
 	objRef.MARK_HOLIDAY_COMMAND = "markHoliday";
 	objRef.UNMARK_HOLIDAY_COMMAND = "unMarkHoliday";

@@ -41,6 +41,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			$("#logOut").click(_logout);
 			$("#myRequests").click(_showMyRequests);
 			$("#notifications").click(_showNotifications);
+			$("#myProfile").click(_showMyProfile);
 
 			$('.mainTabs > .tabs .tab-links a').on(
 					'click',
@@ -94,6 +95,11 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 
 		function _searchPools(e) {
 			objRef.navigateTo(PoolConstants.SEARCH_POOL_SCREEN);
+			e.preventDefault();
+		}
+		
+		function _showMyProfile(e){
+			objRef.navigateTo(PoolConstants.MY_PROFILE_SCREEN);
 			e.preventDefault();
 		}
 

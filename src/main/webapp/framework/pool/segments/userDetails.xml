@@ -1,0 +1,35 @@
+<div class="form">
+    		<form id="contactform"> 
+    			<p class="contact"><label for="name">Name</label></p> 
+    			<input readonly="true" id="name" name="name"  tabindex="1" type="text"/> 
+    			 
+    			<p class="contact"><label for="email">Email</label></p> 
+    			<input readonly="true" id="email" name="email"  type="email"/> 
+    			
+    			<p class="contact"><label for="drivingLicenseNo">Driving License</label></p> 
+    			<input readonly="true" id="drivingLicenseNo" name="drivingLicenseNo"  type="text"/>
+    			
+    			<p class="contact"><label for="birthday">Birthday</label></p> 
+    			<input readonly="true" id="birthday" name="birthday"  type="text"/>  
+    			
+    			<p class="contact"><label for="gender">Gender</label></p> 
+    			<input readonly="true" id="gender" name="gender"  type="text"/>
+    			
+    			<p class="contact"><label for="contactNo">Contact Number</label></p> 
+    			<input  readonly="true" id="contactNo" name="contactNo"  type="text"/> 
+    			
+    			<br/><br/>
+    			    			
+    			<p class="contact"><label for="address">Address</label></p> 
+    			<textarea readonly="true" name="address" id="address"></textarea>    
+    			
+    			<p class="contact"><label for="city">City</label></p> 
+    			<input  readonly="true" id="city" name="city"  type="text"/>  
+    			
+    			<p class="contact"><label for="state">State</label></p> 
+    			<input readonly="true"  id="state" name="state"  type="text"/>
+    			
+    			<p class="contact"><label for="country">Country</label></p> 
+    			<input readonly="true" id="country" name="country"  type="text"/>           
+  </form>
+</div>       

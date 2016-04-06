@@ -297,6 +297,11 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				map : _map,
 				icon : 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
 			});
+			
+			var infowindow = new google.maps.InfoWindow({
+				content : content
+			});
+			infowindow.open(_map, marker);
 
 			if (content) {
 
