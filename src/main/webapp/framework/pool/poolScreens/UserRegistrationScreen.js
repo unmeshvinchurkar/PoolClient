@@ -24,6 +24,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		var _container = null;
 		var _birthDay = null;
 		var _dialog = null;
+		var _validator = null;
 
 		objRef.render = render;
 
@@ -61,6 +62,67 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			$("#refresh").click(_handleRefresh);
 			$("#capchaContainer").find("img").attr("src",
 					"/PoolServer/simpleImg");
+
+			_validator = new FormValidator('registrationForm', [ {
+				name : 'email',
+				display : 'Email',
+				rules : 'required|valid_email'
+			}, {
+				name : 'contactNo',
+				display : 'Contact No',
+				rules : 'required|exact_length[10]|integer'
+			}, {
+				name : 'password',
+				display : 'Password',
+				rules : 'required|min_length[6]|max_length[20]'
+			}, {
+				name : 'password_confirm',
+				display : 'password confirmation',
+				rules : 'required|matches[password]'
+			}, {
+				name : 'firstname',
+				rules : 'required|alpha|max_length[30]'
+			}, {
+				name : 'lastname',
+				rules : 'required|alpha|max_length[30]'
+			}, {
+				name : 'birthDay',
+				rules : 'required'
+			}, {
+				name : 'streetAddress',
+				rules : 'required|max_length[50]'
+			}, {
+				name : 'city',
+				rules : 'required|alpha|max_length[50]'
+			}, {
+				name : 'state',
+				rules : 'required|alpha|max_length[50]'
+			}, {
+				name : 'country',
+				rules : 'required|alpha|max_length[50]'
+			}, {
+				name : 'pin',
+				rules : 'required|integer|max_length[10]'
+			}, {
+				name : 'answer',
+				rules : 'required|alpha_numeric'
+			} ], function(errors, event) {
+
+				$("small[id$='_error']").remove();
+
+				if (errors.length > 0) {
+					for (var i = 0; i < errors.length; i++) {
+						var $span = $('<small/>').attr("id",
+								errors[i].id + "_error").addClass(
+								'help-block errorMessage').insertAfter(
+								$(errors[i].element)).html(errors[i].message);
+					}
+
+				} else {
+					_saveForm()
+				}
+			});
+
 		}
 
 		function _handleRefresh(e) {
@@ -69,6 +131,11 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		}
 
 		function _handleSave(e) {
+			_validator.form.onsubmit();
+		}
+
+		function _saveForm() {
+
 			var params = {};
 
 			if ($("#password").val() == $("#rePassword").val()) {
@@ -96,6 +163,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				objRef.fireCommand(PoolConstants.SIGN_UP_COMMAND, [ params,
 						_saveSuccess, _saveError ]);
 			}
+
 		}
 
 		function _saveSuccess(e) {
