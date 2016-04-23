@@ -1,136 +1,133 @@
-<div id="dialogId" class="container">
+<div id="dialogId" title="Register">
 
-	<form class="form-horizontal" role="form" action='' method="POST">
+	<div class="container" style="width:80%;">
+		<form class="form-horizontal" role="form" action='' method="POST">
 
-		<div id="legend">
-			<legend class="">Register</legend>
-		</div>
+			<div class="form-group">
+				<!-- E-mail -->
+				<label class="control-label" for="email">E-mail
+				</label>
 
-
-		<div class="form-group">
-			<!-- E-mail -->
-			<label class="control-label" for="email">E-mail
-			</label>
-
-			<input type="text" id="email" name="email" placeholder=""
-				class="form-control" />
-			<p class="help-block">Please provide your E-mail</p>
-		</div>
-
-
-		<div class="form-group">
-			<label class="control-label" for="firstname">First Name</label>
-			<input type="text" id="firstname" name="firstname" placeholder=""
-				class="form-control" />
-			<p class="help-block" />
-		</div>
-
-		<div class="form-group">
-			<label class="control-label" for="lastname">Last Name</label>
-
-			<input type="text" id="lastname" name="lastname" placeholder=""
-				class="form-control" />
-			<p class="help-block"></p>
-		</div>
-
-
-		<div class="form-group">
-			<label class="radio-inline">
-				<input value="M" id="sex" type="radio" name="optradio" />
-				Male
-			</label>
-			<label class="radio-inline">
-				<input value="F" id="sex" type="radio" name="optradio" />
-				Female
-			</label>
-		</div>
-
-		<div class="form-group">
-			<label class="control-label" for="birthDay">Birth Date</label>
-
-			<input type='text' name='birthDay' id='birthDay' placeholder=""
-				class="form-control" />
-			<p class="help-block"></p>
-		</div>
-
-
-		<div class="form-group">
-			<label class="control-label" for="streetAddress">Street Address
-			</label>
-
-			<input type='text' name='streetAddress' id='streetAddress'
-				placeholder="" class="form-control" />
-			<p class="help-block"></p>
-		</div>
-
-		<div class="form-group">
-			<label class="control-label" for="city">City</label>
-
-			<input type='text' name='city' id='city' placeholder=""
-				class="form-control" />
-			<p class="help-block"></p>
-		</div>
-
-
-		<div class="form-group">
-			<label class="control-label" for="state">State</label>
-
-			<input type='text' name='state' id='state' placeholder=""
-				class="form-control" />
-			<p class="help-block"></p>
-		</div>
-
-		<div class="form-group">
-			<label class="control-label" for="pin">Pin</label>
-
-			<input type='text' name='pin' id='pin' placeholder=""
-				class="form-control" />
-			<p class="help-block"></p>
-		</div>
-
-
-		<div class="form-group">
-			<label class="control-label" for="country">Country</label>
-
-			<input type='text' name='country' id='country' placeholder=""
-				class="form-control" />
-			<p class="help-block"></p>
-		</div>
-
-		<div class="form-group">
-			<!-- Password -->
-			<label class="control-label" for="password">Password</label>
-
-			<input type="password" id="password" name="password"
-				placeholder="" class="form-control" />
-			<p class="help-block">Password should be at least 4 characters</p>
-		</div>
-
-		<div class="form-group">
-			<!-- Password -->
-			<label class="control-label" for="rePassword">Password (Confirm)
-			</label>
-
-			<input type="password" id="rePassword" name="rePassword"
-				placeholder="" class="form-control" />
-			<p class="help-block">Please confirm password</p>
-		</div>
-
-
-		<div class="form-group">
-			<div id="capchaContainer">
-				<img src="/PoolServer/simpleImg" />
-				<input type="button" id="refresh" value="Refresh" />
+				<input type="text" id="email" name="email" placeholder=""
+					class="form-control" />
+				<p class="help-block">Please provide your E-mail</p>
 			</div>
-			<br />
-			<input name="answer" class="form-control" id="answer" />
-		</div>
 
 
-		<div class="form-group">
-			<button class="btn btn-success" id='save' name='save'>Register
-			</button>
-		</div>
+			<div class="form-group">
+				<label class="control-label" for="firstname">First Name</label>
+				<input type="text" id="firstname" name="firstname"
+					placeholder="" class="form-control" />
+				<p class="help-block" />
+			</div>
 
-	</form>
+			<div class="form-group">
+				<label class="control-label" for="lastname">Last Name</label>
+
+				<input type="text" id="lastname" name="lastname" placeholder=""
+					class="form-control" />
+				<p class="help-block"></p>
+			</div>
+
+
+			<div class="form-group">
+				<label class="radio-inline">
+					<input value="M" id="sex" type="radio" name="optradio" />
+					Male
+				</label>
+				<label class="radio-inline">
+					<input value="F" id="sex" type="radio" name="optradio" />
+					Female
+				</label>
+			</div>
+
+			<div class="form-group">
+				<label class="control-label" for="birthDay">Birth Date</label>
+
+				<input type='text' name='birthDay' id='birthDay' placeholder=""
+					class="form-control" />
+				<p class="help-block"></p>
+			</div>
+
+
+			<div class="form-group">
+				<label class="control-label" for="streetAddress">Street Address
+				</label>
+
+				<input type='text' name='streetAddress' id='streetAddress'
+					placeholder="" class="form-control" />
+				<p class="help-block"></p>
+			</div>
+
+			<div class="form-group">
+				<label class="control-label" for="city">City</label>
+
+				<input type='text' name='city' id='city' placeholder=""
+					class="form-control" />
+				<p class="help-block"></p>
+			</div>
+
+
+			<div class="form-group">
+				<label class="control-label" for="state">State</label>
+
+				<input type='text' name='state' id='state' placeholder=""
+					class="form-control" />
+				<p class="help-block"></p>
+			</div>
+
+			<div class="form-group">
+				<label class="control-label" for="pin">Pin</label>
+
+				<input type='text' name='pin' id='pin' placeholder=""
+					class="form-control" />
+				<p class="help-block"></p>
+			</div>
+
+
+			<div class="form-group">
+				<label class="control-label" for="country">Country</label>
+
+				<input type='text' name='country' id='country' placeholder=""
+					class="form-control" />
+				<p class="help-block"></p>
+			</div>
+
+			<div class="form-group">
+				<!-- Password -->
+				<label class="control-label" for="password">Password</label>
+
+				<input type="password" id="password" name="password"
+					placeholder="" class="form-control" />
+				<p class="help-block">Password should be at least 4 characters</p>
+			</div>
+
+			<div class="form-group">
+				<!-- Password -->
+				<label class="control-label" for="rePassword">Password (Confirm)
+				</label>
+
+				<input type="password" id="rePassword" name="rePassword"
+					placeholder="" class="form-control" />
+				<p class="help-block">Please confirm password</p>
+			</div>
+
+
+			<div class="form-group">
+				<div id="capchaContainer">
+					<img src="/PoolServer/simpleImg" />
+					<input type="button" id="refresh" value="Refresh" />
+				</div>
+				<br />
+				<input name="answer" class="form-control" id="answer" />
+			</div>
+
+
+			<div class="form-group">
+				<button class="btn btn-success" id='save' name='save'>Register
+				</button>
+			</div>
+
+		</form>
+	</div>
 </div>
