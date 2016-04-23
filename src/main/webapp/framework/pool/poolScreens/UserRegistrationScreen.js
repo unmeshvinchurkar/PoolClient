@@ -23,6 +23,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		var PoolCommands = PROJECT.pool.PoolCommands;
 		var _container = null;
 		var _birthDay = null;
+		var _dialog = null;
 
 		objRef.render = render;
 
@@ -32,8 +33,22 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		}
 
 		function _init(data) {
-			_container = $('#' + PoolConstants.GLOBAL_CONTAINER_DIV);
-			_container.html(data);
+
+			$("body").append(data);
+			var dialogId = "dialogId";
+
+			_dialog = $("#dialogId").dialog({
+				height : 550,
+				width : 700,
+				draggable : false,
+				modal : true,
+				open : function() {
+					$('.ui-widget-overlay').addClass('custom-overlay');
+				},
+				close : function() {
+					_closeDialog($(this));
+				}
+			});
 
 			_birthDay = $("#birthDay").datepicker({
 				showOtherMonths : true,
@@ -45,7 +60,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			$("#save").click(_handleSave);
 			$("#refresh").click(_handleRefresh);
 			$("#capchaContainer").find("img").attr("src",
-			"/PoolServer/simpleImg");
+					"/PoolServer/simpleImg");
 		}
 
 		function _handleRefresh(e) {
@@ -59,7 +74,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			if ($("#password").val() == $("#rePassword").val()) {
 
 				params["city"] = $("#city").val();
-				params["username"] = $("#username").val();
+				params["username"] = $("#email").val();
 				params["firstName"] = $("#firstName").val();
 				params["lastName"] = $("#lastName").val();
 				params["gender"] = $("#sex").val();
@@ -71,7 +86,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				params["email"] = $("#email").val();
 				params["state"] = $("#state").val();
 				params["country"] = $("#country").val();
-				
+
 				var birthDay = $("#birthDay").datepicker("getDate");
 
 				if (birthDay) {
@@ -84,11 +99,18 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		}
 
 		function _saveSuccess(e) {
-
+			_closeDialog(_dialog);
 		}
 
 		function _saveError(e) {
 
+		}
+
+		function _closeDialog(dialog) {
+			$('.ui-widget-overlay').removeClass('custom-overlay');
+			$(dialog).dialog('close');
+			$(dialog).remove();
+			$("#dialogId").remove();
 		}
 	}
 })();

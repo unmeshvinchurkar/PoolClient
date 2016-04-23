@@ -1,23 +1,28 @@
 <div style="background-color:rgba(255, 240, 47, 0.87);height:100%">
-	<form class="loginForm">
-		<div>
-			<span>UserName:</span>
-			<input type="text" id="usernameId" name="username" />
-		</div>
-		<br/>
-		<div>
-			<span>Password:</span>
-			<input  type="password" id="passwordId" name="password" />
-		</div>
-		<br/>
-		<div>
-		<input data-bind="click:handleClick" type="button" id="loginId" value="LogOn" />
-		</div>
-	</form>
-	
-	<br/>
-	<br/>
-	
-	<a id="registerUser" href="#registerUser">Register User</a>
-	
+
+	<div class="loginFormParent">
+		<form class="loginForm">
+			<div>
+				<span>UserName:</span>
+				<input type="text" id="usernameId" name="username" />
+			</div>
+			<br />
+			<div>
+				<span>Password:</span>
+				<input type="password" id="passwordId" name="password" />
+			</div>
+			<br />
+			<div>
+				<input data-bind="click:handleClick" type="button" id="loginId"
+					value="LogOn" />
+			</div>
+		</form>
+
+
+		<br />
+		<br />
+		<a style="clear:both:flaot:left" id="registerUser" href="#registerUser">Register User</a>
+	</div>
+
+
 </div>
