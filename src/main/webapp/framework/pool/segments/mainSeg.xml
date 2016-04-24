@@ -1,5 +1,6 @@
 <div style="height:100%;position:relative;">
 	<div class="toolbar" style="text-align:right">
+	   <a id="changePassword" href="#changePassword">Change Password</a>
 		<a id="logOut" href="#logOut">Logout</a>
 	</div>
 

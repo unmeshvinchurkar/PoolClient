@@ -28,6 +28,7 @@ PROJECT.namespace("PROJECT.pool");
 		var MyRequestsScreen = PROJECT.pool.poolScreens.MyRequestsScreen;
 		var MyNotificationsScreen = PROJECT.pool.poolScreens.MyNotificationsScreen;
 		var UserProfileScreen = PROJECT.pool.poolScreens.UserProfileScreen;
+		var ChangePasswordScreen = PROJECT.pool.poolScreens.ChangePasswordScreen;
 
 		// var _componentId;
 		objRef.navigateTo = navigateTo;
@@ -78,6 +79,10 @@ PROJECT.namespace("PROJECT.pool");
 			else if (screenId == PoolConstants.MY_PROFILE_SCREEN) {
 				var screen = new UserProfileScreen(PoolConstants.RIGHT_CONTENT,
 						params);
+				screen.render();
+			}
+			else if(screenId == PoolConstants.CHANGE_PASSWORD_SCREEN){
+				var screen = new ChangePasswordScreen(PoolConstants.RIGHT_CONTENT, params);
 				screen.render();
 			}
 		}

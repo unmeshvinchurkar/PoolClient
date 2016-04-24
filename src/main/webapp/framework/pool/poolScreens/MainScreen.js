@@ -42,6 +42,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			$("#myRequests").click(_showMyRequests);
 			$("#notifications").click(_showNotifications);
 			$("#myProfile").click(_showMyProfile);
+			$("#changePassword").click(_changePassword);
 
 			$('.mainTabs > .tabs .tab-links a').on(
 					'click',
@@ -54,6 +55,11 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 					});
 
 			_showMyPools();
+		}
+
+		function _changePassword(e) {
+			objRef.navigateTo(PoolConstants.CHANGE_PASSWORD_SCREEN);
+			e.preventDefault();
 		}
 
 		function _showNotifications(e) {
