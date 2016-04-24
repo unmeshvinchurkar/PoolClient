@@ -1,69 +1,80 @@
-<div
-	style="height:100%;overflow-y:hidden;position:relative;text-align:center;background-color:rgba(255, 240, 47, 0.87);">
+<div>
+	<a id="editDetails" href="javascript:void(0);">Edit Details</a>
 
-	<div class="vehicleForm">
+	<div class="container" style="width:60%;">
 
-		<div>
-			<span>
-				<h3>Vehicle Registration</h3>
-			</span>
-		</div>
-		<br />
-		<div class="input select required">
-			<label for="VehicledetailManufacturer">Manufacturer</label>
-			<select id="VehicledetailManufacturer">
-				<option value="Select" selected="selected">Select</option>
-				<option value="Chevrolet">Chevrolet</option>
-				<option value="Fiat">Fiat</option>
-				<option value="Force">Force</option>
-				<option value="Ford">Ford</option>
-				<option value="Honda">Honda</option>
-				<option value="Hyundai">Hyundai</option>
-				<option value="Mahindra">Mahindra</option>
-				<option value="Maruti">Maruti</option>
-				<option value="Mitsubishi">Mitsubishi</option>
-				<option value="Nissan">Nissan</option>
-				<option value="Premier">Premier</option>
-				<option value="Renault">Renault</option>
-				<option value="Reva">Reva</option>
-				<option value="Skoda">Skoda</option>
-				<option value="Tata">Tata</option>
-				<option value="Toyota">Toyota</option>
-				<option value="Volkswagen">Volkswagen</option>
-				<option value="Volvo">Volvo</option>
-			</select>
-		</div>
-		<br />
-		<div class="input select required">
-			<label for="VehicledetailModelname">Modelname</label>
-			<input type="text" maxlength="20" id="VehicledetailModelname" />
-		</div>
-		<br />
-		<div class="input select required">
-			<label for="VehicledetailFueltype">Fueltype</label>
-			<select id="VehicledetailFueltype">
-				<option value="PETROL">PETROL</option>
-				<option value="DIESEL">DIESEL</option>
-			</select>
-		</div>
-		<br />
-		<div class="input text required">
-			<label for="VehicledetailColour">Color</label>
-			<input type="text" maxlength="20" id="VehicledetailColour" />
-		</div>
-		<br />
-		<div class="input text required">
-			<label for="VehicledetailRegistrationNumber">Registration Number</label>
-			<input type="text" maxlength="30" id="VehicledetailRegistrationNumber" />
-		</div>
-		<br />
-		<div class="input text required">
-			<label for="VehicledetailDrivingLicense">Driving License</label>
-			<input type="text" maxlength="50" id="VehicledetailDrivingLicense" />
-		</div>
-		<br />
-		<div class="submit">
-			<input id="submit" type="button" value="Submit" />
-		</div>
+		<form class="form-horizontal" role="form" action='' id="vehicleForm"
+			name="vehicleForm" method="POST">
+
+			<div class="form-group">
+				<label class="control-label" for="manufacturer">Manufacturer
+				</label>
+				<select readonly="true" class="form-control" id="manufacturer"
+					name="manufacturer">
+					<option value="Select" selected="selected">Select</option>
+					<option value="Chevrolet">Chevrolet</option>
+					<option value="Fiat">Fiat</option>
+					<option value="Force">Force</option>
+					<option value="Ford">Ford</option>
+					<option value="Honda">Honda</option>
+					<option value="Hyundai">Hyundai</option>
+					<option value="Mahindra">Mahindra</option>
+					<option value="Maruti">Maruti</option>
+					<option value="Mitsubishi">Mitsubishi</option>
+					<option value="Nissan">Nissan</option>
+					<option value="Premier">Premier</option>
+					<option value="Renault">Renault</option>
+					<option value="Reva">Reva</option>
+					<option value="Skoda">Skoda</option>
+					<option value="Tata">Tata</option>
+					<option value="Toyota">Toyota</option>
+					<option value="Volkswagen">Volkswagen</option>
+					<option value="Volvo">Volvo</option>
+				</select>
+			</div>
+
+
+			<div class="form-group">
+				<label class="control-label" for="modelname">Model Name
+				</label>
+
+				<input readonly="true" type="text" id="modelname" name="modelname"
+					placeholder="" class="form-control" />
+			</div>
+
+
+			<div class="form-group">
+				<label class="control-label" for="fueltype">Fuel Type</label>
+				<select readonly="true" class="form-control" id="fueltype"
+					name="fueltype">
+					<option value="PETROL">PETROL</option>
+					<option value="DIESEL">DIESEL</option>
+				</select>
+			</div>
+
+			<div class="form-group">
+				<label class="control-label" for="color">Color</label>
+
+				<input readonly="true" type="text" id="color" name="color"
+					placeholder="" class="form-control" />
+				<p class="help-block"></p>
+			</div>
+
+			<div class="form-group">
+				<label class="control-label" for="registrationNumber">Registration Number</label>
+
+				<input readonly="true" type="text" id="registrationNumber"
+					name="registrationNumber" placeholder="" class="form-control" />
+				<p class="help-block"></p>
+			</div>
+
+			<div class="form-group">
+				<label class="control-label" for="drivingLicense">Driving License</label>
+
+				<input readonly="true" type="text" id="drivingLicense" name="drivingLicense"
+					placeholder="" class="form-control" />
+				<p class="help-block"></p>
+			</div>
+		</form>
 	</div>
 </div>
