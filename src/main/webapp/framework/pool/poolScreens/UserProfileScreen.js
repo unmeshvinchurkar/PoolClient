@@ -24,6 +24,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		var _container = null;
 		var _containerElemId = containerId;
 		var _userId = userId;
+		var _validator = null;
 
 		/* Public Properties */
 		objRef.render = render;
@@ -57,6 +58,92 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			$("#country").val(data["country"]);
 			$("#address").val(data["address"]);
 			$("#birthday").val(data["birthday"]);
+
+			$("#editDetails").click(_handleUserDetails);
+		}
+
+		function _handleUserDetails(e) {
+
+			var readonly = $("#contactNo").attr("readonly");
+			var editedFields = $("#address, #pin, #contactNo, #streetAddress, #city, #state, #country");
+			$("small[id$='_error']").remove();
+
+			if (readonly == "readonly") {
+				
+				editedFields.removeAttr("readonly");
+
+				_validator = new FormValidator('userDetailsForm', [ {
+					name : 'contactNo',
+					display : 'Contact No',
+					rules : 'required|exact_length[10]|integer'
+				}, {
+					name : 'streetAddress',
+					rules : 'required|max_length[50]'
+				}, {
+					name : 'city',
+					rules : 'required|alpha|max_length[50]'
+				}, {
+					name : 'state',
+					rules : 'required|alpha|max_length[50]'
+				}, {
+					name : 'country',
+					rules : 'required|alpha|max_length[50]'
+				}, {
+					name : 'pin',
+					rules : 'required|integer|max_length[10]'
+				} ], function(errors, event) {
+
+					$("small[id$='_error']").remove();
+
+					if (errors.length > 0) {
+						for (var i = 0; i < errors.length; i++) {
+							var $span = $('<small/>').attr("id",
+									errors[i].id + "_error").addClass(
+									'help-block errorMessage').insertAfter(
+									$(errors[i].element)).html(
+									errors[i].message);
+						}
+
+					} else {
+						_saveUser();
+					}
+				});
+
+				$("#editDetails").html("Cancel Edit");
+
+				$("#userDetailsForm").append(
+						'<input type="button" id="save" class="btn btn-custom btn-lg btn-block"'
+								+ 'value="Save" />');
+				
+				$("#save").click(function(e) {
+					_validator.form.onsubmit();
+				});
+
+			} else {
+				editedFields.attr("readonly", true);
+				$("#editDetails").html("Edit Details");
+				$("#save").remove();
+			}
+		}
+
+		function _saveUser() {
+
+			var params = {};
+
+			params["city"] = $("#city").val();
+			params["streetAddress"] = $("#address").val();
+			params["contactNo"] = $("#contactNo").val();
+			params["pin"] = $("#pin").val();
+			params["state"] = $("#state").val();
+			params["country"] = $("#country").val();
+
+			objRef.fireCommand(PoolConstants.EDIT_USER_COMMAND, [ params,
+					_saveSuccess, _saveError ]);
+		}
+
+		function _saveSuccess() {
+		}
+		function _saveError() {
 		}
 
 		function _fetchingFailed() {

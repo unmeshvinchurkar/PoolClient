@@ -131,10 +131,8 @@
 
 
 			<div class="form-group">
-
 				<input type="button" id="save" class="btn btn-custom btn-lg btn-block"
-					value="Register" />
-			</div>
+					value="Register" />		</div>
 
 		</form>
 	</div>

@@ -53,6 +53,7 @@ PROJECT.pool.PoolConstants = (function() {
 	objRef.CHANGE_PASSWORD_COMMAND = "changePassword";
 	objRef.MY_POOL_COMMAND = "myPools";
 	objRef.SIGN_UP_COMMAND = "signup";
+	objRef.EDIT_USER_COMMAND = "edituser";
 	objRef.GET_CALENDAR_COMMAND = "getCalendar";
 	objRef.REMOVE_TRAVELLER_COMMAND = "removeTraveller";
 	objRef.DELETE_POOL_COMMAND = "deletepool";

@@ -58,6 +58,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				defaultDate : new Date()
 			});
 
+			
 			$("#save").click(_handleSave);
 			$("#refresh").click(_handleRefresh);
 			$("#capchaContainer").find("img").attr("src",
@@ -106,17 +107,15 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			}, {
 				name : 'answer',
 				rules : 'required|alpha_numeric'
-			},
-			{
+			}, {
 				name : 'rePassword',
 				display : 'Confirm password',
 				rules : 'required'
-			},
-			{
+			}, {
 				name : 'sex',
 				display : 'Gender',
 				rules : 'required|alpha'
-			}], function(errors, event) {
+			} ], function(errors, event) {
 
 				$("small[id$='_error']").remove();
 
@@ -134,6 +133,8 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			});
 
 		}
+
+		
 
 		function _handleRefresh(e) {
 			$("#capchaContainer").find("img").attr("src",

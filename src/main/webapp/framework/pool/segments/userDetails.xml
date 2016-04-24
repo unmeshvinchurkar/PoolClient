@@ -1,5 +1,10 @@
+<div>
+
+<a id="editDetails" href="javascript:void(0);">Edit Details</a>
+
+
 <div class="container" style="width:60%;">
-	<form class="form-horizontal" role="form" action='' method="POST">
+	<form id="userDetailsForm" name="userDetailsForm" class="form-horizontal" role="form" action='' method="POST">
 
 		<div class="form-group">
 			<label class="control-label" for="name">Name</label>
@@ -91,6 +96,7 @@
 			<p class="help-block"></p>
 		</div>
 	</form>
+</div>
 </div>
 
 
