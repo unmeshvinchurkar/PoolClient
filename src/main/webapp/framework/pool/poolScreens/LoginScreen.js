@@ -57,7 +57,10 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		}
 
 		function _loginFailed() {
-			alert("login failed");
+			var $span = $('<small/>').attr("id",
+					 "passwordId_error").addClass(
+					'help-block errorMessage').insertAfter(
+					$($("#passwordId")).html("Login or password didn't match");
 		}
 	}
 })();
