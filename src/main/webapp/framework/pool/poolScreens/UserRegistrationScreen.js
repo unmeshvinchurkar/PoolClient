@@ -106,7 +106,17 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			}, {
 				name : 'answer',
 				rules : 'required|alpha_numeric'
-			} ], function(errors, event) {
+			},
+			{
+				name : 'rePassword',
+				display : 'Confirm password',
+				rules : 'required'
+			},
+			{
+				name : 'sex',
+				display : 'Gender',
+				rules : 'required|alpha'
+			}], function(errors, event) {
 
 				$("small[id$='_error']").remove();
 
