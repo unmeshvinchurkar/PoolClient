@@ -36,7 +36,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			_container.html(data);
 
 			$("#registerUser").click(_registerUser);
-			$("#loginId").click(handleClick);			
+			$("#loginId").click(handleClick);
 		}
 
 		function _registerUser(e) {
@@ -57,10 +57,9 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		}
 
 		function _loginFailed() {
-			var $span = $('<small/>').attr("id",
-					 "passwordId_error").addClass(
+			var $span = $('<small/>').attr("id", "passwordId_error").addClass(
 					'help-block errorMessage').insertAfter(
-					$($("#passwordId")).html("Login or password didn't match");
+					$($("#passwordId")).html("Login or password didn't match"));
 		}
 	}
 })();

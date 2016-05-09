@@ -12,7 +12,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 	/**
 	 * @class PROJECT.pool.map.ManageVehiclesScreen
 	 */
-	function ManageVehiclesScreen(containerElemId, params) {
+	function ManageVehiclesScreen(containerElemId, readOnly) {
 
 		ManageVehiclesScreen.superclass.constructor.call(this);
 
@@ -27,6 +27,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		var _container = null;
 		var _validator = null;
 		var _doesVehicleExist = false;
+		var _noEdit = readOnly ? true : false;
 
 		/* Public Properties */
 		objRef.render = render;
@@ -50,7 +51,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			function fillData(data) {
 				if (data) {
 					var editedFields = $("#manufacturer, #modelname, #fueltype, #color, #registrationNumber, #drivingLicense");
-					
+
 					editedFields.removeAttr("readonly");
 					_doesVehicleExist = true;
 					$("#manufacturer").val(data.manufacturer);
@@ -71,8 +72,12 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			var readonly = $("#manufacturer").attr("readonly");
 			var editedFields = $("#manufacturer, #modelname, #fueltype, #color, #registrationNumber, #drivingLicense");
 			$("small[id$='_error']").remove();
+			
+			if(_noEdit){
+				$("#editDetails").remove();
+			}
 
-			if (readonly == "readonly") {
+			if (_noEdit || readonly == "readonly") {
 
 				editedFields.removeAttr("readonly");
 

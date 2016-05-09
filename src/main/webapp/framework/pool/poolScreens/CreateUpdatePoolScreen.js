@@ -28,12 +28,12 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		var _containerElemId = containerElemId;
 		var _container = null;
 		var _carPoolId = params ? params["poolId"] : null;
-		var _isReadOnly = params? params["readOnly"]: false;
-		
-		if(_carPoolId){			
-			_isReadOnly = true;			
-		}	
-		
+		var _isReadOnly = params ? params["readOnly"] : false;
+
+		if (_carPoolId) {
+			_isReadOnly = true;
+		}
+
 		var _geocoder = null;
 
 		/* Public Properties */
@@ -58,20 +58,79 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		var _srcAddress = null;
 		var _destAddress = null;
 		var _poolPath = null;
-		
-		function destroy(){			
-			$('#' + _containerElemId).html(" ");			
+
+		function destroy() {
+			$('#' + _containerElemId).html(" ");
+
 		}
 
 		function render() {
 			SegmentLoader.getInstance().getSegment("createPoolSeg.xml", null,
-					_init);
+					_initAndLoadVehicle);
 		}
 
-		function _init(data) {
-
+		function _initAndLoadVehicle(htmlData) {
 			_container = $('#' + _containerElemId);
-			_container.html(data);
+			_container.html(htmlData);
+
+			// Fetch Vehicle details
+			objRef.get(PoolConstants.GET_VEHICLE_COMMAND, [ {},
+					handleVehicleSuccess, handleVehicleFailure ]);
+
+			function handleVehicleSuccess(data) {
+				_init();
+				$("#vehicleId").val(data.registrationNo);
+				$("#vehicleId").click(function() {
+					_showVehicleDetails(data)
+				});
+			}
+
+			function handleVehicleFailure() {
+				_isReadOnly = true;
+				_init();
+				("#vehicleId").hide();
+
+				$("#messegePanel").css("display", "block");
+				$("#messegePanel")
+						.html(
+								"Please go to <strong>Register Vehicle</strong> tab and register vehicle for creating pool");
+
+			}
+		}
+
+		function _showVehicleDetails(data) {
+
+			SegmentLoader.getInstance().getSegment("mapDialog.xml", null,
+					initDialog);
+
+			function initDialog(data) {
+				$("body").append(data);
+				var dialogId = "dialogId";
+
+				var screen = new PROJECT.pool.poolScreens.ManageVehiclesScreen(
+						dialogId, true);
+
+				$("#dialogId").dialog({
+					height : 700,
+					width : 800,
+					draggable : false,
+					modal : false,
+					open : function() {
+						$('.ui-widget-overlay').addClass('custom-overlay');
+					},
+					close : function() {
+						$('.ui-widget-overlay').removeClass('custom-overlay');
+						screen.destroy();
+						$(this).dialog('close');
+						$(this).remove();
+						$("#dialogId").remove();
+					}
+				});
+				screen.render();
+			}
+		}
+
+		function _init() {
 
 			if (!_isReadOnly) {
 				$("#savePoolButton").click(_handleSave);
@@ -85,7 +144,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 
 			$(_fromDateElem).datepicker(
 					{
-						 dateFormat: 'dd-mm-yy',
+						dateFormat : 'dd-mm-yy',
 						showOtherMonths : true,
 						selectOtherMonths : true,
 						changeYear : true,
@@ -99,7 +158,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 
 			$(_toDateElem).datepicker(
 					{
-						 dateFormat: 'dd-mm-yy',
+						dateFormat : 'dd-mm-yy',
 						showOtherMonths : true,
 						selectOtherMonths : true,
 						changeYear : true,
@@ -176,10 +235,9 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 
 				google.maps.event.addListener(_autocomplete, 'place_changed',
 						_navToPlace);
-			}
-			else{				
+			} else {
 				var input = (document.getElementById('pac-input'));
-				$(input).remove();				
+				$(input).remove();
 			}
 
 			if (_carPoolId) {
@@ -191,6 +249,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				$(_toDateElem).attr("disabled", "disabled");
 				$(_startTimeElem).attr("disabled", "disabled");
 				$("#totalSeats").attr("disabled", "disabled");
+				$("#bucksPerKm").attr("disabled", "disabled");
 			}
 		}
 
@@ -202,6 +261,10 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 
 				if (data.noOfAvblSeats) {
 					$("#totalSeats").val(data.noOfAvblSeats);
+				}
+
+				if (data.bucksPerKm) {
+					$("#bucksPerKm").val(data.bucksPerKm);
 				}
 
 				if (data.startDate) {
@@ -234,13 +297,13 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				_srcMarker = new google.maps.Marker({
 					position : srcLoc,
 					map : _map,
-					label: "START"
+					label : "START"
 				});
 
 				_destMarker = new google.maps.Marker({
 					position : destLoc,
 					map : _map,
-					label: "END"
+					label : "END"
 				});
 
 				var bounds = new google.maps.LatLngBounds(srcLoc, destLoc);
@@ -275,10 +338,15 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				if (subscriptions) {
 					for (var i = 0; i < subscriptions.length; i++) {
 						var sub = subscriptions[i];
-						objRef.markPoint(sub["pickupLattitude"],
-								sub["pickupLongitute"], sub["firstName"], PoolUtil.convertSecondsToTime(sub["pickupTime"]));
+						objRef
+								.markPoint(
+										sub["pickupLattitude"],
+										sub["pickupLongitute"],
+										sub["firstName"],
+										PoolUtil
+												.convertSecondsToTime(sub["pickupTime"]));
 					}
-				}				
+				}
 			}
 		}
 
@@ -286,7 +354,8 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			var latLng = {};
 
 			var content = userName ? userName : "";
-			content = pickupTime ? content+ ", Pickup: " + pickupTime : content
+			content = pickupTime ? content + ", Pickup: " + pickupTime
+					: content
 
 			latLng["lat"] = lattitude;
 			latLng["lng"] = longitude;
@@ -297,7 +366,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				map : _map,
 				icon : 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
 			});
-			
+
 			var infowindow = new google.maps.InfoWindow({
 				content : content
 			});
@@ -327,7 +396,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				marker.setLabel("START");
 			} else if (!_destMarker) {
 				_destMarker = marker;
-				 marker.setLabel("END");
+				marker.setLabel("END");
 				_calcRoute(_srcMarker.getPosition(), _destMarker.getPosition());
 			} else if (!_srcMarker && !_destMarker) {
 				_srcMarker = marker;
@@ -419,11 +488,13 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 					'getSecondsFromMidnight');
 			var route = _route;
 			var totalNoOfSeats = $("#totalSeats").val();
+			var bucksPerKm = $("#bucksPerKm").val();
 
 			var params = {};
 			params["startDate"] = startDate.getTime();
 			params["endDate"] = endDate.getTime();
 			params["startTime"] = timeinSeconds;
+			params["bucksPerKm"] = bucksPerKm;
 
 			// Remove instructions which contain special characters
 
