@@ -2,7 +2,9 @@
 	<div id="messegePanel" class="alert alert-danger" style="display:none">
 	</div>
 
-	<a id="vehicleId" href="javascript:void(0);"></a>
+	<strong></>Vehicle:</strong> <a id="vehicleId" href="javascript:void(0);"></a>
+	
+	<br/>
 
 	<div class="toolBarContent">
 		<span style="margin-right:5px;">

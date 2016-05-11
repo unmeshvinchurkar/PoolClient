@@ -79,7 +79,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 
 			function handleVehicleSuccess(data) {
 				_init();
-				$("#vehicleId").val(data.registrationNo);
+				$("#vehicleId").html(data.registrationNo);
 				$("#vehicleId").click(function() {
 					_showVehicleDetails(data)
 				});
@@ -120,7 +120,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 					},
 					close : function() {
 						$('.ui-widget-overlay').removeClass('custom-overlay');
-						screen.destroy();
+						//screen.destroy();
 						$(this).dialog('close');
 						$(this).remove();
 						$("#dialogId").remove();
