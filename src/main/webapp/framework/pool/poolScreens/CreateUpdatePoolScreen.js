@@ -499,6 +499,9 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			// Remove instructions which contain special characters
 
 			if (route) {
+				var totalDistance = _getTotalDistance(route);
+				params["totalDistance"] = totalDistance;
+				
 				var legs = route["legs"];
 				for (var i = 0; i < legs.length; i++) {
 					var leg = legs[i];
@@ -581,14 +584,15 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			}
 		}
 
-		function computeTotalDistance(result) {
+		function _getTotalDistance(route) {
 			var total = 0;
-			var myroute = result.routes[0];
+			var myroute = route;
 			for (var i = 0; i < myroute.legs.length; i++) {
 				total += myroute.legs[i].distance.value;
 			}
 			total = total / 1000.0;
-			document.getElementById('total').innerHTML = total + ' km';
+			
+			return total;			
 		}
 
 	}

@@ -69,7 +69,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			$("small[id$='_error']").remove();
 
 			if (readonly == "readonly") {
-				
+
 				editedFields.removeAttr("readonly");
 
 				_validator = new FormValidator('userDetailsForm', [ {
@@ -114,15 +114,85 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				$("#userDetailsForm").append(
 						'<input type="button" id="save" class="btn btn-custom btn-lg btn-block"'
 								+ 'value="Save" />');
-				
+
 				$("#save").click(function(e) {
 					_validator.form.onsubmit();
 				});
+
+				$("#uploadTrigger").on('click', function(event) {
+					$("#file-id").trigger('click');
+				});
+				$(":file").on('change', _onFilechange);
 
 			} else {
 				editedFields.attr("readonly", true);
 				$("#editDetails").html("Edit Details");
 				$("#save").remove();
+
+				$("#uploadTrigger").off();
+				$(":file").off();
+			}
+		}
+
+		function _onFilechange() {
+
+			var file = this.files[0], name = file.name, size = file.size, type = file.type;
+
+			// validation
+			var imageType = new Array("image/png", "image/jpeg", "image/gif",
+					"image/bmp");
+
+			if (name.length < 1) {
+				$("#status_msg").html("Invalid file").css('color', '#F00000');
+				return false;
+			} else if (size > 10000000) {
+				$("#status_msg").html("The file is too big").css('color',
+						'#F00000');
+				return false;
+			}
+			else if (jQuery.inArray(type, imageType) == -1) {
+				$("#status_msg").html(
+						"Valid file formats are: jpg, jpeg,png, gif").css(
+						'color', '#F00000');
+				return false;
+			} else {
+				$("#status_msg").html(" ");
+				if ($("#file-id").val() !== '') {
+
+					var formData = new FormData();
+					formData.append('file', file);
+
+					$('#profileImg').addClass('profile-image-loading')
+							.removeClass('profile-image').attr('src',
+									'framework/style/images/fb_loading.gif');
+
+					objRef.upload(PoolConstants.UPLOAD_PROFILE_IMAGE, _success,
+							_error, formData);
+
+					function _error() {
+						$("#status_msg").html("Uploading file failed").css(
+								'color', '#F00000');
+					}
+
+					function _success(data) {
+
+						var reader = new FileReader();
+						reader.onload = function(e) {
+							$('.profile-image-loading').addClass(
+									'profile-image').removeClass(
+									'profile-image-loading').attr('src',
+									e.target.result);
+							return false;
+						}
+						reader.readAsDataURL(file);
+						$("#status_msg").html(data['msg']).css('color',
+								'#009900');
+
+					}
+				} else {
+					alert("Please select valid image.");
+					return false;
+				}
 			}
 		}
 

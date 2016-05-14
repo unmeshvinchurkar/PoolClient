@@ -22,6 +22,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		objRef.post = post;
 		objRef.get = get;
 		objRef.fireCommand = post;
+		objRef.upload = _upload;
 		objRef.fetch = fetch;
 		objRef.navigateTo = navigateTo;
 
@@ -74,6 +75,20 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				data : paramStr,
 				success : successFun,
 				error : errorFun
+			});
+		}
+
+		function _upload(commandName, successFun, errorFun, formData) {
+			$.ajax({
+				type : "POST",
+				url : _URL_PREFIX + commandName,
+				async : false,
+				data : formData,
+				success : successFun,
+				error : errorFun,
+				contentType : false,
+				processData : false,
+				cache : false
 			});
 		}
 

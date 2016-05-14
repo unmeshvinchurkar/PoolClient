@@ -254,6 +254,8 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 					details["startTime"] = carpool["startTime"];
 					details["carPoolId"] = carpool["carPoolId"];
 					details["vehicleId"] = carpool["vehicleId"];
+					details["tripCost"] = carpool["tripCost"];
+					details["pickupDistance"] = carpool["pickupDistance"];
 					details["pickupTime"] = carpool["pickupTime"];
 					details["pickupLattitude"] = carpool["pickupLattitude"];
 					details["pickupLongitude"] = carpool["pickupLongitude"];

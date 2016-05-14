@@ -132,7 +132,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 										},
 										{
 											'sTitle' : "Start Address",
-											'sWidth' : '27%',
+											'sWidth' : '18%',
 											'sType' : 'string-case',
 											'mDataProp' : 'srcArea',
 											"bUseRendered" : true,
@@ -146,7 +146,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 										},
 										{
 											'sTitle' : "End Address",
-											'sWidth' : '27%',
+											'sWidth' : '18%',
 											'sType' : 'string-case',
 											'mDataProp' : 'destArea',
 											"bUseRendered" : true,
@@ -185,7 +185,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 										},
 										{
 											'sTitle' : "Start Date",
-											'sWidth' : '8%',
+											'sWidth' : '12%',
 											'sType' : 'string-case',
 											'data' : 'startDate',
 											'render' : function(cellData, type,
@@ -198,13 +198,22 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 										},
 										{
 											'sTitle' : "End Date",
-											'sWidth' : '8%',
+											'sWidth' : '12%',
 											'sType' : 'string-case',
 											'data' : 'endDate',
 											'render' : function(cellData) {
 												var date = new Date(1970, 0, 1);
 												date.setSeconds(cellData);
 												return PoolUtil.convertDateToString(date);
+											}
+										},
+										{
+											'sTitle' : "Cost/Earnings per Tsrip",
+											'sWidth' : '10%',
+											'sType' : 'string-case',
+											'data' : 'cost',
+											'render' : function(cellData) {
+												return cellData;
 											}
 										},
 										{
@@ -248,7 +257,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 																that);
 													});
 
-									return nRow;
+									return nRow;s
 								}
 							});
 		}
