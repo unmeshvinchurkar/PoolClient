@@ -14,7 +14,9 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		var PoolConstants = PROJECT.pool.PoolConstants;
 		var ScreenNavigator = PROJECT.pool.ScreenNavigator;
 
-		var _URL_PREFIX = "http://localhost:8080/PoolServer/rest/carpool/";
+		objRef.SERVER_URL = "http://localhost:8080/PoolServer/";
+
+		var _URL_PREFIX = objRef.SERVER_URL + "rest/carpool/";
 
 		/* Public Properties */
 		objRef.render = render;

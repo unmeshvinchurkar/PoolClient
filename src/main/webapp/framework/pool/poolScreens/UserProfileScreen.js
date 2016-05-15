@@ -60,6 +60,11 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			$("#birthday").val(data["birthday"]);
 
 			$("#editDetails").click(_handleUserDetails);
+
+			if (data["profileImagePath"]) {
+				$("#profileImg").attr("src",
+						objRef.SERVER_URL + data["profileImagePath"]);
+			}
 		}
 
 		function _handleUserDetails(e) {
@@ -149,8 +154,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				$("#status_msg").html("The file is too big").css('color',
 						'#F00000');
 				return false;
-			}
-			else if (jQuery.inArray(type, imageType) == -1) {
+			} else if (jQuery.inArray(type, imageType) == -1) {
 				$("#status_msg").html(
 						"Valid file formats are: jpg, jpeg,png, gif").css(
 						'color', '#F00000');
