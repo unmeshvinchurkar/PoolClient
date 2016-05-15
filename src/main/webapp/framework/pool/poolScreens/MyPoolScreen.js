@@ -135,6 +135,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 											'sType' : 'string-case',
 											'mDataProp' : 'srcArea',
 											"bUseRendered" : true,
+											'bSortable' : false,
 											'fnRender' : function(o) {
 												return "<span style='display:block;overflow:hidden;width:100%;' title='"
 														+ o.aData["srcArea"]
@@ -149,6 +150,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 											'sType' : 'string-case',
 											'mDataProp' : 'destArea',
 											"bUseRendered" : true,
+											'bSortable' : false,
 											'fnRender' : function(o) {
 												return "<span style='display:block;overflow:hidden;width:100%;' title='"
 														+ o.aData["destArea"]
@@ -177,6 +179,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 											'sWidth' : '5%',
 											'sType' : 'string-case',
 											'data' : 'pickupTime',
+											'bSortable' : false,
 											'render' : function(cellData, type,
 													rowData) {
 												return PoolUtil
@@ -188,6 +191,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 											'sWidth' : '12%',
 											'sType' : 'string-case',
 											'data' : 'startDate',
+											'bSortable' : false,
 											'render' : function(cellData, type,
 													rowData) {
 
@@ -202,6 +206,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 											'sWidth' : '12%',
 											'sType' : 'string-case',
 											'data' : 'endDate',
+											'bSortable' : false,
 											'render' : function(cellData) {
 												var date = new Date(1970, 0, 1);
 												date.setSeconds(cellData);
@@ -214,6 +219,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 											'sWidth' : '12%',
 											'sType' : 'string-case',
 											'data' : 'cost',
+											'bSortable' : false,
 											'render' : function(cellData) {
 												return cellData;
 											}
@@ -223,6 +229,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 											'sWidth' : '4%',
 											'sType' : 'string-case',
 											'mDataProp' : 'carPoolId',
+											'bSortable' : false,
 											"mRender" : function(data, type,
 													rowData) {
 												if (rowData.isOwner) {
@@ -241,7 +248,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 								"pagingType" : "full_numbers",
 								"iDisplayLength" : 25,
 								"bLengthChange" : false,
-								"aaSorting" : [ [ 1, "asc" ] ],
+								"aaSorting" : [ [ 0, "asc" ] ],
 								"fnRowCallback" : function(nRow, aData,
 										iDisplayIndex, iDisplayIndexFull) {
 									// Populate index column
@@ -260,7 +267,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 													});
 
 									return nRow;
-									
+
 								}
 							});
 		}
