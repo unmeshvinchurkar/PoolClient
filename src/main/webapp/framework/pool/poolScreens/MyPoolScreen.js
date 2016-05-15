@@ -60,12 +60,12 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				objRef.fetch("deletepool/" + poolId,
 
 				function(data) {
-					_poolTable.deleteRow($(document.getElementById(elementId)).closest('tr')
-							.get(0));
+					_poolTable.deleteRow($(document.getElementById(elementId))
+							.closest('tr').get(0));
 				});
 			} else if (elementId.startsWith("_leave")) {
 				var poolId = elementId.split(":")[1];
-				
+
 				objRef.fetch("leavePool/" + poolId, function(data) {
 					_poolTable.deleteRow($(document.getElementById(elementId))
 							.closest('tr').get(0));
@@ -80,11 +80,10 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 	}
 
 	function CarPoolTable(id) {
-		var that = this;		
-		
+		var that = this;
+
 		var PoolUtil = PROJECT.pool.util.PoolUtil.getInstance();
-		
-		
+
 		var _jTable = null;
 		var _id = id;
 		var _callBackFun = null;
@@ -179,8 +178,9 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 											'sType' : 'string-case',
 											'data' : 'pickupTime',
 											'render' : function(cellData, type,
-													rowData) {												
-												return PoolUtil.convertSecondsToTime(cellData);
+													rowData) {
+												return PoolUtil
+														.convertSecondsToTime(cellData);
 											}
 										},
 										{
@@ -190,10 +190,11 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 											'data' : 'startDate',
 											'render' : function(cellData, type,
 													rowData) {
-												
+
 												var date = new Date(1970, 0, 1);
-												date.setSeconds(cellData);												
-												return PoolUtil.convertDateToString(date);
+												date.setSeconds(cellData);
+												return PoolUtil
+														.convertDateToString(date);
 											}
 										},
 										{
@@ -204,12 +205,13 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 											'render' : function(cellData) {
 												var date = new Date(1970, 0, 1);
 												date.setSeconds(cellData);
-												return PoolUtil.convertDateToString(date);
+												return PoolUtil
+														.convertDateToString(date);
 											}
 										},
 										{
-											'sTitle' : "Cost/Earnings per Tsrip",
-											'sWidth' : '10%',
+											'sTitle' : "Cost/Earnings per Trip",
+											'sWidth' : '12%',
 											'sType' : 'string-case',
 											'data' : 'cost',
 											'render' : function(cellData) {
@@ -218,7 +220,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 										},
 										{
 											'sTitle' : "Delete",
-											'sWidth' : '5%',
+											'sWidth' : '4%',
 											'sType' : 'string-case',
 											'mDataProp' : 'carPoolId',
 											"mRender" : function(data, type,
@@ -257,7 +259,8 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 																that);
 													});
 
-									return nRow;s
+									return nRow;
+									
 								}
 							});
 		}
