@@ -63,7 +63,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 
 			if (data["profileImagePath"]) {
 				$("#profileImg").attr("src",
-						objRef.SERVER_URL + data["profileImagePath"]);
+						objRef.SERVER_URL + "images/"+ data["profileImagePath"]);
 			}
 		}
 
