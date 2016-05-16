@@ -25,6 +25,8 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		var PoolCommands = PROJECT.pool.PoolCommands;
 		var PoolUtil = PROJECT.pool.util.PoolUtil.getInstance();
 
+		var _USER_ROW = '<tr><td><img class="" src="{ImageSrc}" alt="" /></td> <td class="text-center"><strong>{name}</<strong></td><td class="text-center">{phoneNo}</td></tr>';
+
 		var _containerElemId = containerElemId;
 		var _container = null;
 		var _carPoolId = params ? params["poolId"] : null;
@@ -120,7 +122,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 					},
 					close : function() {
 						$('.ui-widget-overlay').removeClass('custom-overlay');
-						//screen.destroy();
+						// screen.destroy();
 						$(this).dialog('close');
 						$(this).remove();
 						$("#dialogId").remove();
@@ -346,7 +348,26 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 										PoolUtil
 												.convertSecondsToTime(sub["pickupTime"]));
 					}
+					_drawSubUserDetails(subscriptions);
 				}
+			}
+		}
+
+		function _drawSubUserDetails(subDataArray) {
+			var tableBody = $("#users").show();
+			var tableBody = $("#users").find("tbody");
+
+			for (var i = 0; i < subDataArray.length; i++) {
+				var data = subDataArray[i];
+
+				var rowHtml = _USER_ROW.replace(
+						"{ImageSrc}",
+						objRef.SERVER_URL + "images/"
+								+ data["profileImagePath"]).replace("{name}",
+						data["username"])
+						.replace("{phoneNo}", data["username"]);
+
+				$(tableBody).append(rowHtml);
 			}
 		}
 
@@ -501,7 +522,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			if (route) {
 				var totalDistance = _getTotalDistance(route);
 				params["totalDistance"] = totalDistance;
-				
+
 				var legs = route["legs"];
 				for (var i = 0; i < legs.length; i++) {
 					var leg = legs[i];
@@ -591,8 +612,8 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				total += myroute.legs[i].distance.value;
 			}
 			total = total / 1000.0;
-			
-			return total;			
+
+			return total;
 		}
 
 	}

@@ -1,13 +1,14 @@
 <div style="height:100%;position:relative;">
 	<div class="toolbar" style="text-align:right">
-	   <a id="changePassword" href="#changePassword">Change Password</a>
+		<a id="changePassword" href="#changePassword">Change Password</a>
+		|
 		<a id="logOut" href="#logOut">Logout</a>
 	</div>
 
 	<div class="mainTabs" style="height:100%">
 		<div class="tabs" style="height:100%">
-			<ul class="tab-links">			
-			   <li>
+			<ul class="tab-links">
+				<li>
 					<a id="myProfile" href="#myProfile">My Profile</a>
 				</li>
 				<li class="active">

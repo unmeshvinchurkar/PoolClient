@@ -25,6 +25,8 @@
 	display: block;
 	position: absolute;
 	top: -100px;
+	visibility: hidden;
+	
 }
 
 /* Display browse button on hover*/
