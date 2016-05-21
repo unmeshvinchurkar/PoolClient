@@ -359,13 +359,23 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 
 			for (var i = 0; i < subDataArray.length; i++) {
 				var data = subDataArray[i];
+				
+				var rowHtml = null;
+				
+				if(data["profileImagePath"]){
 
-				var rowHtml = _USER_ROW.replace(
-						"{ImageSrc}",
-						objRef.SERVER_URL + "images/"
-								+ data["profileImagePath"]).replace("{name}",
-						data["username"])
+				 rowHtml = _USER_ROW
+				        .replace("{ImageSrc}", objRef.SERVER_URL + "images/" + data["profileImagePath"])
+						.replace("{name}", 	data["username"])
 						.replace("{phoneNo}", data["username"]);
+				
+				}
+				else{					
+					rowHtml = _USER_ROW.replace(
+							"{ImageSrc}", "framework\style\images\no_image.jpg")
+							.replace("{name}", data["username"])
+							.replace("{phoneNo}", data["username"]);
+				}
 
 				$(tableBody).append(rowHtml);
 			}
