@@ -12,7 +12,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 	/**
 	 * @class PROJECT.pool.poolScreens.UserProfileScreen
 	 */
-	function UserProfileScreen(containerId, userId) {
+	function UserProfileScreen(containerId, userId, readOnly) {
 
 		UserProfileScreen.superclass.constructor.call(this);
 
@@ -25,6 +25,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		var _containerElemId = containerId;
 		var _userId = userId;
 		var _validator = null;
+		var _readOnly = readOnly;
 
 		/* Public Properties */
 		objRef.render = render;
@@ -59,11 +60,17 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			$("#address").val(data["address"]);
 			$("#birthday").val(data["birthday"]);
 
-			$("#editDetails").click(_handleUserDetails);
+			if (_readOnly) {
+				$("#editDetails").remove();
+			} else {
+				$("#editDetails").click(_handleUserDetails);
+			}
 
 			if (data["profileImagePath"]) {
-				$("#profileImg").attr("src",
-						objRef.SERVER_URL + "images/"+ data["profileImagePath"]);
+				$("#profileImg").attr(
+						"src",
+						objRef.SERVER_URL + "images/"
+								+ data["profileImagePath"]);
 			}
 		}
 

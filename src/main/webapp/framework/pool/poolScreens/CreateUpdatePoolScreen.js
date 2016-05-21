@@ -25,7 +25,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		var PoolCommands = PROJECT.pool.PoolCommands;
 		var PoolUtil = PROJECT.pool.util.PoolUtil.getInstance();
 
-		var _USER_ROW = '<tr><td><img class="" src="{ImageSrc}" alt="" /></td> <td class="text-center"><strong>{name}</<strong></td><td class="text-center"><strong>{email}</<strong></td><td class="text-center">{phoneNo}</td></tr>';
+		var _USER_ROW = '<tr "><td><img id="{imageId}" class="" src="{ImageSrc}" alt="" /></td> <td class="text-center"><strong>{name}</<strong></td><td class="text-center"><strong>{email}</<strong></td><td class="text-center">{phoneNo}</td></tr>';
 
 		var _containerElemId = containerElemId;
 		var _container = null;
@@ -354,8 +354,8 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		}
 
 		function _drawSubUserDetails(subDataArray) {
-			var tableBody = $("#users").show();
-			var tableBody = $("#users").find("tbody");
+			var table = $("#users").show();
+			var tableBody = table.find("tbody");
 
 			for (var i = 0; i < subDataArray.length; i++) {
 				var data = subDataArray[i];
@@ -378,10 +378,47 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 
 				rowHtml = rowHtml.replace("{name}", data["name"]).replace(
 						"{phoneNo}", data["contactNo"]).replace("{email}",
-						data["email"]);
+						data["email"]).replace("{imageId}", data["userId"]);
 
 				$(tableBody).append(rowHtml);
 			}
+
+			$(table).on("click", "img", function() {
+				_showUserDetails(this.id)
+			});
+		}
+
+		function _showUserDetails(userId) {
+
+			SegmentLoader.getInstance().getSegment("mapDialog.xml", null,
+					initDialog);
+
+			function initDialog(data) {
+				$("body").append(data);
+				var dialogId = "dialogId";
+
+				var screen = new PROJECT.pool.poolScreens.UserProfileScreen(
+						dialogId, userId, true);
+
+				$("#dialogId").dialog({
+					height : 700,
+					width : 800,
+					draggable : false,
+					modal : false,
+					open : function() {
+						$('.ui-widget-overlay').addClass('custom-overlay');
+					},
+					close : function() {
+						$('.ui-widget-overlay').removeClass('custom-overlay');
+						// screen.destroy();
+						$(this).dialog('close');
+						$(this).remove();
+						$("#dialogId").remove();
+					}
+				});
+				screen.render();
+			}
+
 		}
 
 		function markPoint(lattitude, longitude, userName, pickupTime) {
