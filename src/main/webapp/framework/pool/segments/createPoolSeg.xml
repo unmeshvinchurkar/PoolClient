@@ -2,58 +2,14 @@
 	<div id="messegePanel" class="alert alert-danger" style="display:none">
 	</div>
 
+	<br />
+
 	<strong>Vehicle:</strong>
 	<a id="vehicleId" href="javascript:void(0);"></a>
 
 	<br />
 
-	<div class="toolBarContent">
-		<span style="margin-right:5px;">
-			<span>From Date: </span>
-			<input id="fromDate" type="text" />
-		</span>
-		<span style="margin-right:5px;">
-			<span>To Date: </span>
-			<input id="toDate" type="text" />
-		</span>
-		<span>
-			<span>Start Time: </span>
-			<input id="startTime" type="text" />
-		</span>
-		<span>
-			<span>Vacant Seats: </span>
-			<select id="totalSeats">
-				<option value="1">1</option>
-				<option value="2">2</option>
-				<option value="3">3</option>
-				<option value="4">4</option>
-			</select>
-		</span>
-		<span>
-			<span>Bucks/Km </span>
-			<select id="bucksPerKm">
-				<option value="1">1</option>
-				<option value="2">2</option>
-				<option value="3">3</option>
-				<option value="4">4</option>
-				<option value="5">5</option>
-				<option value="6">6</option>
-				<option value="7">7</option>
-				<option value="8">8</option>
-				<option value="9">9</option>
-				<option value="10">10</option>
-				<option value="11">11</option>
-				<option value="12">12</option>
-				<option value="13">13</option>
-				<option value="14">14</option>
-			</select>
-		</span>
-		<span id="savePool">
-			<input id="savePoolButton" type="button" value="Save" />
-		</span>
-	</div>
-
-	<div id="users" style="display:none" class="container bootstrap snippet">
+	<div id="users" style="display:none" class=" bootstrap snippet">
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="main-box no-header clearfix">
@@ -69,7 +25,10 @@
 											<span>Name</span>
 										</th>
 										<th class="text-center">
-											<span>Cell no.</span>
+											<span>Email</span>
+										</th>
+										<th class="text-center">
+											<span>Cell No.</span>
 										</th>
 									</tr>
 								</thead>
@@ -82,6 +41,64 @@
 			</div>
 		</div>
 	</div>
+
+
+	<div class="toolBarContent">
+
+		<form class="form-inline" role="form">
+
+			<div class="form-group">
+				<label for="fromDate">From Date:</label>
+				<input type="text" class="form-control" id="fromDate" />
+			</div>
+
+			<div class="form-group">
+				<label for="toDate">To Date:</label>
+				<input type="text" class="form-control" id="toDate" />
+			</div>
+
+			<div class="form-group">
+				<label for="startTime">Start Time:</label>
+				<input type="text" class="form-control" id="startTime" />
+			</div>
+
+			<div class="form-group">
+				<label for="totalSeats">Vacant Seats:</label>
+				<select class="form-control" id="totalSeats">
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+				</select>
+			</div>
+
+			<div class="form-group">
+				<label for="bucksPerKm">Bucks/Km:</label>
+				<select class="form-control" id="bucksPerKm">
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+					<option value="6">6</option>
+					<option value="7">7</option>
+					<option value="8">8</option>
+					<option value="9">9</option>
+					<option value="10">10</option>
+					<option value="11">11</option>
+					<option value="12">12</option>
+					<option value="13">13</option>
+					<option value="14">14</option>
+				</select>
+			</div>
+
+			<button id="savePoolButton" type="button" class="btn btn-success">Save</button>
+		</form>
+	</div>
+
+	<br />
+
+
 	<div class="mapContent">
 		<input id="pac-input" class="controls" type="text" placeholder="Search Box" />
 		<div id="map-canvas" style="width:100%; height:100%"></div>

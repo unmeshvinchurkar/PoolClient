@@ -25,7 +25,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		var PoolCommands = PROJECT.pool.PoolCommands;
 		var PoolUtil = PROJECT.pool.util.PoolUtil.getInstance();
 
-		var _USER_ROW = '<tr><td><img class="" src="{ImageSrc}" alt="" /></td> <td class="text-center"><strong>{name}</<strong></td><td class="text-center">{phoneNo}</td></tr>';
+		var _USER_ROW = '<tr><td><img class="" src="{ImageSrc}" alt="" /></td> <td class="text-center"><strong>{name}</<strong></td><td class="text-center"><strong>{email}</<strong></td><td class="text-center">{phoneNo}</td></tr>';
 
 		var _containerElemId = containerElemId;
 		var _container = null;
@@ -359,23 +359,26 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 
 			for (var i = 0; i < subDataArray.length; i++) {
 				var data = subDataArray[i];
-				
-				var rowHtml = null;
-				
-				if(data["profileImagePath"]){
 
-				 rowHtml = _USER_ROW
-				        .replace("{ImageSrc}", objRef.SERVER_URL + "images/" + data["profileImagePath"])
-						.replace("{name}", 	data["username"])
-						.replace("{phoneNo}", data["username"]);
-				
+				var rowHtml = null;
+
+				if (!data["contactNo"]) {
+					data["contactNo"] = "_";
 				}
-				else{					
-					rowHtml = _USER_ROW.replace(
-							"{ImageSrc}", "framework\style\images\no_image.jpg")
-							.replace("{name}", data["username"])
-							.replace("{phoneNo}", data["username"]);
+
+				if (data["profileImagePath"]) {
+
+					rowHtml = _USER_ROW.replace("{ImageSrc}", objRef.SERVER_URL
+							+ "images/" + data["profileImagePath"]);
+
+				} else {
+					rowHtml = _USER_ROW.replace("{ImageSrc}",
+							"framework\style\images\no_image.jpg");
 				}
+
+				rowHtml = rowHtml.replace("{name}", data["name"]).replace(
+						"{phoneNo}", data["contactNo"]).replace("{email}",
+						data["email"]);
 
 				$(tableBody).append(rowHtml);
 			}
