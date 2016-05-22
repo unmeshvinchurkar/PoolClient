@@ -566,6 +566,8 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			params["endDate"] = endDate.getTime();
 			params["startTime"] = timeinSeconds;
 			params["bucksPerKm"] = bucksPerKm;
+			params["excludeWeekend"] = $("#excludeWeekend").is(":checked");
+
 
 			// Remove instructions which contain special characters
 
