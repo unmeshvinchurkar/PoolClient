@@ -48,7 +48,7 @@
 	</div>
 
 
-	<div class="toolBarContent">
+	<div class="toolBarContent well">
 
 		<form class="form-inline" role="form">
 
@@ -65,6 +65,15 @@
 			<div class="form-group">
 				<label for="startTime">Start Time:</label>
 				<input type="text" class="form-control" id="startTime" />
+			</div>
+
+
+		</form>
+
+		<form class="form-inline" role="form">
+			<div class="form-group">
+				<label for="excludeWeekend">Exclude weekend:</label>
+				<input id="excludeWeekend" type="checkbox" value="true" />
 			</div>
 
 			<div class="form-group">
@@ -96,13 +105,11 @@
 					<option value="14">14</option>
 				</select>
 			</div>
-
-			<button id="savePoolButton" type="button" class="btn btn-success">Save</button>
+			
+			<button id="savePoolButton" style="margin-left:4px;" type="button"
+				class="btn btn-success">Save</button>
 		</form>
 	</div>
-
-	<br />
-
 
 	<div class="mapContent">
 		<input id="pac-input" class="controls" type="text" placeholder="Search Box" />
