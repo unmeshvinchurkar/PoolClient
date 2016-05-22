@@ -30,6 +30,9 @@
 										<th class="text-center">
 											<span>Cell No.</span>
 										</th>
+										<th class="text-center">
+											<span>Trip Cost</span>
+										</th>
 									</tr>
 								</thead>
 								<tbody>

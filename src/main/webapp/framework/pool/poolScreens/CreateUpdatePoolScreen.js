@@ -25,7 +25,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		var PoolCommands = PROJECT.pool.PoolCommands;
 		var PoolUtil = PROJECT.pool.util.PoolUtil.getInstance();
 
-		var _USER_ROW = '<tr "><td><img id="{imageId}" class="" src="{ImageSrc}" alt="" /></td> <td class="text-center"><strong>{name}</<strong></td><td class="text-center"><strong>{email}</<strong></td><td class="text-center">{phoneNo}</td></tr>';
+		var _USER_ROW = '<tr "><td><img id="{imageId}" class="" src="{ImageSrc}" alt="" /></td> <td class="text-center"><strong>{name}</<strong></td><td class="text-center"><strong>{email}</<strong></td><td class="text-center">{phoneNo}</td><td class="text-center"><strong>{tripCost}</<strong></td></tr>';
 
 		var _containerElemId = containerElemId;
 		var _container = null;
@@ -378,7 +378,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 
 				rowHtml = rowHtml.replace("{name}", data["name"]).replace(
 						"{phoneNo}", data["contactNo"]).replace("{email}",
-						data["email"]).replace("{imageId}", data["userId"]);
+						data["email"]).replace("{imageId}", data["userId"]).replace("{tripCost}", data["tripCost"]);
 
 				$(tableBody).append(rowHtml);
 			}

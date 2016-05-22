@@ -211,12 +211,12 @@
 }
 
 .tab-links a:hover {
-	background: rgba(255, 240, 47, 0.87);
+	background: #1fa67b;
 	text-decoration: none;
 }
 
 li.active a, li.active a:hover {
-	background: rgba(255, 240, 47, 0.87);
+	background: #1fa67b;
 	color: #4c4c4c;
 }
 
@@ -225,7 +225,7 @@ li.active a, li.active a:hover {
 	padding: 15px;
 	border-radius: 3px;
 	box-shadow: -1px 1px 1px rgba(0, 0, 0, 0.15);
-	background: rgba(255, 240, 47, 0.87);
+	background: #1fa67b;
 	height: 94%;
 }
 
