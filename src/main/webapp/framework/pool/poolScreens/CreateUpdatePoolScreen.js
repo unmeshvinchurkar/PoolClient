@@ -226,8 +226,18 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				var input = (document.getElementById('pac-input'));
 				_map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
+				var input1 = (document.getElementById('pac-input1'));
+				_map.controls[google.maps.ControlPosition.TOP_CENTER]
+						.push(input1);
+				
+				// $(input).tooltip(); 
+				 //$(input1).tooltip(); 
+
 				_autocomplete = new google.maps.places.Autocomplete(input);
 				_autocomplete.bindTo('bounds', _map);
+
+				var _autocomplete1 = new google.maps.places.Autocomplete(input1);
+				_autocomplete1.bindTo('bounds', _map);
 
 				_infowindow = new google.maps.InfoWindow();
 
@@ -236,7 +246,13 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				});
 
 				google.maps.event.addListener(_autocomplete, 'place_changed',
-						_navToPlace);
+						function() {
+							_navToPlace(_autocomplete)
+						});
+				google.maps.event.addListener(_autocomplete1, 'place_changed',
+						function() {
+							_navToPlace(_autocomplete1)
+						});
 			} else {
 				var input = (document.getElementById('pac-input'));
 				$(input).remove();
@@ -378,7 +394,8 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 
 				rowHtml = rowHtml.replace("{name}", data["name"]).replace(
 						"{phoneNo}", data["contactNo"]).replace("{email}",
-						data["email"]).replace("{imageId}", data["userId"]).replace("{tripCost}", data["tripCost"]);
+						data["email"]).replace("{imageId}", data["userId"])
+						.replace("{tripCost}", data["tripCost"]);
 
 				$(tableBody).append(rowHtml);
 			}
@@ -568,7 +585,6 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			params["bucksPerKm"] = bucksPerKm;
 			params["excludeWeekend"] = $("#excludeWeekend").is(":checked");
 
-
 			// Remove instructions which contain special characters
 
 			if (route) {
@@ -637,9 +653,9 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			objRef.errorMsg("msg_div", "Sorry!! couldn't create pool");
 		}
 
-		function _navToPlace() {
+		function _navToPlace(autocomplete) {
 
-			var place = _autocomplete.getPlace();
+			var place = autocomplete.getPlace();
 			if (!place.geometry) {
 				window
 						.alert("Autocomplete's returned place contains no geometry");
