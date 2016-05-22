@@ -41,7 +41,13 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			_container = $('#' + _containerElemId);
 			_container.html(data);
 			_loadVehicleData();
-			$("#editDetails").click(_handleVehicleDetails);
+
+			if (_noEdit) {
+				$("#editDetails").remove();
+			} else {
+				$("#editDetails").click(_handleVehicleDetails);
+
+			}
 		}
 
 		function _loadVehicleData() {
@@ -72,10 +78,6 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			var readonly = $("#manufacturer").attr("readonly");
 			var editedFields = $("#manufacturer, #modelname, #fueltype, #color, #registrationNumber, #drivingLicense");
 			$("small[id$='_error']").remove();
-			
-			if(_noEdit){
-				$("#editDetails").remove();
-			}
 
 			if (_noEdit || readonly == "readonly") {
 
