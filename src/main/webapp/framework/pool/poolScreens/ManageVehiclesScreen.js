@@ -154,11 +154,12 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		}
 
 		function _saveSuccess(data) {
-			alert("saved");
+			objRef.successMsg("msg_div",
+					"Successfully saved vehicle details !!", 3000);
 		}
 
 		function _saveError(data) {
-			alert("save failed");
+			objRef.errorMsg("msg_div", "Failed to save vehicle details !!");
 		}
 	}
 })();

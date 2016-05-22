@@ -2,7 +2,11 @@
 
 	<a id="editDetails" href="javascript:void(0);">Edit Details</a>
 
-	<div class="container" style="width:60%;">		 
+	<div class="container" style="width:60%;">
+
+		<div id="msg_div" class="alert alert-success" style="display:none">
+		</div>
+
 		<form enctype=" multipart /
 				form-data ">
 			<div id="profile">
@@ -115,6 +119,6 @@
 			</div>
 		</form>
 	</div>
-	</div>
+</div>
 
 

@@ -223,11 +223,15 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		}
 
 		function _saveSuccess() {
+			objRef.successMsg("msg_div", "Successfully saved your details !!",
+					3000);
 		}
 		function _saveError() {
+			objRef.errorMsg("msg_div", "Failed to save your details !!");
 		}
 
 		function _fetchingFailed() {
+			objRef.errorMsg("msg_div", "Failed to fetch user details !!");
 		}
 	}
 

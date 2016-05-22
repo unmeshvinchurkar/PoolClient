@@ -27,6 +27,8 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		objRef.upload = _upload;
 		objRef.fetch = fetch;
 		objRef.navigateTo = navigateTo;
+		objRef.successMsg = successMsg;
+		objRef.errorMsg = errorMsg;
 
 		function navigateTo(screenId, data) {
 			var navigator = ScreenNavigator.getInstance();
@@ -35,6 +37,28 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 
 		function render() {
 
+		}
+
+		function successMsg(divId, msg, timeout) {
+			$("#" + divId).removeClass("alert-danger")
+					.addClass("alert-success").html(msg).show();
+
+			if (timeout) {
+				setTimeout(function() {
+					$("#" + divId).hide();
+				}, timeout);
+			}
+		}
+
+		function errorMsg(divId, msg, timeout) {
+			$("#" + divId).addClass("alert-danger")
+					.removeClass("alert-success").html(msg).show();
+
+			if (timeout) {
+				setTimeout(function() {
+					$("#" + divId).hide();
+				}, timeout);
+			}
 		}
 
 		function fetch(path, callBack) {

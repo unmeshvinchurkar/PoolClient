@@ -1,8 +1,10 @@
 <div style="position:relative">
-	<div id="messegePanel" class="alert alert-danger" style="display:none">
-	</div>
 
-	<br />
+	<div class="container">
+		<div id="msg_div" class=" alert alert-danger" style="display:none">
+		</div>
+		<br />
+	</div>
 
 	<strong>Vehicle:</strong>
 	<a id="vehicleId" href="javascript:void(0);"></a>

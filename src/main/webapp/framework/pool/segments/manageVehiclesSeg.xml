@@ -3,6 +3,10 @@
 
 	<div class="container" style="width:60%;">
 
+		<div id="msg_div" class="alert alert-success" style="display:none">Successfully
+			saved vehicle details !!
+		</div>
+
 		<form class="form-horizontal" role="form" action='' id="vehicleForm"
 			name="vehicleForm" method="POST">
 

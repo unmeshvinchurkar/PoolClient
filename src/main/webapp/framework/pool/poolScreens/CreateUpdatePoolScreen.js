@@ -628,11 +628,11 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 
 		function _saveSuccess(data) {
 			_carPoolId = data;
-			alert("saved" + _carPoolId);
+			objRef.successMsg("msg_div", "Successfully created pool!!");
 		}
 
 		function _saveError(data) {
-			alert("save failed");
+			objRef.errorMsg("msg_div", "Sorry!! couldn't create pool");
 		}
 
 		function _navToPlace() {
