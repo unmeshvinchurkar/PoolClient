@@ -229,9 +229,9 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				var input1 = (document.getElementById('pac-input1'));
 				_map.controls[google.maps.ControlPosition.TOP_CENTER]
 						.push(input1);
-				
-				// $(input).tooltip(); 
-				 //$(input1).tooltip(); 
+
+				// $(input).tooltip();
+				// $(input1).tooltip();
 
 				_autocomplete = new google.maps.places.Autocomplete(input);
 				_autocomplete.bindTo('bounds', _map);
@@ -256,6 +256,8 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			} else {
 				var input = (document.getElementById('pac-input'));
 				$(input).remove();
+				var input1 = (document.getElementById('pac-input1'));
+				$(input1).remove();
 			}
 
 			if (_carPoolId) {
@@ -370,39 +372,44 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		}
 
 		function _drawSubUserDetails(subDataArray) {
-			var table = $("#users").show();
+			
 			var tableBody = table.find("tbody");
 
-			for (var i = 0; i < subDataArray.length; i++) {
-				var data = subDataArray[i];
+			if (subDataArray != null && subDataArray.length > 0) {
 
-				var rowHtml = null;
+               var table = $("#users").show();
+				for (var i = 0; i < subDataArray.length; i++) {
+					var data = subDataArray[i];
 
-				if (!data["contactNo"]) {
-					data["contactNo"] = "_";
+					var rowHtml = null;
+
+					if (!data["contactNo"]) {
+						data["contactNo"] = "_";
+					}
+
+					if (data["profileImagePath"]) {
+
+						rowHtml = _USER_ROW.replace("{ImageSrc}",
+								objRef.SERVER_URL + "images/"
+										+ data["profileImagePath"]);
+
+					} else {
+						rowHtml = _USER_ROW.replace("{ImageSrc}",
+								"framework\style\images\no_image.jpg");
+					}
+
+					rowHtml = rowHtml.replace("{name}", data["name"]).replace(
+							"{phoneNo}", data["contactNo"]).replace("{email}",
+							data["email"]).replace("{imageId}", data["userId"])
+							.replace("{tripCost}", data["tripCost"]);
+
+					$(tableBody).append(rowHtml);
 				}
 
-				if (data["profileImagePath"]) {
-
-					rowHtml = _USER_ROW.replace("{ImageSrc}", objRef.SERVER_URL
-							+ "images/" + data["profileImagePath"]);
-
-				} else {
-					rowHtml = _USER_ROW.replace("{ImageSrc}",
-							"framework\style\images\no_image.jpg");
-				}
-
-				rowHtml = rowHtml.replace("{name}", data["name"]).replace(
-						"{phoneNo}", data["contactNo"]).replace("{email}",
-						data["email"]).replace("{imageId}", data["userId"])
-						.replace("{tripCost}", data["tripCost"]);
-
-				$(tableBody).append(rowHtml);
+				$(table).on("click", "img", function() {
+					_showUserDetails(this.id)
+				});
 			}
-
-			$(table).on("click", "img", function() {
-				_showUserDetails(this.id)
-			});
 		}
 
 		function _showUserDetails(userId) {
@@ -491,18 +498,35 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				marker.setLabel("START");
 				_destMarker = null;
 			} else if (_srcMarker && _destMarker) {
-				_srcMarker.setMap(null);
-				_destMarker.setMap(null);
-				_srcMarker = null;
-				_destMarker = null;
+				_clearMap();
 				marker.setMap(null);
-				// Remove existing route(polyline) on the map
-				_directionRenderer.set('directions', null);
-
-				if (_poolPath) {
-					_poolPath.setMap(null);
-				}
 			}
+		}
+
+		function _clearMap() {
+
+			if (_srcMarker) {
+				_srcMarker.setMap(null);
+				_srcMarker = null;
+			}
+
+			if (_destMarker) {
+				_destMarker.setMap(null);
+				_destMarker = null;
+			}
+
+			_directionRenderer.set('directions', null);
+
+			if (_poolPath) {
+				_poolPath.setMap(null);
+			}
+
+			$.get("http://ipinfo.io", function(response) {
+				var latLngArry = response.loc.split(",");
+				var latLng = new google.maps.LatLng(latLngArry[0],
+						latLngArry[1]);
+				_map.setCenter(latLng);
+			}, "jsonp");
 		}
 
 		function _calcRoute(startPos, destpos) {
@@ -570,6 +594,13 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		}
 
 		function _handleSave(e) {
+
+			if (_srcMarker == null || _destMarker == null) {
+				objRef.errorMsg("msg_div",
+						"Please mark both source and destination points.");
+				return;
+			}
+
 			var startDate = $(_fromDateElem).datepicker("getDate");
 			var endDate = $(_toDateElem).datepicker("getDate");
 			var timeinSeconds = $(_startTimeElem).timepicker(
