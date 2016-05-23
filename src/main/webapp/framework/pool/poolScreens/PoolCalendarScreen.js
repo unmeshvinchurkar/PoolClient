@@ -186,11 +186,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				for (var i = 0; i < poolHolidays.length; i++) {
 
 					var holiday = poolHolidays[i];
-					var title = "MyHoliday";
-
-					if (!isOwner) {
-						title = "PoolHoliday";
-					}
+					var title = "PoolHoliday";
 
 					var date = new Date(holiday.date * 1000);
 					var dateStr = date.getFullYear() + '-'
