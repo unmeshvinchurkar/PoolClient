@@ -373,11 +373,12 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 
 		function _drawSubUserDetails(subDataArray) {
 			
-			var tableBody = table.find("tbody");
+			
 
 			if (subDataArray != null && subDataArray.length > 0) {
 
                var table = $("#users").show();
+               var tableBody = table.find("tbody");
 				for (var i = 0; i < subDataArray.length; i++) {
 					var data = subDataArray[i];
 
