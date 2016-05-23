@@ -21,6 +21,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		var SegmentLoader = PROJECT.pool.util.SegmentLoader;
 		var PoolConstants = PROJECT.pool.PoolConstants;
 		var PoolCommands = PROJECT.pool.PoolCommands;
+		var PoolUtil = PROJECT.pool.util.PoolUtil.getInstance();
 		var _container = null;
 		var _containerElemId = containerId;
 		var _userId = userId;
@@ -58,7 +59,14 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			$("#state").val(data["state"]);
 			$("#country").val(data["country"]);
 			$("#address").val(data["address"]);
-			$("#birthday").val(data["birthday"]);
+
+			if (data["birthday"]) {
+				var date = new Date(1970, 0, 1);
+				date.setSeconds(data["birthday"]);
+				$("#birthday").val(PoolUtil.convertDateToString(date));
+			}
+
+			$("#pin").val(data["pin"]);
 
 			if (_readOnly) {
 				$("#editDetails").remove();
