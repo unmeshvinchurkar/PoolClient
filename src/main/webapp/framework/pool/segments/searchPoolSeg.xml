@@ -1,6 +1,12 @@
 
 <div style="position:relative">
 
+	<div class="container">
+		<div id="msg_div" class=" alert alert-danger" style="display:none">
+		</div>
+		<br />
+	</div>
+
 	<br />
 	<div class="toolBarContent container">
 

@@ -105,7 +105,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			_map = new google.maps.Map(document.getElementById('map-canvas'),
 					mapOptions);
 			_directionsDisplay.setMap(_map);
-			
+
 			$.get("http://ipinfo.io", function(response) {
 				var latLngArry = response.loc.split(",");
 				var latLng = new google.maps.LatLng(latLngArry[0],
@@ -282,8 +282,15 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			}
 		}
 
-		function _searchFailed() {
-			alert("search failed");
+		function _searchFailed(data) {
+
+			if (data.status = 404) {
+				objRef.errorMsg("msg_div", "No car pool found ......");
+
+			} else {
+				objRef.errorMsg("msg_div",
+						"Sorry!! something failed while searching for pool");
+			}
 		}
 
 		function _navToPlace() {
