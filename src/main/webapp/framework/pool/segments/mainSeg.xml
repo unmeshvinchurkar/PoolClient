@@ -2,7 +2,7 @@
 	<div class="toolbar" style="text-align:right">
 		<a id="changePassword" href="#changePassword">Change Password</a>
 		|
-		<a id="logOut" href="#logOut">Logout</a>
+		<a id="logOut" style="margin-right:20px;" href="#logOut">Logout</a>
 	</div>
 
 	<div class="mainTabs" style="height:100%">

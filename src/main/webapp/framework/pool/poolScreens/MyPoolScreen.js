@@ -52,10 +52,47 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		function _renderPoolsFailed(data) {
 			data = data;
 		}
+		
+		function _showUserDetails(userId) {
+
+			SegmentLoader.getInstance().getSegment("mapDialog.xml", null,
+					initDialog);
+
+			function initDialog(data) {
+				$("body").append(data);
+				var dialogId = "dialogId";
+
+				var screen = new PROJECT.pool.poolScreens.UserProfileScreen(
+						dialogId, userId, true);
+
+				$("#dialogId").dialog({
+					height : 700,
+					width : 800,
+					draggable : false,
+					modal : false,
+					open : function() {
+						$('.ui-widget-overlay').addClass('custom-overlay');
+					},
+					close : function() {
+						$('.ui-widget-overlay').removeClass('custom-overlay');
+						// screen.destroy();
+						$(this).dialog('close');
+						$(this).remove();
+						$("#dialogId").remove();
+					}
+				});
+				screen.render();
+			}
+
+		}
 
 		function _onClick(elementId, poolTable) {
-
-			if (elementId.startsWith("_delete")) {
+			
+			if (elementId.startsWith("_owner")) {
+				var ownerId = elementId.split(":")[1];				
+				_showUserDetails(ownerId);				
+			}
+			else if (elementId.startsWith("_delete")) {
 				var poolId = elementId.split(":")[1];
 				objRef.fetch("deletepool/" + poolId,
 
@@ -165,15 +202,17 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 											'sWidth' : '10%',
 											'sType' : 'string-case',
 											'mDataProp' : 'carpoolName',
-											"bUseRendered" : true,
-											'fnRender' : function(o) {
-												return "<span style='display:block;overflow:hidden;width:100%' title='"
-														+ o.aData["carpoolName"]
-														+ "'>"
-														+ o.aData["carpoolName"]
-														+ "</span>";
+											'bSortable' : false,
+											"mRender" : function(data, type,
+													rowData) {
+
+												return '<a href="javascript:void(0)" id="_owner:'
+														+ rowData["ownerId"]
+														+ '">' + data + '</a>';
+
 											}
 										},
+										
 										{
 											'sTitle' : "Pickup/Start Time",
 											'sWidth' : '5%',
@@ -258,7 +297,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 													+ aData["carPoolId"]
 													+ "' >" + index + "</a>");
 
-									$(nRow).find("td:first > a, td:last > a")
+									$(nRow).find("td > a")
 											.click(
 													function() {
 														_callBackFun($(this)

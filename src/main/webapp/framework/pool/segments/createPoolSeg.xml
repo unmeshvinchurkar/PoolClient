@@ -35,6 +35,9 @@
 										<th class="text-center">
 											<span>Trip Cost</span>
 										</th>
+										<th class="text-center">
+											<span>Pickup point Distance</span>
+										</th>
 									</tr>
 								</thead>
 								<tbody>
