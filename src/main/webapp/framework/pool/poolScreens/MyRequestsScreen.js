@@ -56,22 +56,9 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			}
 			_renderSentRequests(sentReqdata);
 			_renderReceivedRequests(recvReqdata);
-			$(".requestTable a").click(_showCarPoolMap);
-		}
-
-		function _fetchingFailed() {
+			$(".requestTable a").click(_handleClick);
 		}
 		
-		function _showCarPoolMap(e) {
-			var target = $(e.target);
-			var reqData = _data[$(target).attr("requestId")];
-
-			if (reqData) {
-				_openDialog(reqData["carPoolId"], reqData["pickupLattitude"],
-						reqData["pickupLongitude"]);
-			}
-		}
-
 		function _renderReceivedRequests(data) {
 
 			var html = "";
@@ -93,7 +80,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 					html = html + "<td><a requestId=" + row["requestId"] + "  id='" + row["carPoolId"]
 							+ "' href='javascript:void(0)' >" + i + "</a></td>";
 
-					html = html + "<td>" + row["fullName"] + "</td>";
+					html = html + "<td><a userId='" + row["userId"]+"' href='javascript:void(0)'> " + row["fullName"] + "</a></td>";
 					html = html + "<td>"
 							+ _convertSecondsToTime(row["startTime"]) + "</td>";
 					html = html + "<td>" + PoolUtil.convertDateToString(date) + "</td>";
@@ -111,6 +98,91 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			$("button#acceptRequest").click(_acceptRequest);
 			$("button#rejectRequest").click(_rejectRequest);
 		}
+		
+		function _renderSentRequests(data) {
+
+			var html = "";
+			var valArray = data;
+
+			if (valArray != null) {
+
+				html = "<table class='requestTable'><thead><tr><th>SNo.</th><th>Car Pool Owner</th><th>Pickup Time</th><th>Request Date</th><th>Status</th></tr></thead><tbody>";
+
+				for (var i = 0; i < valArray.length; i++) {
+					var row = valArray[i];
+					_data[row["requestId"]] = row;
+
+					var date = new Date(1970, 0, 1);
+					date.setSeconds(row["createDate"]);
+
+					html = html + "<tr>";
+					html = html + "<td><a requestId=" + row["requestId"] + " id='" + row["carPoolId"]
+							+ "' href='javascript:void(0)' >" + i + "</a></td>";
+					
+					html = html + "<td><a userId='" + row["userId"]+"' href='javascript:void(0)'> " + row["ownerName"] + "</a></td>";
+					
+					html = html + "<td>"
+							+ _convertSecondsToTime(row["startTime"]) + "</td>";
+					html = html + "<td>" + date.toString() + "</td>";
+					html = html + "<td>" + _getStatus(row["status"]) + "</td>";
+					html = html + "</tr>";
+				}
+			}
+			html = html + "</tbody></table>";
+			$("#sentRequests").html(html);
+			_applyEffect();
+		}
+
+		function _fetchingFailed() {
+		}
+		
+		function _handleClick(e) {
+			var target = $(e.target);
+
+			if ($(target).attr("requestId")) {
+				var reqData = _data[$(target).attr("requestId")];
+				_openDialog(reqData["carPoolId"], reqData["pickupLattitude"],
+						reqData["pickupLongitude"]);
+			}
+			else if($(target).attr("userId")){				
+				_showUserDetails($(target).attr("userId"));				
+			}
+		}
+		
+		function _showUserDetails(userId) {
+
+			SegmentLoader.getInstance().getSegment("mapDialog.xml", null,
+					initDialog);
+
+			function initDialog(data) {
+				$("body").append(data);
+				var dialogId = "dialogId";
+
+				var screen = new PROJECT.pool.poolScreens.UserProfileScreen(
+						dialogId, userId, true);
+
+				$("#dialogId").dialog({
+					height : 700,
+					width : 800,
+					draggable : false,
+					modal : false,
+					open : function() {
+						$('.ui-widget-overlay').addClass('custom-overlay');
+					},
+					close : function() {
+						$('.ui-widget-overlay').removeClass('custom-overlay');
+						// screen.destroy();
+						$(this).dialog('close');
+						$(this).remove();
+						$("#dialogId").remove();
+					}
+				});
+				screen.render();
+			}
+
+		}
+
+		
 
 		function _acceptRequest(e) {
 			var target = $(e.target);
@@ -157,49 +229,8 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			}
 		}
 
-		function _renderSentRequests(data) {
-
-			var html = "";
-			var valArray = data;
-
-			if (valArray != null) {
-
-				html = "<table class='requestTable'><thead><tr><th>SNo.</th><th>Car Pool Owner</th><th>Pickup Time</th><th>Request Date</th><th>Status</th></tr></thead><tbody>";
-
-				for (var i = 0; i < valArray.length; i++) {
-					var row = valArray[i];
-					_data[row["requestId"]] = row;
-
-					var date = new Date(1970, 0, 1);
-					date.setSeconds(row["createDate"]);
-
-					html = html + "<tr>";
-					html = html + "<td><a requestId=" + row["requestId"] + " id='" + row["carPoolId"]
-							+ "' href='javascript:void(0)' >" + i + "</a></td>";
-
-					html = html + "<td>" + row["ownerName"] + "</td>";
-					html = html + "<td>"
-							+ _convertSecondsToTime(row["startTime"]) + "</td>";
-					html = html + "<td>" + date.toString() + "</td>";
-					html = html + "<td>" + _getStatus(row["status"]) + "</td>";
-					html = html + "</tr>";
-				}
-			}
-			html = html + "</tbody></table>";
-			$("#sentRequests").html(html);
-			_applyEffect();
-		}
+	
 		
-		function _showCarPoolMap(e) {
-			var target = $(e.target);
-			var reqData = _data[$(target).attr("requestId")];
-
-			if (reqData) {
-				_openDialog(reqData["carPoolId"], reqData["pickupLattitude"],
-						reqData["pickupLongitude"]);
-			}
-		}
-
 		function _getStatus(status) {
 			if (!status) {
 				return "Pending"
