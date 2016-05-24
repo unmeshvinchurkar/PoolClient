@@ -88,7 +88,9 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				params["destLattitude"] = rowData["destLattitude"];
 				params["destLongitude"] = rowData["destLongitude"];
 				params["tripCost"] = rowData["tripCost"];
-				params["pickupDistance"] = rowData["pickupDistances"];
+				params["pickupDistance"] = rowData["pickupDistance"];
+				params["pickupTime"] = rowData["pickupTime"];
+				
 
 				objRef.fireCommand(PoolConstants.RAISE_JOIN_REQUEST_COMMAND, [
 						params, _joinReqSuccess, function() {
