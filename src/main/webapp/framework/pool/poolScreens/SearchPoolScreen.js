@@ -67,19 +67,16 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			_startTimeElem = $('#startTime');
 
 			$(_fromDateElem).datepicker({
-				// dateFormat: 'yyyy-mm-dd',
+				dateFormat : 'dd-mm-yy',
 				showOtherMonths : true,
 				selectOtherMonths : true,
-				changeYear : true
-			// ,defaultDate: new Date()
+				changeYear : true ,
+				defaultDate: new Date(),
+				minDate : new Date()
 			});
+			
+			$(_fromDateElem).datepicker("setDate", new Date());
 
-			$(_toDateElem).datepicker({
-				// dateFormat: 'yyyy-mm-dd',
-				showOtherMonths : true,
-				selectOtherMonths : true,
-				changeYear : true
-			});
 
 			$(_startTimeElem).timepicker({
 				'step' : 15,
