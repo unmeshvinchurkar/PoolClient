@@ -26,6 +26,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		var _poolTable = null;
 		var _carPoolId = null;
 		var _isOwner = false;
+		var _drawn = false;
 
 		/* Public Properties */
 		objRef.render = render;
@@ -79,9 +80,10 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			params["carPoolId"] = objRef.getCarPoolId();
 			params["year"] = date.getFullYear();
 			params["month"] = date.getMonth() + 1;
-			arguments.push(params);
-			arguments.push(_drawCalendar);
-			objRef.get(PoolConstants.GET_CALENDAR_COMMAND, arguments);
+
+			objRef.get(PoolConstants.GET_CALENDAR_COMMAND, [ params,
+					_drawCalendar, function() {
+					} ]);
 		}
 
 		function _prevMonthClickHandler() {
@@ -94,9 +96,10 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			params["carPoolId"] = objRef.getCarPoolId();
 			params["year"] = year;
 			params["month"] = month + 1;
-			arguments.push(params);
-			arguments.push(_renderMonth);
-			objRef.get(PoolConstants.GET_CALENDAR_COMMAND, arguments);
+
+			objRef.get(PoolConstants.GET_CALENDAR_COMMAND, [ params,
+					_renderMonth, function() {
+					} ]);
 		}
 
 		function _nextsMonthClickHandler() {
@@ -109,17 +112,26 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			params["carPoolId"] = objRef.getCarPoolId();
 			params["year"] = year;
 			params["month"] = month + 1;
-			arguments.push(params);
-			arguments.push(_renderMonth);
-			objRef.get(PoolConstants.GET_CALENDAR_COMMAND, arguments);
+
+			objRef.get(PoolConstants.GET_CALENDAR_COMMAND, [ params,
+					_renderMonth, function() {
+					} ]);
+
 		}
 
 		function _drawCalendar(data) {
 
-			var date = new Date();
+			if (_drawn) {
+				return;
+			}
+			_drawn = true;
+
+			var date = new Date();		
+
 
 			$('#calendar').fullCalendar(
 					{
+						
 						customButtons : {
 							previousMonth : {
 								text : 'Previous Month',
@@ -133,11 +145,10 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 						header : {
 							left : 'previousMonth ,nextMonth',
 							center : 'title',
-							right : ''
+							right : ' '
 						},
-						defaultDate : date.getFullYear() + "-"
-								+ (date.getMonth() + 1) + "-1",
-						// selectable : true,
+						//defaultDate : '2016-05-12',
+						selectable : true,
 						selectHelper : true,
 						dayClick : _dayClick,
 						editable : true,
