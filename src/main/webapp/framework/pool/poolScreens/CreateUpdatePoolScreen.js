@@ -25,7 +25,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		var PoolCommands = PROJECT.pool.PoolCommands;
 		var PoolUtil = PROJECT.pool.util.PoolUtil.getInstance();
 
-		var _USER_ROW = '<tr "><td><img id="{imageId}" class="" src="{ImageSrc}" alt="" /></td> <td class="text-center"><strong>{name}</<strong></td><td class="text-center"><strong>{email}</<strong></td><td class="text-center">{phoneNo}</td><td class="text-center"><strong>{tripCost}</<strong></td><td class="text-center"><strong>{pickupDistance}</<strong></td></tr>';
+		var _USER_ROW = '<tr "><td><img id="{imageId}" class="" src="{ImageSrc}" alt="" /></td> <td class="text-center"><strong>{name}</<strong></td><td class="text-center"><strong>{email}</<strong></td><td class="text-center">{phoneNo}</td><td class="text-center"><strong>{tripCost}</<strong></td><td class="text-center"><strong>{pickupDistance}</<strong></td><td class="text-center"><strong>{remove}</<strong></td></tr>';
 
 		var _containerElemId = containerElemId;
 		var _container = null;
@@ -279,8 +279,8 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 
 			function drawPool(data) {
 
-				if (data.noOfAvblSeats) {
-					$("#totalSeats").val(data.noOfAvblSeats);
+				if (data.noOfRemainingSeats) {
+					$("#totalSeats").val(data.noOfRemainingSeats);
 				}
 
 				if (data.bucksPerKm) {
@@ -404,6 +404,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 							data["email"]).replace("{imageId}", data["userId"])
 							.replace("{tripCost}", data["tripCost"]);
 					rowHtml = rowHtml.replace("{pickupDistance}", data["pickupDistance"] +" km");
+					rowHtml = rowHtml.replace("{remove}", "<a id='"+ data["userId"] + "'  href='javascript:void(0)'>Remove</a>");
 
 					$(tableBody).append(rowHtml);
 				}
@@ -411,6 +412,30 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				$(table).on("click", "img", function() {
 					_showUserDetails(this.id)
 				});
+				
+				$(table).on("click", "a", _removeUser);
+			}
+		}
+
+		function _removeUser(userId) {
+
+			var userId = this.id;
+			var target = this;
+			var param = {};
+			params["carPoolId"] = _carPoolId;
+			params["travellerId"] = userId;
+
+			objRef.fireCommand(PoolConstants.REMOVE_TRAVELLER_COMMAND, [
+					params, _tRemovedSuccess, function() {
+					} ]);
+
+			function _tRemovedSuccess() {
+				$(target).closest("tr").remove();
+				var rows = $("#users").children("tr");
+
+				if (rows.length == 0) {
+					$("#users").hide();
+				}
 			}
 		}
 

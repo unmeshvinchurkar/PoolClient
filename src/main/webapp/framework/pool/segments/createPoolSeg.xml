@@ -21,7 +21,7 @@
 								<thead>
 									<tr>
 										<th>
-											<span>User</span>
+											<span>Traveller</span>
 										</th>
 										<th class="text-center">
 											<span>Name</span>
@@ -36,7 +36,10 @@
 											<span>Trip Cost</span>
 										</th>
 										<th class="text-center">
-											<span>Pickup point Distance</span>
+											<span>Distance From Start</span>
+										</th>
+										<th class="text-center">
+											<span>Remove</span>
 										</th>
 									</tr>
 								</thead>
