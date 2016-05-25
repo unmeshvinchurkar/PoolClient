@@ -29,6 +29,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		objRef.navigateTo = navigateTo;
 		objRef.successMsg = successMsg;
 		objRef.errorMsg = errorMsg;
+		objRef.removeMsg = removeMsg;
 
 		function navigateTo(screenId, data) {
 			var navigator = ScreenNavigator.getInstance();
@@ -36,7 +37,10 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		}
 
 		function render() {
-
+		}
+		
+		function removeMsg(divId){
+			$("#" + divId).hide();
 		}
 
 		function successMsg(divId, msg, timeout) {

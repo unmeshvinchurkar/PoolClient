@@ -362,7 +362,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 								.markPoint(
 										sub["pickupLattitude"],
 										sub["pickupLongitute"],
-										sub["firstName"],
+										sub["name"],
 										PoolUtil
 												.convertSecondsToTime(sub["pickupTime"]));
 					}
@@ -436,6 +436,8 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				if (rows.length == 0) {
 					$("#users").hide();
 				}
+				
+				objRef.successMsg("msg_div", "Successfully Removed traveller", 3000);
 			}
 		}
 
