@@ -142,7 +142,9 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			if ($(target).attr("requestId")) {
 				var reqData = _data[$(target).attr("requestId")];
 				_openDialog(reqData["carPoolId"], reqData["pickupLattitude"],
-						reqData["pickupLongitude"]);
+						reqData["pickupLongitude"], reqData["destLattitude"],
+						reqData["destLongitude"],
+						_convertSecondsToTime(reqData["startTime"]));
 			}
 			else if($(target).attr("userId")){				
 				_showUserDetails($(target).attr("userId"));				
@@ -254,7 +256,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 					});
 		}
 
-		function _openDialog(carpoolId, pickupLattitude, pickupLongitude) {
+		function _openDialog(carpoolId, pickupLattitude, pickupLongitude, destLattitude,destLongitude, pickupTime) {
 			SegmentLoader.getInstance().getSegment("mapDialog.xml", null,
 					initDialog);
 
@@ -268,7 +270,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				var screen = new PROJECT.pool.poolScreens.CreateUpdatePoolScreen(
 						dialogId, params);
 
-				if (_dialog) {
+				if (_dialog && dialog.destroy) {
 					_dialog.destroy();
 				}
 				
@@ -292,7 +294,8 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				screen.render();
 
 				setTimeout(function() {
-					screen.markPoint(pickupLattitude, pickupLongitude);
+					screen.markPoint(pickupLattitude, pickupLongitude, "",pickupTime );
+					screen.markPoint(destLattitude, destLongitude );
 				}, 3000);
 
 				
