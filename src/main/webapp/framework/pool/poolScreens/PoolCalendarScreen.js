@@ -126,35 +126,33 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			}
 			_drawn = true;
 
-			var date = new Date();		
+			var date = new Date();
 
+			$('#calendar').fullCalendar({
 
-			$('#calendar').fullCalendar(
-					{
-						
-						customButtons : {
-							previousMonth : {
-								text : 'Previous Month',
-								click : _prevMonthClickHandler
-							},
-							nextMonth : {
-								text : 'Next Month',
-								click : _nextsMonthClickHandler
-							}
-						},
-						header : {
-							left : 'previousMonth ,nextMonth',
-							center : 'title',
-							right : ' '
-						},
-						//defaultDate : '2016-05-12',
-						selectable : true,
-						selectHelper : true,
-						dayClick : _dayClick,
-						editable : true,
-						eventLimit : true,
-						events : []
-					});
+				customButtons : {
+					previousMonth : {
+						text : 'Previous Month',
+						click : _prevMonthClickHandler
+					},
+					nextMonth : {
+						text : 'Next Month',
+						click : _nextsMonthClickHandler
+					}
+				},
+				header : {
+					left : 'previousMonth ,nextMonth',
+					center : 'title',
+					right : ' '
+				},
+				//defaultDate : '2016-05-12',
+				//selectable : true,
+				selectHelper : true,
+				dayClick : _dayClick,
+				editable : true,
+				eventLimit : true,
+				events : []
+			});
 
 			_renderMonth(data);
 		}
@@ -165,6 +163,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			var userHolidays = data["userHolidays"];
 			var currentUserId = data["currentUserId"];
 			var isOwner = data.isOwner;
+			_isOwner = isOwner;
 
 			$('#calendar').fullCalendar('removeEvents');
 
@@ -187,7 +186,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 						id : title + dateStr,
 						title : title,
 						start : date,
-						end : date
+						allDay : true
 					};
 					$('#calendar').fullCalendar('renderEvent', eventData, true);
 				}
@@ -207,7 +206,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 						id : title + dateStr,
 						title : title,
 						start : date,
-						end : date
+						allDay : true
 					};
 					$('#calendar').fullCalendar('renderEvent', eventData, true);
 				}
@@ -237,8 +236,10 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 								+ (eventDate.getMonth() + 1) + '-'
 								+ eventDate.getDate();
 
-						if (eventDateStr == dateStr
-								&& event._id == "MyHoliday" + eventDateStr) {
+						var eventId = _isOwner ? ("PoolHoliday" + eventDateStr)
+								: ("MyHoliday" + eventDateStr);
+
+						if (eventDateStr == dateStr && event._id == eventId) {
 							events.push(event);
 						}
 					});
@@ -261,19 +262,24 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			if (!found) {
 				_markHoliday(objRef.getCarPoolId(), timeInSec,
 						markHolidaySuccess);
-
-				function markHolidaySuccess() {
-					var title = "MyHoliday";
-					var eventData = {
-						id : "MyHoliday" + dateStr,
-						title : title,
-						start : dateStr,
-						end : dateStr
-					};
-					$('#calendar').fullCalendar('renderEvent', eventData, true);
-				}
+			}
+			
+			
+			function markHolidaySuccess() {
+				var title = _isOwner ? "PoolHoliday" : "MyHoliday";
+				var eventData = {
+					id : title + dateStr,
+					title : title,
+					start : startDate,
+					//end : dateStr,
+					allDay : true
+				};
+				$('#calendar').fullCalendar('renderEvent', eventData, true);
 			}
 		}
+		
+		
+	
 
 		function _markHoliday(carPoolId, timeInSec, successFunction) {
 			var arguments = [];
