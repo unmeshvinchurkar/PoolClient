@@ -63,6 +63,10 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			$("#refresh").click(_handleRefresh);
 			$("#capchaContainer").find("img").attr("src",
 					"/PoolServer/simpleImg");
+			
+			setTimeout(function(){ $("#capchaContainer").find("img").attr("src",
+			"/PoolServer/simpleImg"); }, 2000);
+			
 
 			_validator = new FormValidator('registrationForm', [ {
 				name : 'email',
@@ -153,8 +157,8 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 
 				params["city"] = $("#city").val();
 				params["username"] = $("#email").val();
-				params["firstName"] = $("#firstName").val();
-				params["lastName"] = $("#lastName").val();
+				params["firstName"] = $("#firstname").val();
+				params["lastName"] = $("#lastname").val();
 				params["gender"] = $("#sex").val();
 				params["vehicleId"] = $("#email").val();
 				params["password"] = $("#password").val();
