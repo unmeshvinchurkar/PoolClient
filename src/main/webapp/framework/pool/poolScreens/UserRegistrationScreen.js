@@ -34,6 +34,8 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		}
 
 		function _init(data) {
+			
+			$("#dialogId").remove();
 
 			$("body").append(data);
 			var dialogId = "dialogId";
@@ -55,7 +57,8 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				showOtherMonths : true,
 				selectOtherMonths : true,
 				changeYear : true,
-				defaultDate : new Date()
+				defaultDate : new Date(),
+				yearRange:"1920:2016"
 			});
 
 			
@@ -168,6 +171,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				params["email"] = $("#email").val();
 				params["state"] = $("#state").val();
 				params["country"] = $("#country").val();
+				params["sex"] = $("#sex").val();
 
 				var birthDay = $("#birthDay").datepicker("getDate");
 
