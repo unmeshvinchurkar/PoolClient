@@ -3,7 +3,7 @@
 	<div class="container" style="width:80%;">
 		<form class="form-horizontal" role="form" action='' id="registrationForm" name="registrationForm" method="POST">
 
-			<div class="form-group">
+			<div class="form-group required">
 				<!-- E-mail -->
 				<label class="control-label" for="email">E-mail
 				</label>
@@ -12,7 +12,7 @@
 					class="form-control" />
 			</div>
 
-			<div class="form-group">
+			<div class="form-group required">
 				<label class="control-label" for="contactNo">Contact No
 				</label>
 
@@ -21,14 +21,14 @@
 			</div>
 
 
-			<div class="form-group">
+			<div class="form-group required">
 				<label class="control-label" for="firstname">First Name</label>
 				<input type="text" id="firstname" name="firstname"
 					placeholder="" class="form-control" />
 				<p class="help-block" />
 			</div>
 
-			<div class="form-group">
+			<div class="form-group required">
 				<label class="control-label" for="lastname">Last Name</label>
 
 				<input type="text" id="lastname" name="lastname" placeholder=""
@@ -37,7 +37,7 @@
 			</div>
 
 
-			<div class="form-group">
+			<div class="form-group required">
 				<label class="radio-inline">
 					<input value="M" id="sex" type="radio" name="optradio" />
 					Male
@@ -48,7 +48,7 @@
 				</label>
 			</div>
 
-			<div class="form-group">
+			<div class="form-group required">
 				<label class="control-label" for="birthDay">Birth Date</label>
 
 				<input type='text' name='birthDay' id='birthDay' placeholder=""
@@ -57,7 +57,7 @@
 			</div>
 
 
-			<div class="form-group">
+			<div class="form-group required">
 				<label class="control-label" for="streetAddress">Street Address
 				</label>
 
@@ -66,7 +66,7 @@
 				<p class="help-block"></p>
 			</div>
 
-			<div class="form-group">
+			<div class="form-group required">
 				<label class="control-label" for="city">City</label>
 
 				<input type='text' name='city' id='city' placeholder=""
@@ -75,7 +75,7 @@
 			</div>
 
 
-			<div class="form-group">
+			<div class="form-group required">
 				<label class="control-label" for="state">State</label>
 
 				<input type='text' name='state' id='state' placeholder=""
@@ -83,7 +83,7 @@
 				<p class="help-block"></p>
 			</div>
 
-			<div class="form-group">
+			<div class="form-group required">
 				<label class="control-label" for="pin">Pin</label>
 
 				<input type='text' name='pin' id='pin' placeholder=""
@@ -92,7 +92,7 @@
 			</div>
 
 
-			<div class="form-group">
+			<div class="form-group required">
 				<label class="control-label" for="country">Country</label>
 
 				<input type='text' name='country' id='country' placeholder=""
@@ -100,7 +100,7 @@
 				<p class="help-block"></p>
 			</div>
 
-			<div class="form-group">
+			<div class="form-group required">
 				<!-- Password -->
 				<label class="control-label" for="password">Password</label>
 
@@ -109,7 +109,7 @@
 				<p class="help-block">Password should be at least 4 characters</p>
 			</div>
 
-			<div class="form-group">
+			<div class="form-group required">
 				<!-- Password -->
 				<label class="control-label" for="rePassword">Password (Confirm)
 				</label>
@@ -120,7 +120,7 @@
 			</div>
 
 
-			<div class="form-group">
+			<div class="form-group required">
 				<div id="capchaContainer">
 					<img src="/PoolServer/simpleImg" />
 					<input type="button" id="refresh" value="Refresh" />

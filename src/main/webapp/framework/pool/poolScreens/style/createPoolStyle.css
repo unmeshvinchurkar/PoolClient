@@ -2,6 +2,10 @@
     margin-right: 5px !important;
 }
 
+.required .control-label:after {
+  content:"*";
+  color:red;
+}
 
 /************* Style for user list on pool details page*/
 .main-box.no-header {

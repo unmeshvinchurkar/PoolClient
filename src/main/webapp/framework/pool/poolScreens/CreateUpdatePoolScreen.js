@@ -144,6 +144,8 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			_toDateElem = $("#toDate");
 			_startTimeElem = $('#startTime');
 
+			$('#excludeDays').multiselect();
+
 			$(_fromDateElem).datepicker(
 					{
 						dateFormat : 'dd-mm-yy',
@@ -372,13 +374,11 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		}
 
 		function _drawSubUserDetails(subDataArray) {
-			
-			
 
 			if (subDataArray != null && subDataArray.length > 0) {
 
-               var table = $("#users").show();
-               var tableBody = table.find("tbody");
+				var table = $("#users").show();
+				var tableBody = table.find("tbody");
 				for (var i = 0; i < subDataArray.length; i++) {
 					var data = subDataArray[i];
 
@@ -403,8 +403,11 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 							"{phoneNo}", data["contactNo"]).replace("{email}",
 							data["email"]).replace("{imageId}", data["userId"])
 							.replace("{tripCost}", data["tripCost"]);
-					rowHtml = rowHtml.replace("{pickupDistance}", data["pickupDistance"] +" km");
-					rowHtml = rowHtml.replace("{remove}", "<a id='"+ data["userId"] + "'  href='javascript:void(0)'>Remove</a>");
+					rowHtml = rowHtml.replace("{pickupDistance}",
+							data["pickupDistance"] + " km");
+					rowHtml = rowHtml.replace("{remove}", "<a id='"
+							+ data["userId"]
+							+ "'  href='javascript:void(0)'>Remove</a>");
 
 					$(tableBody).append(rowHtml);
 				}
@@ -412,7 +415,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				$(table).on("click", "img", function() {
 					_showUserDetails(this.id)
 				});
-				
+
 				$(table).on("click", "a", _removeUser);
 			}
 		}
@@ -436,8 +439,9 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				if (rows.length == 0) {
 					$("#users").hide();
 				}
-				
-				objRef.successMsg("msg_div", "Successfully Removed traveller", 3000);
+
+				objRef.successMsg("msg_div", "Successfully Removed traveller",
+						3000);
 			}
 		}
 
@@ -638,12 +642,19 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			var totalNoOfSeats = $("#totalSeats").val();
 			var bucksPerKm = $("#bucksPerKm").val();
 
+			var excludeDays = [];
+			$('#excludeDays :selected').each(function() {
+				excludeDays = excludeDays.concat($(this).text());
+				excludeDays = excludeDays.concat(",");
+			});
+			excludeDays.pop();
+
 			var params = {};
 			params["startDate"] = startDate.getTime();
 			params["endDate"] = endDate.getTime();
 			params["startTime"] = timeinSeconds;
 			params["bucksPerKm"] = bucksPerKm;
-			params["excludeWeekend"] = $("#excludeWeekend").is(":checked");
+			params["excludeDays"] = excludeDays;
 
 			// Remove instructions which contain special characters
 
