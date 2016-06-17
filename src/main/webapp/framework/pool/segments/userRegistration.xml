@@ -128,6 +128,8 @@
 				<br />
 				<input name="answer" class="form-control" id="answer" />
 			</div>
+			
+			<div class="hidden" id="errorMessage"></div>
 
 
 			<div class="form-group">

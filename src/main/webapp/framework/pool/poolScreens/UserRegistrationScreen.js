@@ -191,6 +191,29 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		}
 
 		function _saveError(e) {
+			var textJson = e.responseText;
+			$("small[id$='_error']").remove();
+			$("#errorMessage").addClass("hidden");
+
+			if (textJson) {
+
+				var resObj = jQuery.parseJSON(textJson);
+
+				if (resObj.fieldName) {
+
+					var $span = $('<small/>').attr("id",
+							resObj.fieldName + "_error").addClass(
+							'help-block errorMessage').insertAfter(
+							$("#" + resObj.fieldName))
+							.html(resObj.errorMessage);
+				} else {
+					var $span = $('<small/>').attr("id", "nofield_error")
+							.addClass('help-block errorMessage').html(resObj.errorMessage);
+					$("#errorMessage").html("");
+					$("#errorMessage").append($span);
+					$("#errorMessage").removeClass("hidden");
+				}
+			}
 
 		}
 
