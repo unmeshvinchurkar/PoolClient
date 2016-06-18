@@ -194,6 +194,12 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			var textJson = e.responseText;
 			$("small[id$='_error']").remove();
 			$("#errorMessage").addClass("hidden");
+			var status = e.status;
+
+			if (status == 200) {
+				_closeDialog(_dialog);
+				return;
+			}
 
 			if (textJson) {
 
