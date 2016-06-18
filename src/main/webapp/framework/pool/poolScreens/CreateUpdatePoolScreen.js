@@ -249,11 +249,11 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 
 				google.maps.event.addListener(_autocomplete, 'place_changed',
 						function() {
-							_navToPlace(_autocomplete)
+							_navToPlace(_autocomplete, true)
 						});
 				google.maps.event.addListener(_autocomplete1, 'place_changed',
 						function() {
-							_navToPlace(_autocomplete1)
+							_navToPlace(_autocomplete1, false)
 						});
 			} else {
 				var input = (document.getElementById('pac-input'));
@@ -548,11 +548,8 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				_destMarker = null;
 			}
 
-			_directionRenderer.set('directions', null);
-
-			if (_poolPath) {
-				_poolPath.setMap(null);
-			}
+			
+			_clearPath();
 
 			$.get("http://ipinfo.io", function(response) {
 				var latLngArry = response.loc.split(",");
@@ -560,6 +557,14 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 						latLngArry[1]);
 				_map.setCenter(latLng);
 			}, "jsonp");
+		}
+		
+		function _clearPath(){
+			
+			_directionRenderer.set('directions', null);
+			if (_poolPath) {
+				_poolPath.setMap(null);
+			}
 		}
 
 		function _calcRoute(startPos, destpos) {
@@ -724,7 +729,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			objRef.errorMsg("msg_div", "Sorry!! couldn't create pool");
 		}
 
-		function _navToPlace(autocomplete) {
+		function _navToPlace(autocomplete, isSrc) {
 
 			var place = autocomplete.getPlace();
 			if (!place.geometry) {
@@ -742,6 +747,28 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				_map.setZoom(17); // Why 17? Because it
 				// looks good.
 			}
+
+			var placeLoc = place.geometry.location;
+
+			if (isSrc) {
+				_srcMarker = new google.maps.Marker({
+					position : placeLoc,
+					map : _map,
+					label : "START"
+				});
+			} else {
+				_destMarker = new google.maps.Marker({
+					position : placeLoc,
+					map : _map,
+					label : "END"
+				});
+			}
+
+			if (_srcMarker && _destMarker) {
+				_clearPath();
+				_calcRoute(_srcMarker.getPosition(), _destMarker.getPosition());
+			}
+
 		}
 
 		function _getTotalDistance(route) {
