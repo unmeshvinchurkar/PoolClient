@@ -28,6 +28,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		var _validator = null;
 		var _doesVehicleExist = false;
 		var _noEdit = readOnly ? true : false;
+		var _editedFields = null;
 
 		/* Public Properties */
 		objRef.render = render;
@@ -56,9 +57,9 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 
 			function fillData(data) {
 				if (data) {
-					var editedFields = $("#manufacturer, #modelname, #fueltype, #color, #registrationNumber, #drivingLicense");
+					_editedFields = $("#manufacturer, #modelname, #fueltype, #color, #registrationNumber, #drivingLicense");
 
-					editedFields.removeAttr("readonly");
+					_editedFields.removeAttr("readonly");
 					_doesVehicleExist = true;
 					$("#manufacturer").val(data.manufacturer);
 					$("#modelname").val(data.model);
@@ -66,7 +67,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 					$("#color").val(data.color);
 					$("#registrationNumber").val(data.registrationNo);
 					$("#drivingLicense").val(data.drivingLicense);
-					editedFields.attr("readonly", true);
+					_editedFields.attr("readonly", true);
 				} else {
 					_handleVehicleDetails();
 				}
@@ -76,12 +77,12 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		function _handleVehicleDetails() {
 
 			var readonly = $("#manufacturer").attr("readonly");
-			var editedFields = $("#manufacturer, #modelname, #fueltype, #color, #registrationNumber, #drivingLicense");
+			 _editedFields = $("#manufacturer, #modelname, #fueltype, #color, #registrationNumber, #drivingLicense");
 			$("small[id$='_error']").remove();
 
 			if (_noEdit || readonly == "readonly") {
 
-				editedFields.removeAttr("readonly");
+				_editedFields.removeAttr("readonly");
 
 				_validator = new FormValidator('vehicleForm', [ {
 					name : 'manufacturer',
@@ -133,7 +134,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				});
 
 			} else {
-				editedFields.attr("readonly", true);
+				_editedFields.attr("readonly", true);
 				$("#editDetails").html("Edit Details");
 				$("#save").remove();
 			}
@@ -156,6 +157,8 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		function _saveSuccess(data) {
 			objRef.successMsg("msg_div",
 					"Successfully saved vehicle details !!", 3000);
+			_editedFields.attr("readonly", true);
+			$("#editDetails").html("Edit Details");
 		}
 
 		function _saveError(data) {
