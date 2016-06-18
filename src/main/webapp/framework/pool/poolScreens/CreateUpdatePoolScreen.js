@@ -316,17 +316,9 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				var destLoc = new google.maps.LatLng(data.destLattitude,
 						data.destLongitude);
 
-				_srcMarker = new google.maps.Marker({
-					position : srcLoc,
-					map : _map,
-					label : "START"
-				});
+				_srcMarker = _createMarker(srcLoc, "START");
 
-				_destMarker = new google.maps.Marker({
-					position : destLoc,
-					map : _map,
-					label : "END"
-				});
+				_destMarker = _createMarker(destLoc, "END");  
 
 				var bounds = new google.maps.LatLngBounds(srcLoc, destLoc);
 				_map.fitBounds(bounds);
@@ -514,10 +506,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 
 		function _placeMarker(location, labelStr) {
 
-			var marker = new google.maps.Marker({
-				position : location,
-				map : _map
-			});
+			var marker = _createMarker(location,"")
 
 			if (!_srcMarker) {
 				_srcMarker = marker;
@@ -617,15 +606,9 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			_srcMarker.setMap(null);
 			_destMarker.setMap(null);
 
-			_srcMarker = new google.maps.Marker({
-				position : startLoc,
-				map : _map
-			});
+			_srcMarker = _createMarker(startLoc,"START");
 
-			_destMarker = new google.maps.Marker({
-				position : endLoc,
-				map : _map
-			});
+			_destMarker = _createMarker(endLoc,"END"); 
 
 			_srcAddress = _route.legs[0].start_address;
 			_destAddress = _route.legs[_route.legs.length - 1].end_address;
@@ -751,17 +734,17 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			var placeLoc = place.geometry.location;
 
 			if (isSrc) {
-				_srcMarker = new google.maps.Marker({
-					position : placeLoc,
-					map : _map,
-					label : "START"
-				});
+				if(_srcMarker){
+					_srcMarker.setMap(null);
+				}
+				
+				_srcMarker = _createMarker(placeLoc, "START");
 			} else {
-				_destMarker = new google.maps.Marker({
-					position : placeLoc,
-					map : _map,
-					label : "END"
-				});
+				
+				if(_destMarker){
+					_destMarker.setMap(null);
+				}
+				_destMarker = _createMarker(placeLoc, "END");
 			}
 
 			if (_srcMarker && _destMarker) {
@@ -769,6 +752,28 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				_calcRoute(_srcMarker.getPosition(), _destMarker.getPosition());
 			}
 
+		}
+		
+		function _createMarker(placeLoc, name){			
+			var marker = new google.maps.Marker({
+				position : placeLoc,
+				map : _map,
+				label : name,
+				draggable:true
+			});
+			
+			google.maps.event.addListener(marker, 'dragend', _markerDraggedEventHandler);
+			
+			return marker;			
+
+				}
+
+		function _markerDraggedEventHandler(mouseMoveEvent) {
+
+			if (_srcMarker && _destMarker) {
+				_clearPath();
+				_calcRoute(_srcMarker.getPosition(), _destMarker.getPosition());
+			}
 		}
 
 		function _getTotalDistance(route) {
