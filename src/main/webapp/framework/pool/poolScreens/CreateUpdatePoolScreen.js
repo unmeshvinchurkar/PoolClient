@@ -90,10 +90,10 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			function handleVehicleFailure() {
 				_isReadOnly = true;
 				_init();
-				("#vehicleId").hide();
+				$("#vehicleId").hide();
 
-				$("#messegePanel").css("display", "block");
-				$("#messegePanel")
+				$("#msg_div").css("display", "block");
+				$("#msg_div")
 						.html(
 								"Please go to <strong>Register Vehicle</strong> tab and register vehicle for creating pool");
 
