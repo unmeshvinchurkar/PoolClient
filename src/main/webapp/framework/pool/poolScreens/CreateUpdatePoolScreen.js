@@ -289,7 +289,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			$("#totalSeats").attr("disabled", "disabled");
 			$("#bucksPerKm").attr("disabled", "disabled");
 
-			$("#excludeDays").multiselect("disable");
+			$(".multiselect-container input:checkbox").attr("disabled", "disabled")
 
 			if (_autocomplete) {
 				_autocomplete.unbindAll();
@@ -311,6 +311,21 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			objRef.fetch(poolId, drawPool);
 
 			function drawPool(data) {
+
+				var excludedDays = data.excludedDays;
+
+				if (excludedDays && excludedDays.trim()) {
+					
+					$("#excludeDays").multiselect("enable");
+					$(".multiselect-container input:checkbox").removeAttr("disabled");
+					
+					
+					var days = excludedDays.split(",");					
+					$("#excludeDays").val(days);
+					$("#excludeDays").multiselect("refresh");
+					
+					$(".multiselect-container input:checkbox").attr("disabled", "disabled")
+				}
 
 				if (data.noOfRemainingSeats) {
 					$("#totalSeats").val(data.noOfRemainingSeats);
