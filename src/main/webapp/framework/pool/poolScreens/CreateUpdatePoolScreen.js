@@ -291,8 +291,8 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 
 			$(".multiselect-container input:checkbox").attr("disabled", "disabled");
 			
-			$(".pac-input").remove();
-			$(".pac-input1").remove();
+			$("#pac-input").remove();
+			$("#pac-input1").remove();
 
 			if (_autocomplete) {
 				_autocomplete.unbindAll();
