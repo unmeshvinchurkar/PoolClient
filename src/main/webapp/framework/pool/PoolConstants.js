@@ -64,6 +64,7 @@ PROJECT.pool.PoolConstants = (function() {
 	objRef.GET_USER_DETAILS_COMMAND = "getUserDetails";
 	objRef.GET_CURRENT_USER_DETAILS_COMMAND = "getCurrentUserDetails";
 	objRef.UPLOAD_PROFILE_IMAGE = "upload";
+	objRef.GET_USER_PROFILE_STATUS_COMMAND = "getUserProfileStatus";
 
 	objRef.MARK_HOLIDAY_COMMAND = "markHoliday";
 	objRef.UNMARK_HOLIDAY_COMMAND = "unMarkHoliday";

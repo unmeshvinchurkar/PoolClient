@@ -81,30 +81,52 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			if (elementId.startsWith("_join")) {
 				var poolId = elementId.split(":")[1];
 
-				var params = {};
-				params["carPoolId"] = poolId;
-				params["srcLattitude"] = rowData["pickupLattitude"];
-				params["srcLongitude"] = rowData["pickupLongitude"];
-				params["destLattitude"] = rowData["destLattitude"];
-				params["destLongitude"] = rowData["destLongitude"];
-				params["tripCost"] = rowData["tripCost"];
-				params["pickupDistance"] = rowData["pickupDistance"];
-				params["pickupTime"] = rowData["pickupTime"];
-				
-
-				objRef.fireCommand(PoolConstants.RAISE_JOIN_REQUEST_COMMAND, [
-						params, _joinReqSuccess, function() {
+				objRef.get(PoolConstants.GET_USER_PROFILE_STATUS_COMMAND, [ {},
+						handleProfileSuccess, function() {
 						} ]);
 
-				function _joinReqSuccess() {
-					$(document.getElementById(elementId)).attr("disabled", "disabled");
-					$(document.getElementById(elementId)).parent().html("Join Request Sent");
-				}
+				function handleProfileSuccess(data) {
+					var status = data;
+					if (status == "incomplete") {
+						$("#msg_div").css("display", "block");
+						$("#msg_div")
+								.html(
+										"You can't join pool.Please complete your profile details.");
 
+					} else {
+						_raiseJoinRequest(poolId, rowData);
+					}
+				}
 			} else if (elementId.startsWith("_open")) {
 				var poolId = elementId.split(":")[1];
 				_openDialog(poolId, rowData["pickupLattitude"],
 						rowData["pickupLongitude"]);
+			}
+		}
+
+		function _raiseJoinRequest(poolId, rowData) {
+
+			var poolId = elementId.split(":")[1];
+
+			var params = {};
+			params["carPoolId"] = poolId;
+			params["srcLattitude"] = rowData["pickupLattitude"];
+			params["srcLongitude"] = rowData["pickupLongitude"];
+			params["destLattitude"] = rowData["destLattitude"];
+			params["destLongitude"] = rowData["destLongitude"];
+			params["tripCost"] = rowData["tripCost"];
+			params["pickupDistance"] = rowData["pickupDistance"];
+			params["pickupTime"] = rowData["pickupTime"];
+
+			objRef.fireCommand(PoolConstants.RAISE_JOIN_REQUEST_COMMAND, [
+					params, _joinReqSuccess, function() {
+					} ]);
+
+			function _joinReqSuccess() {
+				$(document.getElementById(elementId)).attr("disabled",
+						"disabled");
+				$(document.getElementById(elementId)).parent().html(
+						"Join Request Sent");
 			}
 		}
 

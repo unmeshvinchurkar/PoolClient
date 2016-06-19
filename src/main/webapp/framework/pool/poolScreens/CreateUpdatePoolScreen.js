@@ -76,9 +76,25 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			_container = $('#' + _containerElemId);
 			_container.html(htmlData);
 
-			// Fetch Vehicle details
-			objRef.get(PoolConstants.GET_VEHICLE_COMMAND, [ {},
-					handleVehicleSuccess, handleVehicleFailure ]);
+			objRef.get(PoolConstants.GET_USER_PROFILE_STATUS_COMMAND, [ {},
+					handleProfileSuccess, function() {
+					} ]);
+
+			function handleProfileSuccess(data1) {
+				var status = data1;
+				if (status == "complete") {
+					// Fetch Vehicle details
+					objRef.get(PoolConstants.GET_VEHICLE_COMMAND, [ {},
+							handleVehicleSuccess, handleVehicleFailure ]);
+				} else {
+					$("#msg_div").css("display", "block");
+					$("#msg_div")
+							.html(
+									"Please complete your profile details before creating pool.");
+					_isReadOnly = true;
+					_init() ;
+				}
+			}
 
 			function handleVehicleSuccess(data) {
 				_init();
@@ -99,7 +115,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 								"Please go to <strong>Register Vehicle</strong> tab and register vehicle for creating pool");
 
 			}
-		}
+		}		
 
 		function _showVehicleDetails(data) {
 
