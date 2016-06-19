@@ -49,6 +49,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		var _markers = [];
 
 		var _autocomplete = null;
+		var _autocomplete1 = null;
 		var _srcMarker = null;
 		var _destMarker = null;
 		var _infowindow = null;
@@ -212,16 +213,6 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 					mapOptions);
 			_directionRenderer.setMap(_map);
 
-			if (!_carPoolId) {
-				$.get("http://ipinfo.io", function(response) {
-
-					var latLngArry = response.loc.split(",");
-					var latLng = new google.maps.LatLng(latLngArry[0],
-							latLngArry[1]);
-					_map.setCenter(latLng);
-				}, "jsonp");
-			}
-
 			if (!_isReadOnly) {
 
 				// Create the search box and link it to the UI element.
@@ -232,13 +223,12 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				_map.controls[google.maps.ControlPosition.TOP_CENTER]
 						.push(input1);
 
-				// $(input).tooltip();
-				// $(input1).tooltip();
+				
 
 				_autocomplete = new google.maps.places.Autocomplete(input);
 				_autocomplete.bindTo('bounds', _map);
 
-				var _autocomplete1 = new google.maps.places.Autocomplete(input1);
+				_autocomplete1 = new google.maps.places.Autocomplete(input1);
 				_autocomplete1.bindTo('bounds', _map);
 
 				_infowindow = new google.maps.InfoWindow();
@@ -255,24 +245,65 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 						function() {
 							_navToPlace(_autocomplete1, false)
 						});
-			} else {
-				var input = (document.getElementById('pac-input'));
-				$(input).remove();
-				var input1 = (document.getElementById('pac-input1'));
-				$(input1).remove();
-			}
+
+				var resetMap = (document.getElementById('resetMap'));
+				_map.controls[google.maps.ControlPosition.TOP_RIGHT]
+						.push(resetMap);
+				$(resetMap).click(_clearMap);
+			} 
 
 			if (_carPoolId) {
 				_loadPoolData(_carPoolId);
 			}
 
 			if (_isReadOnly) {
-				$(_fromDateElem).attr("disabled", "disabled");
-				$(_toDateElem).attr("disabled", "disabled");
-				$(_startTimeElem).attr("disabled", "disabled");
-				$("#totalSeats").attr("disabled", "disabled");
-				$("#bucksPerKm").attr("disabled", "disabled");
+				_makeReadOnly();
 			}
+
+			if (!_carPoolId) {
+				_getLocation();
+			}
+		}
+		
+
+		function _getLocation() {
+		    if (navigator.geolocation) {
+		        navigator.geolocation.getCurrentPosition(_showPosition);
+		    } else {
+		       //"Geolocation is not supported by this browser.";
+		    }
+		}
+
+		function _showPosition(position) {
+			_map.setCenter({
+				lat : position.coords.latitude,
+				lng : position.coords.longitude
+			});
+		}
+
+		function _makeReadOnly() {
+
+			$(_fromDateElem).attr("disabled", "disabled");
+			$(_toDateElem).attr("disabled", "disabled");
+			$(_startTimeElem).attr("disabled", "disabled");
+			$("#totalSeats").attr("disabled", "disabled");
+			$("#bucksPerKm").attr("disabled", "disabled");
+
+			$("#excludeDays").multiselect("disable");
+
+			if (_autocomplete) {
+				_autocomplete.unbindAll();
+				google.maps.event.clearInstanceListeners(_autocomplete);
+			}
+			if (_autocomplete1) {
+				_autocomplete1.unbindAll();
+				google.maps.event.clearInstanceListeners(_autocomplete1);
+			}
+
+			$(".pac-input").remove();
+			$(".pac-input1").remove();
+			$("#savePoolButton").remove();
+			$("#resetMap").remove();
 		}
 
 		function _loadPoolData(poolId) {
@@ -520,7 +551,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				marker.setLabel("START");
 				_destMarker = null;
 			} else if (_srcMarker && _destMarker) {
-				_clearMap();
+				//_clearMap();
 				marker.setMap(null);
 			}
 		}
@@ -537,15 +568,16 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				_destMarker = null;
 			}
 
-			
 			_clearPath();
 
-			$.get("http://ipinfo.io", function(response) {
-				var latLngArry = response.loc.split(",");
-				var latLng = new google.maps.LatLng(latLngArry[0],
-						latLngArry[1]);
-				_map.setCenter(latLng);
-			}, "jsonp");
+			if (_autocomplete) {
+				_autocomplete.set('place', void (0));
+				$("#pac-input").val('');
+			}
+			if (_autocomplete1) {
+				_autocomplete1.set('place', void (0));
+				$("#pac-input1").val('');
+			}
 		}
 		
 		function _clearPath(){
@@ -706,6 +738,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		function _saveSuccess(data) {
 			_carPoolId = data;
 			objRef.successMsg("msg_div", "Successfully created pool!!");
+			_makeReadOnly();
 		}
 
 		function _saveError(data) {
@@ -715,6 +748,11 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		function _navToPlace(autocomplete, isSrc) {
 
 			var place = autocomplete.getPlace();
+
+			if (!place) {
+				return;
+			}
+			
 			if (!place.geometry) {
 				window
 						.alert("Autocomplete's returned place contains no geometry");
@@ -753,20 +791,20 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			}
 
 		}
-		
-		function _createMarker(placeLoc, name){			
+
+		function _createMarker(placeLoc, name) {
 			var marker = new google.maps.Marker({
 				position : placeLoc,
 				map : _map,
 				label : name,
-				draggable:true
+				draggable : true
 			});
-			
-			google.maps.event.addListener(marker, 'dragend', _markerDraggedEventHandler);
-			
-			return marker;			
 
-				}
+			google.maps.event.addListener(marker, 'dragend',
+					_markerDraggedEventHandler);
+
+			return marker;
+		}
 
 		function _markerDraggedEventHandler(mouseMoveEvent) {
 

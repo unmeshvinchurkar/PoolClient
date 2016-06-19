@@ -127,7 +127,10 @@
 
 	<div class="mapContent">
 		<input id="pac-input" data-toggle="tooltip"  title="Source" class="controls" type="text" placeholder="Source" />
-		<input id="pac-input1" data-toggle="tooltip" title="Destination" class="controls" type="text" placeholder="Destination" />
+		<input id="pac-input1"  data-toggle="tooltip" title="Destination" class="controls" type="text" placeholder="Destination" />
+		
+		<input id="resetMap" value="Reset" type="button" class="controls"  />
+		
 		<div id="map-canvas" style="width:100%; height:100%"></div>
 	</div>
 </div>
