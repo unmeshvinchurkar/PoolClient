@@ -305,6 +305,12 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			$("#totalSeats").attr("disabled", "disabled");
 			$("#bucksPerKm").attr("disabled", "disabled");
 
+			if (_isReadOnly && !_carPoolId) {
+				$(_toDateElem).attr("disabled", "disabled");
+				$("#savePoolButton").remove();
+			}	
+			
+
 			$(".multiselect-container input:checkbox").attr("disabled", "disabled");
 			
 			$("#pac-input").remove();
