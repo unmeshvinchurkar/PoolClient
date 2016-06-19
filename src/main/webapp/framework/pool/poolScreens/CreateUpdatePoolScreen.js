@@ -138,7 +138,8 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			if (!_isReadOnly) {
 				$("#savePoolButton").click(_handleSave);
 			} else {
-				$("#savePoolButton").remove();
+				$("#savePoolButton").html("Update");
+				$("#savePoolButton").click(_handleSave);
 			}
 
 			_fromDateElem = $("#fromDate");
@@ -284,12 +285,14 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		function _makeReadOnly() {
 
 			$(_fromDateElem).attr("disabled", "disabled");
-			$(_toDateElem).attr("disabled", "disabled");
 			$(_startTimeElem).attr("disabled", "disabled");
 			$("#totalSeats").attr("disabled", "disabled");
 			$("#bucksPerKm").attr("disabled", "disabled");
 
-			$(".multiselect-container input:checkbox").attr("disabled", "disabled")
+			$(".multiselect-container input:checkbox").attr("disabled", "disabled");
+			
+			$(".pac-input").remove();
+			$(".pac-input1").remove();
 
 			if (_autocomplete) {
 				_autocomplete.unbindAll();
@@ -299,11 +302,11 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				_autocomplete1.unbindAll();
 				google.maps.event.clearInstanceListeners(_autocomplete1);
 			}
-
-			$(".pac-input").remove();
-			$(".pac-input1").remove();
-			$("#savePoolButton").remove();
+			
+			$("#savePoolButton").html("Update");
 			$("#resetMap").remove();
+			
+			_isReadOnly = true;
 		}
 
 		function _loadPoolData(poolId) {
@@ -343,6 +346,13 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				if (data.endDate) {
 					$(_toDateElem).datepicker("setDate",
 							new Date(data.endDate * 1000));
+
+					if (_carPoolId) {
+
+						$(_toDateElem).datepicker("option", "minDate",
+								$(_toDateElem).datepicker("getDate"));
+					}
+
 				}
 
 				if (data.startTime) {
@@ -669,76 +679,77 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				return;
 			}
 
-			var startDate = $(_fromDateElem).datepicker("getDate");
-			var endDate = $(_toDateElem).datepicker("getDate");
-			var timeinSeconds = $(_startTimeElem).timepicker(
-					'getSecondsFromMidnight');
-			var route = _route;
-			var totalNoOfSeats = $("#totalSeats").val();
-			var bucksPerKm = $("#bucksPerKm").val();
-
-			var excludeDays = [];
-			$('#excludeDays :selected').each(function() {
-				excludeDays = excludeDays.concat($(this).text());
-				excludeDays = excludeDays.concat(",");
-			});
-			excludeDays.pop();
-
 			var params = {};
-			params["startDate"] = startDate.getTime();
+			var endDate = $(_toDateElem).datepicker("getDate");
 			params["endDate"] = endDate.getTime();
-			params["startTime"] = timeinSeconds;
-			params["bucksPerKm"] = bucksPerKm;
-			params["excludeDays"] = excludeDays;
-
-			// Remove instructions which contain special characters
-
-			if (route) {
-				var totalDistance = _getTotalDistance(route);
-				params["totalDistance"] = totalDistance;
-
-				var legs = route["legs"];
-				for (var i = 0; i < legs.length; i++) {
-					var leg = legs[i];
-					var steps = leg["steps"];
-					for (var j = 0; j < steps.length; j++) {
-
-						steps[j].instructions = '';
-						var obj = {};
-						obj["lat"] = steps[j]["start_point"].lat();
-						obj["lng"] = steps[j]["start_point"].lng();
-						steps[j]["start_point"] = obj;
-
-						obj = {};
-						obj["lat"] = steps[j]["end_point"].lat();
-						obj["lng"] = steps[j]["end_point"].lng();
-						steps[j]["end_point"] = obj;
-
-						var path = steps[j].path;
-
-						for (var k = 0; k < path.length; k++) {
-							var obj = {};
-							obj["lat"] = path[k].lat();
-							obj["lng"] = path[k].lng();
-							path[k] = obj;
-						}
-					}
-				}
-			}
-
-			params["route"] = route ? _escape(JSON.stringify(route))
-					: undefined;
-			params["vehicleId"] = "1";
 
 			if (_carPoolId) {
 				params["carPoolId"] = _carPoolId;
 			} else {
+
+				var startDate = $(_fromDateElem).datepicker("getDate");
+				var timeinSeconds = $(_startTimeElem).timepicker(
+						'getSecondsFromMidnight');
+				var route = _route;
+				var totalNoOfSeats = $("#totalSeats").val();
+				var bucksPerKm = $("#bucksPerKm").val();
+
+				var excludeDays = [];
+				$('#excludeDays :selected').each(function() {
+					excludeDays = excludeDays.concat($(this).text());
+					excludeDays = excludeDays.concat(",");
+				});
+				excludeDays.pop();
+
+				params["startDate"] = startDate.getTime();
+
+				params["startTime"] = timeinSeconds;
+				params["bucksPerKm"] = bucksPerKm;
+				params["excludeDays"] = excludeDays;
+
+				// Remove instructions which contain special characters
+
+				if (route) {
+					var totalDistance = _getTotalDistance(route);
+					params["totalDistance"] = totalDistance;
+
+					var legs = route["legs"];
+					for (var i = 0; i < legs.length; i++) {
+						var leg = legs[i];
+						var steps = leg["steps"];
+						for (var j = 0; j < steps.length; j++) {
+
+							steps[j].instructions = '';
+							var obj = {};
+							obj["lat"] = steps[j]["start_point"].lat();
+							obj["lng"] = steps[j]["start_point"].lng();
+							steps[j]["start_point"] = obj;
+
+							obj = {};
+							obj["lat"] = steps[j]["end_point"].lat();
+							obj["lng"] = steps[j]["end_point"].lng();
+							steps[j]["end_point"] = obj;
+
+							var path = steps[j].path;
+
+							for (var k = 0; k < path.length; k++) {
+								var obj = {};
+								obj["lat"] = path[k].lat();
+								obj["lng"] = path[k].lng();
+								path[k] = obj;
+							}
+						}
+					}
+				}
+
+				params["route"] = route ? _escape(JSON.stringify(route))
+						: undefined;
 				params["totalSeats"] = totalNoOfSeats;
+				params["srcArea"] = _srcAddress;
+				params["destArea"] = _destAddress;
 			}
 
-			params["srcArea"] = _srcAddress;
-			params["destArea"] = _destAddress;
-
+			_disableSave();
 			objRef.fireCommand(PoolConstants.CREATE_POOL_COMMAND, [ params,
 					_saveSuccess, _saveError ]);
 		}
@@ -751,13 +762,40 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		}
 
 		function _saveSuccess(data) {
+
+			if (!_carPoolId) {
+				objRef.successMsg("msg_div", "Sucessfully created pool!");
+			} else {
+				objRef.successMsg("msg_div", "Sucessfully updated pool!");
+			}
+
 			_carPoolId = data;
-			objRef.successMsg("msg_div", "Successfully created pool!!");
+
+			$(_toDateElem).datepicker("option", "minDate",
+					$(_toDateElem).datepicker("getDate"));
+
 			_makeReadOnly();
+			_enableSave();
 		}
 
 		function _saveError(data) {
-			objRef.errorMsg("msg_div", "Sorry!! couldn't create pool");
+			if (!_carPoolId) {
+				objRef.errorMsg("msg_div", "Sorry!! couldn't create pool");
+			} else {
+				objRef.errorMsg("msg_div", "Sorry!! couldn't update pool");
+			}
+			_enableSave();
+		}
+
+		function _disableSave() {
+			$("#savePoolButton").attr("disabled", "disabled");
+			$("#savePoolButton").removeClass("btn-success");
+			$("#savePoolButton").addClass("btn-default");
+		}
+		function _enableSave() {
+			$("#savePoolButton").removeAttr("disabled");
+			$("#savePoolButton").removeClass("btn-default");
+			$("#savePoolButton").addClass("btn-success");
 		}
 
 		function _navToPlace(autocomplete, isSrc) {
