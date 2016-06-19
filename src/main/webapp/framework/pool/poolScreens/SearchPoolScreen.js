@@ -38,6 +38,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		var _markers = [];
 
 		var _autocomplete = null;
+		var _autocomplete1 = null;
 		var _srcMarker = null;
 		var _destMarker = null;
 		var _infowindow = null;
@@ -83,6 +84,8 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				'disableTextInput' : true,
 				'forceRoundTime' : true
 			});
+			
+			$(_startTimeElem).timepicker('setTime', new Date());
 
 			_directionsDisplay = new google.maps.DirectionsRenderer({
 				suppressMarkers : true
@@ -102,20 +105,21 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			_map = new google.maps.Map(document.getElementById('map-canvas'),
 					mapOptions);
 			_directionsDisplay.setMap(_map);
-
-			$.get("http://ipinfo.io", function(response) {
-				var latLngArry = response.loc.split(",");
-				var latLng = new google.maps.LatLng(latLngArry[0],
-						latLngArry[1]);
-				_map.setCenter(latLng);
-			}, "jsonp");
-
+						
 			// Create the search box and link it to the UI element.
 			var input = (document.getElementById('pac-input'));
 			_map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
+			var input1 = (document.getElementById('pac-input1'));
+			_map.controls[google.maps.ControlPosition.TOP_CENTER]
+					.push(input1);			
+			
 			_autocomplete = new google.maps.places.Autocomplete(input);
 			_autocomplete.bindTo('bounds', _map);
+
+			_autocomplete1 = new google.maps.places.Autocomplete(input1);
+			_autocomplete1.bindTo('bounds', _map);
+			
 
 			_infowindow = new google.maps.InfoWindow();
 
@@ -124,16 +128,41 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			});
 
 			google.maps.event.addListener(_autocomplete, 'place_changed',
-					_navToPlace);
+					function() {
+						_navToPlace(_autocomplete, true)
+					});
+			google.maps.event.addListener(_autocomplete1, 'place_changed',
+					function() {
+						_navToPlace(_autocomplete1, false)
+					});
+
+			var resetMap = (document.getElementById('resetMap'));
+			_map.controls[google.maps.ControlPosition.TOP_RIGHT].push(resetMap);
+			$(resetMap).click(_clearMap);
+			
+			_getLocation();
 
 		}
 
+		function _getLocation() {
+			if (navigator.geolocation) {
+				navigator.geolocation.getCurrentPosition(_showPosition);
+			} else {
+				// "Geolocation is not supported by this browser.";
+			}
+		}
+
+		function _showPosition(position) {
+			_map.setCenter({
+				lat : position.coords.latitude,
+				lng : position.coords.longitude
+			});
+		}
+
+
 		function _placeMarker(location) {
 
-			var marker = new google.maps.Marker({
-				position : location,
-				map : _map
-			});
+			var marker = _createMarker(location, "");
 
 			if (!_srcMarker) {
 				_srcMarker = marker;
@@ -143,20 +172,43 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			} else if (!_srcMarker && !_destMarker) {
 				_srcMarker = marker;
 				_destMarker = null;
-			} else if (_srcMarker && _destMarker) {
-				_srcMarker.setMap(null);
-				_destMarker.setMap(null);
-				_srcMarker = null;
-				_destMarker = null;
+			} else if (_srcMarker && _destMarker) {				
 				marker.setMap(null);
-				// Remove existing route(polyline) on the map
-				_directionsDisplay.set('directions', null);
-
-				if (_poolPath) {
-					_poolPath.setMap(null);
-				}
 			}
 		}
+
+		function _clearMap() {
+
+			if (_srcMarker) {
+				_srcMarker.setMap(null);
+				_srcMarker = null;
+			}
+
+			if (_destMarker) {
+				_destMarker.setMap(null);
+				_destMarker = null;
+			}
+
+			_clearPath();
+
+			if (_autocomplete) {
+				_autocomplete.set('place', void (0));
+				$("#pac-input").val('');
+			}
+			if (_autocomplete1) {
+				_autocomplete1.set('place', void (0));
+				$("#pac-input1").val('');
+			}
+		}
+
+		function _clearPath() {
+			// Remove existing route(polyline) on the map
+			_directionsDisplay.set('directions', null);
+			if (_poolPath) {
+				_poolPath.setMap(null);
+			}			
+		}
+
 
 		function _calcRoute(startPos, destpos) {
 			var request = {
@@ -191,15 +243,9 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 									_srcMarker.setMap(null);
 									_destMarker.setMap(null);
 
-									_srcMarker = new google.maps.Marker({
-										position : startLoc,
-										map : _map
-									});
+									_srcMarker = _createMarker(startLoc, "");
 
-									_destMarker = new google.maps.Marker({
-										position : endLoc,
-										map : _map
-									});
+									_destMarker = _createMarker(endLoc, "");
 
 									_directionsDisplay.setDirections(response);
 
@@ -214,6 +260,13 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		}
 
 		function _handleSearch(e) {
+			
+			if (_srcMarker == null || _destMarker == null) {
+				objRef.errorMsg("msg_div",
+						"Please mark both source and destination points.");
+				return;
+			}
+			
 			var startDate = $(_fromDateElem).datepicker("getDate");
 			var endDate = $(_toDateElem).datepicker("getDate");
 			var timeinSeconds = $(_startTimeElem).timepicker(
@@ -226,6 +279,8 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			params["destLat"] = _destMarker.getPosition().lat();
 			params["destLng"] = _destMarker.getPosition().lng();
 			params["startTime"] = timeinSeconds;
+			
+			_disableSearch();
 
 			objRef.get(PoolConstants.SEARCH_POOL_COMMAND, [ params,
 					_searchSuccess, _searchFailed ]);
@@ -277,6 +332,8 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			} else {
 				alert("No Pools found");
 			}
+			
+			_enableSearch();
 		}
 
 		function _searchFailed(data) {
@@ -288,11 +345,52 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				objRef.errorMsg("msg_div",
 						"Sorry!! something failed while searching for pool");
 			}
+			
+			_enableSearch();
+		}
+		
+		function _disableSearch() {
+			$("#searchPoolsButton").attr("disabled", "disabled");
+			$("#searchPoolsButton").removeClass("btn-success");
+			$("#searchPoolsButton").addClass("btn-default");
+		}
+		function _enableSearch() {
+			$("#searchPoolsButton").removeAttr("disabled");
+			$("#searchPoolsButton").removeClass("btn-default");
+			$("#searchPoolsButton").addClass("btn-success");
+		}
+		
+		function _createMarker(placeLoc, name) {
+			var marker = new google.maps.Marker({
+				position : placeLoc,
+				map : _map,
+				label : name,
+				draggable : true
+			});
+
+			google.maps.event.addListener(marker, 'dragend',
+					_markerDraggedEventHandler);
+
+			return marker;
 		}
 
-		function _navToPlace() {
+		function _markerDraggedEventHandler(mouseMoveEvent) {
 
-			var place = _autocomplete.getPlace();
+			if (_srcMarker && _destMarker) {
+				_clearPath();
+				_calcRoute(_srcMarker.getPosition(), _destMarker.getPosition());
+			}
+		}
+
+				
+		function _navToPlace(autocomplete, isSrc) {
+
+			var place = autocomplete.getPlace();
+
+			if (!place) {
+				return;
+			}
+			
 			if (!place.geometry) {
 				window
 						.alert("Autocomplete's returned place contains no geometry");
@@ -308,6 +406,28 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				_map.setZoom(17); // Why 17? Because it
 				// looks good.
 			}
+
+			var placeLoc = place.geometry.location;
+
+			if (isSrc) {
+				if(_srcMarker){
+					_srcMarker.setMap(null);
+				}
+				
+				_srcMarker = _createMarker(placeLoc, "START");
+			} else {
+				
+				if(_destMarker){
+					_destMarker.setMap(null);
+				}
+				_destMarker = _createMarker(placeLoc, "END");
+			}
+
+			if (_srcMarker && _destMarker) {
+				_clearPath();
+				_calcRoute(_srcMarker.getPosition(), _destMarker.getPosition());
+			}
+
 		}
 
 	}
