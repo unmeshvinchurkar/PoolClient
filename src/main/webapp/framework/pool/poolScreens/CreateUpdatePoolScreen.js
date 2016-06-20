@@ -700,6 +700,14 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 						"Please mark both source and destination points.");
 				return;
 			}
+			var timeinSeconds = $(_startTimeElem).timepicker(
+			'getSecondsFromMidnight');
+
+			if (timeinSeconds == null) {
+				objRef.errorMsg("msg_div",
+						"Please mention your start time.");
+				return;
+			}
 
 			var params = {};
 			var endDate = $(_toDateElem).datepicker("getDate");

@@ -73,7 +73,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				selectOtherMonths : true,
 				changeYear : true ,
 				defaultDate: new Date(),
-				minDate : new Date()
+				minDate : new Date(),
 			});
 			
 			$(_fromDateElem).datepicker("setDate", new Date());
@@ -260,17 +260,23 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		}
 
 		function _handleSearch(e) {
-			
+
 			if (_srcMarker == null || _destMarker == null) {
 				objRef.errorMsg("msg_div",
 						"Please mark both source and destination points.");
 				return;
 			}
-			
-			var startDate = $(_fromDateElem).datepicker("getDate");
-			var endDate = $(_toDateElem).datepicker("getDate");
+
 			var timeinSeconds = $(_startTimeElem).timepicker(
 					'getSecondsFromMidnight');
+
+			if (timeinSeconds == null) {
+				objRef.errorMsg("msg_div", "Please mention your pick up time.");
+				return;
+			}
+
+			var startDate = $(_fromDateElem).datepicker("getDate");
+			var endDate = $(_toDateElem).datepicker("getDate");
 			var route = _route;
 
 			var params = {};

@@ -37,7 +37,6 @@
 				</select>
 			</div>
 
-
 			<div class="form-group">
 				<label class="control-label" for="modelname">Model Name
 				</label>
@@ -59,8 +58,22 @@
 			<div class="form-group">
 				<label class="control-label" for="color">Color</label>
 
-				<input readonly="true" type="text" id="color" name="color"
-					placeholder="" class="form-control" />
+				<select readonly="true" type="text" id="color" name="color"
+					placeholder="" class="form-control">
+					<option value="Red">Red</option>Option>
+					<option value="White">White</option>Option>
+					<option value="Black">Black</option>Option>
+					<option value="Blue">Blue</option>Option>
+					<option value="Golden">Golden</option>Option>
+					<option value="Silver">Silver</option>Option>
+					<option value="Grey">Grey</option>Option>
+					<option value="Yellow">Yellow</option>Option>
+					<option value="Brown">Brown</option>Option>
+					<option value="Purple">Purple</option>Option>
+					<option value="Green">Green</option>Option>
+					<option value="Other">Other</option>Option>
+				</select>
+					
 				<p class="help-block"></p>
 			</div>
 

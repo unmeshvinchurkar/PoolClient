@@ -95,10 +95,17 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 
 				if (errors.length > 0) {
 					for (var i = 0; i < errors.length; i++) {
+
 						var $span = $('<small/>').attr("id",
 								errors[i].id + "_error").addClass(
-								'help-block errorMessage').insertAfter(
-								$(errors[i].element)).html(errors[i].message);
+								'help-block errorMessage').html(
+								errors[i].message);
+
+						if ($(errors[i].element).attr("id") == "sex") {
+							$("#sex_error").append($span);
+						} else {
+							$span.insertAfter($(errors[i].element));
+						}
 					}
 
 				} else {
