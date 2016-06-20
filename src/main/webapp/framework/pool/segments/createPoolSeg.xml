@@ -58,18 +58,18 @@
 
 		<form class="form-inline" role="form">
 
-			<div class="form-group">
-				<label for="fromDate">From Date:</label>
-				<input type="text" class="form-control" id="fromDate" />
+			<div class="form-group required">
+				<label class="control-label" for="fromDate">From Date:</label>
+				<input type="text" class="form-control" id="fromDate" readonly='true'/>
 			</div>
 
-			<div class="form-group">
-				<label for="toDate">To Date:</label>
-				<input type="text" class="form-control" id="toDate" />
+			<div class="form-group required">
+				<label class="control-label" for="toDate">To Date:</label>
+				<input type="text" class="form-control" id="toDate" readonly='true'/>
 			</div>
 
-			<div class="form-group">
-				<label for="startTime">Start Time:</label>
+			<div class="form-group required">
+				<label class="control-label" for="startTime">Start Time:</label>
 				<input type="text" class="form-control" id="startTime" />
 			</div>
 
@@ -77,8 +77,8 @@
 		</form>
 
 		<form class="form-inline" role="form">
-			<div class="form-group">
-			 	<label for="excludeDays">Exclude Days:</label>
+			<div class="form-group required">
+			 	<label class="control-label" for="excludeDays">Exclude Days:</label>
 				<select id="excludeDays" multiple="multiple">
 				  <option value="Saturday">Saturday</option>
 				  <option value="Sunday">Sunday</option>
@@ -90,8 +90,8 @@
 				</select>
 			</div>
 
-			<div class="form-group">
-				<label for="totalSeats">Vacant Seats:</label>
+			<div class="form-group required">
+				<label class="control-label" for="totalSeats">Vacant Seats:</label>
 				<select class="form-control" id="totalSeats">
 					<option value="1">1</option>
 					<option value="2">2</option>
@@ -100,8 +100,8 @@
 				</select>
 			</div>
 
-			<div class="form-group">
-				<label for="bucksPerKm">Bucks/Km:</label>
+			<div class="form-group required">
+				<label class="control-label" for="bucksPerKm">Bucks/Km:</label>
 				<select class="form-control" id="bucksPerKm">
 					<option value="1">1</option>
 					<option value="2">2</option>

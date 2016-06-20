@@ -1,8 +1,9 @@
+
 .form-inline .form-group {
     margin-right: 5px !important;
 }
 
-.required .control-label:after {
+.required .control-label:before {
   content:"*";
   color:red;
 }

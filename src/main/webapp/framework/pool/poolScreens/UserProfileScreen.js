@@ -60,10 +60,10 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			$("#country").val(data["country"]);
 			$("#address").val(data["address"]);
 
-			if (data["birthday"]) {
+			if (data["birthDate"]) {
 				var date = new Date(1970, 0, 1);
-				date.setSeconds(data["birthday"]);
-				$("#birthday").val(PoolUtil.convertDateToString(date));
+				date.setSeconds(data["birthDate"]);
+				$("#birthDay").val(PoolUtil.convertDateToString(date));
 			}
 
 			$("#pin").val(data["pin"]);
