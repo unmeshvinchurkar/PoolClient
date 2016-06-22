@@ -9,28 +9,16 @@
 
 					</div>
 				</div>
-				<div class="col-md-4">
-
-					<h1>Log in with your email account</h1>
+				<div class="col-md-4">					
 					<form role="form" action="javascript:;" method="post" id="login-form"
-						autocomplete="off">
-						<div class="form-group">
-							<label for="email" class="sr-only">Email</label>
-							<input type="email" id="usernameId" name="username" class="form-control"
-								placeholder="somebody@example.com" />
-						</div>
-						<div class="form-group">
-							<label for="key" class="sr-only">Password</label>
-							<input type="password" id="passwordId" name="password"
-								class="form-control" placeholder="Password" />
-						</div>
+						autocomplete="off">						
 
-						<input type="button" id="loginId" class="btn btn-custom btn-lg btn-block"
-							value="Log in" />
-					</form>
-					<a id="registerUser" href="#registerUser" class="forget"
-						data-toggle="modal" data-target=".forget-modal">Register</a>
-					<hr />
+						<input type="button" id="loginId" class="btn btn-primary btn-lg btn-block"
+							value="Facebook Login" />
+
+						<div id="status"></div>
+						<br />
+					</form>			
 
 				</div> <!-- /.col-xs-12 -->
 			</div> <!-- /.row -->
