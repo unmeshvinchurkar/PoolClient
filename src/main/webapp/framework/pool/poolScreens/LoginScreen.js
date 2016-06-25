@@ -25,30 +25,43 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		/* Public Properties */
 		objRef.render = render;
 
-		function _fb_login() {
+		function _init_fb_login() {
+			FB.getLoginStatus(function(response) {
+				_checkAndLogin(response);
+			}, true);
+		}
 
-			var accessToken = _setCookie("accessToken", accessToken, 60);
+		function _checkAndLogin(response) {
 
-			if (!accessToken) {
+			if (response.status === 'connected') {
+				var accessToken = response.authResponse.accessToken;
 
-				FB
-						.login(function(response) {
-
-							if (response.authResponse) {
-								var aToken = response.authResponse.accessToken;
-								var user_id = response.authResponse.userID;
-								_setCookie("accessToken", accessToken, 60);
-								_fetchUserDetails(aToken);
-							} else {
-								// user hit cancel button
-								console
-										.log('User cancelled login or did not fully authorize.');
-							}
-						});
+				if (accessToken != "undefined" && accessToken != null
+						&& accessToken != undefined) {
+					_fetchUserDetails(accessToken);
+				} else {
+					_doLogin();
+				}
 			} else {
-				_fetchUserDetails(accessToken);
+				_doLogin();
 			}
 		}
+
+		function _doLogin() {
+			FB
+					.login(function(response) {
+
+						if (response.authResponse) {
+							var aToken = response.authResponse.accessToken;
+							var user_id = response.authResponse.userID;
+							_fetchUserDetails(aToken);
+						} else {
+							// user hit cancel button
+							console
+									.log('User cancelled login or did not fully authorize.');
+						}
+					});
+		}		
 
 		function _fetchUserDetails(aToken) {
 			FB.api('/me', 'get', {
@@ -79,7 +92,6 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			if (!_isFbSdkLoaded()) {
 				_loadFbSdk(function() {
 					_isLoggedIn();
-					//_prepLoginPage();
 				});
 			} else {
 				_isLoggedIn();
@@ -97,7 +109,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				FB.init({
 					appId : '145263072549453',
 					oauth : true,
-					status : true, // check login status
+					status : false, // check login status
 					cookie : true, // enable cookies to allow the server to
 					xfbml : true, // parse XFBML
 					version : 'v2.6'
@@ -129,7 +141,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			_container.html("");
 			_container.html(data);
 
-			$("#loginId").click(_fb_login);
+			$("#loginId").click(_init_fb_login);
 		}
 
 		function _registerUser(e) {
@@ -143,10 +155,29 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			params["gender"] = response.gender;
 			params["facebookId"] = response.id;
 			params["name"] = response.name;
-			params["pictureUrl"] = response.picture.data.url;
 
-			objRef.fireCommand(PoolConstants.LOGIN_COMMAND, [ params, _login,
-					_loginFailed ]);
+			var img = new Image();
+			img.setAttribute('crossOrigin', 'anonymous');
+
+			img.onload = function() {
+				var canvas = document.createElement("canvas");
+				canvas.width = this.width;
+				canvas.height = this.height;
+
+				var ctx = canvas.getContext("2d");
+				ctx.drawImage(this, 0, 0);
+
+				var dataURL = canvas.toDataURL("image/png");
+
+				params["pictureUrl"] = dataURL;
+
+				objRef.fireCommand(PoolConstants.LOGIN_COMMAND, [ params,
+						_login, _loginFailed ]);
+				// alert(dataURL.replace(/^data:image\/(png|jpg);base64,/, ""));
+			};
+
+			img.src = response.picture.data.url;
+
 		}
 
 		function _login() {
