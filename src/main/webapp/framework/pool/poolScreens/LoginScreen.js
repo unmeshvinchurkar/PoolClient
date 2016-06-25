@@ -27,19 +27,27 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 
 		function _fb_login() {
 
-			FB
-					.login(function(response) {
+			var accessToken = _setCookie("accessToken", accessToken, 60);
 
-						if (response.authResponse) {
-							var aToken = response.authResponse.accessToken;
-							var user_id = response.authResponse.userID;
-							_fetchUserDetails(aToken);
-						} else {
-							// user hit cancel button
-							console
-									.log('User cancelled login or did not fully authorize.');
-						}
-					});
+			if (!accessToken) {
+
+				FB
+						.login(function(response) {
+
+							if (response.authResponse) {
+								var aToken = response.authResponse.accessToken;
+								var user_id = response.authResponse.userID;
+								_setCookie("accessToken", accessToken, 60);
+								_fetchUserDetails(aToken);
+							} else {
+								// user hit cancel button
+								console
+										.log('User cancelled login or did not fully authorize.');
+							}
+						});
+			} else {
+				_fetchUserDetails(accessToken);
+			}
 		}
 
 		function _fetchUserDetails(aToken) {
@@ -52,41 +60,71 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			});
 		}
 
+		function _isLoggedIn() {
+
+			objRef.fetch("isLoggedIn",
+
+			function(loggedInStatus) {
+
+				if (loggedInStatus == "true") {
+					_login();
+
+				} else {
+					_prepLoginPage();
+				}
+			});
+		}
+
 		function render() {
-
-			if (!window.fbAsyncInit) {
-				window.fbAsyncInit = function() {
-					FB.init({
-						appId : '145263072549453',
-						oauth : true,
-						status : true, // check login status
-						cookie : true, // enable cookies to allow the server to
-						xfbml : true, // parse XFBML
-						version : 'v2.6'
-					});
-
-					SegmentLoader.getInstance().getSegment("loginSeg.xml",
-							null, _init);
-				};
-
-				(function(d, s, id) {
-					var js, fjs = d.getElementsByTagName(s)[0];
-					if (d.getElementById(id)) {
-						return;
-					}
-					js = d.createElement(s);
-					js.id = id;
-					js.src = "//connect.facebook.net/en_US/sdk.js";
-					fjs.parentNode.insertBefore(js, fjs);
-				}(document, 'script', 'facebook-jssdk'));
+			if (!_isFbSdkLoaded()) {
+				_loadFbSdk(function() {
+					_isLoggedIn();
+					//_prepLoginPage();
+				});
 			} else {
-				SegmentLoader.getInstance().getSegment("loginSeg.xml", null,
-						_init);
+				_isLoggedIn();
 			}
+		}
+
+		function _prepLoginPage() {
+			SegmentLoader.getInstance().getSegment("loginSeg.xml", null,
+					_initLoginPage);
+		}
+
+		function _loadFbSdk(callBackFun) {
+
+			window.fbAsyncInit = function() {
+				FB.init({
+					appId : '145263072549453',
+					oauth : true,
+					status : true, // check login status
+					cookie : true, // enable cookies to allow the server to
+					xfbml : true, // parse XFBML
+					version : 'v2.6'
+				});
+
+				callBackFun();
+			};
+
+			(function(d, s, id) {
+				var js, fjs = d.getElementsByTagName(s)[0];
+				if (d.getElementById(id)) {
+					return;
+				}
+				js = d.createElement(s);
+				js.id = id;
+				js.src = "//connect.facebook.net/en_US/sdk.js";
+				fjs.parentNode.insertBefore(js, fjs);
+			}(document, 'script', 'facebook-jssdk'));
 
 		}
 
-		function _init(data) {
+		function _isFbSdkLoaded() {
+			return window.fbAsyncInit != null
+					&& window.fbAsyncInit != undefined;
+		}
+
+		function _initLoginPage(data) {
 			_container = $('#' + PoolConstants.GLOBAL_CONTAINER_DIV);
 			_container.html("");
 			_container.html(data);
@@ -113,6 +151,28 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 
 		function _login() {
 			objRef.navigateTo(PoolConstants.MAIN_SCREEN);
+		}
+
+		function _setCookie(cname, cvalue, mins) {
+			var d = new Date();
+			d.setTime(d.getTime() + (mins * 60 * 1000));
+			var expires = "expires=" + d.toUTCString();
+			document.cookie = cname + "=" + cvalue + "; " + expires;
+		}
+
+		function _getCookie(cname) {
+			var name = cname + "=";
+			var ca = document.cookie.split(';');
+			for (var i = 0; i < ca.length; i++) {
+				var c = ca[i];
+				while (c.charAt(0) == ' ') {
+					c = c.substring(1);
+				}
+				if (c.indexOf(name) == 0) {
+					return c.substring(name.length, c.length);
+				}
+			}
+			return "";
 		}
 
 		function _loginFailed() {
