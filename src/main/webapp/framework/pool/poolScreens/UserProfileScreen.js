@@ -27,6 +27,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		var _userId = userId;
 		var _validator = null;
 		var _readOnly = readOnly;
+		var _userId =  null;
 
 		/* Public Properties */
 		objRef.render = render;
@@ -59,6 +60,8 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			$("#state").val(data["state"]);
 			$("#country").val(data["country"]);
 			$("#address").val(data["address"]);
+			$("#facebookId").val("https://www.facebook.com/" + data["facebookId"]);
+			_userId = data["userId"];
 
 			if (data["birthDate"]) {
 				var date = new Date(1970, 0, 1);
@@ -85,7 +88,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 		function _handleUserDetails(e) {
 
 			var readonly = $("#contactNo").attr("readonly");
-			var editedFields = $("#address, #pin, #contactNo, #streetAddress, #city, #state, #country");
+			var editedFields = $("#address, #pin, #contactNo, #streetAddress, #city, #state, #country, #drivingLicenseNo");
 			$("small[id$='_error']").remove();
 
 			if (readonly == "readonly") {
@@ -111,7 +114,11 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				}, {
 					name : 'pin',
 					rules : 'required|integer|max_length[10]'
-				} ], function(errors, event) {
+				},
+				{
+					name : 'drivingLicenseNo',
+					rules : 'required|max_length[20]'
+				}], function(errors, event) {
 
 					$("small[id$='_error']").remove();
 
@@ -225,6 +232,7 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 			params["pin"] = $("#pin").val();
 			params["state"] = $("#state").val();
 			params["country"] = $("#country").val();
+			params["userId"] = _userId;
 
 			objRef.fireCommand(PoolConstants.EDIT_USER_COMMAND, [ params,
 					_saveSuccess, _saveError ]);
