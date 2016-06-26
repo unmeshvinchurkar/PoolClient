@@ -277,8 +277,14 @@ PROJECT.namespace("PROJECT.pool.poolScreens");
 				_makeReadOnly();
 			}
 
-			if (!_carPoolId) {
+			if (!_isReadOnly) {
 				_getLocation();
+			} else {
+				var pos = {};
+				pos.coords = {};
+				pos.coords.latitude = 20.5937;
+				pos.coords.longitude = 78.9629;
+				_showPosition(pos);
 			}
 		}
 		
