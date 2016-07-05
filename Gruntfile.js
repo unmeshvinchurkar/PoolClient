@@ -32,6 +32,9 @@ module.exports = function(grunt)
 		},
 
 		uglify : {
+			options: {
+           mangle: false
+             },
 			all_src : {
 				options : {
 					sourceMap : false,
@@ -98,7 +101,7 @@ module.exports = function(grunt)
 						'dest/vendorLib/**/*.css', 'dest/src/**/*.css' ]
 			},
 			before_build : {
-				src : [ 'dest/*' ]
+				src : [ 'dest/*','!dest/*.html' ]
 			}
 		}
 	});
