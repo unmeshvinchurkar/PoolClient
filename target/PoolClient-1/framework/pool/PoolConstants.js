@@ -1,9 +1,6 @@
 
 PROJECT.namespace("PROJECT.pool");
 
-/*
- * @class PROJECT.pool.RMAConstants
- */
 PROJECT.pool.PoolConstants = (function() {
 	var objRef = {};
 	objRef.REQUEST_MIME_TYPE = "text/xml";
